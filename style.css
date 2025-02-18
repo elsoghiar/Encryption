@@ -45,7 +45,6 @@ body {
 .highlight {
     color: #2D83EC;
     font-weight: bold;
-    text-transform: uppercase;
 }
 
 .toggle-buttons {
@@ -58,6 +57,7 @@ body {
 .toggle-buttons button {
     background: transparent;
     color: #aaa;
+    border-radius: 0;
     font-size: 18px;
     cursor: pointer;
     border: none;
