@@ -2,16 +2,14 @@
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
-    document.querySelector(".output-section:nth-of-type(1)").classList.add("hidden");
-    document.querySelector(".output-section:nth-of-type(2)").classList.add("hidden");
+    hideAllOutputs();
     updateActiveButton("showEncryptBtn");
 }
 
 function showDecrypt() {
     document.getElementById("decryptSection").classList.remove("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
-    document.querySelector(".output-section:nth-of-type(1)").classList.add("hidden");
-    document.querySelector(".output-section:nth-of-type(2)").classList.add("hidden");
+    hideAllOutputs();
     updateActiveButton("showDecryptBtn");
 }
 
@@ -37,8 +35,8 @@ function encryptText() {
     document.getElementById("outputEncrypt").value = encrypted;
 
     // إظهار حاوية الإخراج للتشفير
-    document.querySelector(".output-section:nth-of-type(1)").classList.remove("hidden");
-    document.querySelector(".output-section:nth-of-type(2)").classList.add("hidden");
+    document.getElementById("outputEncrypt").parentElement.classList.remove("hidden");
+    document.getElementById("outputDecrypt").parentElement.classList.add("hidden");
 }
 
 // فك تشفير النص
@@ -62,8 +60,8 @@ function decryptText() {
         document.getElementById("outputDecrypt").value = originalText;
 
         // إظهار حاوية الإخراج لفك التشفير
-        document.querySelector(".output-section:nth-of-type(2)").classList.remove("hidden");
-        document.querySelector(".output-section:nth-of-type(1)").classList.add("hidden");
+        document.getElementById("outputDecrypt").parentElement.classList.remove("hidden");
+        document.getElementById("outputEncrypt").parentElement.classList.add("hidden");
     } catch (error) {
         showNotification("❌ المفتاح غير صحيح أو النص غير صالح!");
     }
@@ -94,8 +92,14 @@ function showNotification(message) {
     }, 2000);
 }
 
-// إخفاء جميع حاويات الإخراج عند بدء التحميل
-window.onload = function() {
-    document.querySelector(".output-section:nth-of-type(1)").classList.add("hidden");
-    document.querySelector(".output-section:nth-of-type(2)").classList.add("hidden");
-};
+// إخفاء جميع حاويات الإخراج
+function hideAllOutputs() {
+    document.querySelectorAll(".output-section").forEach(section => {
+        section.classList.add("hidden");
+    });
+}
+
+// التأكد من تنفيذ الكود بعد تحميل الصفحة بالكامل
+document.addEventListener("DOMContentLoaded", function() {
+    hideAllOutputs();
+});
