@@ -94,6 +94,10 @@ textarea {
 }
 
 button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
     font-weight: 600;
     padding: 10px;
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
@@ -103,6 +107,11 @@ button {
     cursor: pointer;
     font-size: 14px;
     transition: 0.3s;
+}
+
+button svg {
+    width: 20px; 
+    height: 20px;
 }
 
 .footer {
