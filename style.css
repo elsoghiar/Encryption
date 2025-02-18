@@ -46,6 +46,30 @@ body {
     border-radius: 10px;
 }
 
+.toggle-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.toggle-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #2D83EC;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+}
+
+.toggle-buttons button:hover {
+    background: #181818;
+    transform: scale(1.05);
+}
+ 
 header {
     display: flex;
     justify-content: space-between;
