@@ -8,13 +8,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script> eruda.init(); </script>
-
 </head>
 <body>
+    <header>
+        <h1 id="title">cryptor <span class="highlight">spark</span></h1>
+    </header>
     <div class="container">
-        <header>
-            <h1 id="title">cryptor <span class="highlight">spark</span></h1>
-        </header>
         <div class="section" id="encryptSection">
             <div class="toggle-buttons">
                 <button onclick="showEncrypt()" id="showEncryptBtn" class="active">🔐 تشفير</button>
@@ -38,10 +37,10 @@
             <button onclick="copyText('outputDecrypt')" id="copyDecryptBtn">نسخ النص الأصلي 📋</button>
         </div>
         <div id="notification" class="hidden"></div>
-        <footer>
-            <p>© جميع الحقوق محفوظة 2025</p>
-        </footer>
     </div>
+    <footer>
+       <p>© جميع الحقوق محفوظة 2025</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
