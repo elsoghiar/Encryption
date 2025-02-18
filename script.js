@@ -12,13 +12,11 @@ function showDecrypt() {
     document.getElementById("encryptTab").classList.remove("active");
 }
 
-// عرض الإشعارات
 function showNotification(message, type = "success") {
     let notification = document.getElementById("notification");
     notification.textContent = message;
     notification.className = `notification-${type}`;
     notification.style.display = "block";
-
     setTimeout(() => {
         notification.style.opacity = "0";
         setTimeout(() => notification.style.display = "none", 500);
@@ -30,13 +28,13 @@ function encryptText() {
     let key = document.getElementById("encryptKey").value;
 
     if (!text || !key) {
-        showNotification("⚠️ أدخل النص والمفتاح!", "warning");
+        showNotification("⚠️ Enter text and key!", "warning");
         return;
     }
 
     let encrypted = CryptoJS.AES.encrypt(text, key).toString();
     document.getElementById("encryptOutput").value = encrypted;
-    showNotification("✅ تم التشفير بنجاح!", "success");
+    showNotification("✅ Encryption successful!", "success");
 }
 
 function decryptText() {
@@ -44,7 +42,7 @@ function decryptText() {
     let key = document.getElementById("decryptKey").value;
 
     if (!encryptedText || !key) {
-        showNotification("⚠️ أدخل النص المشفر والمفتاح!", "warning");
+        showNotification("⚠️ Enter encrypted text and key!", "warning");
         return;
     }
 
@@ -55,16 +53,16 @@ function decryptText() {
         if (!originalText) throw new Error();
 
         document.getElementById("decryptOutput").value = originalText;
-        showNotification("✅ تم فك التشفير بنجاح!", "success");
+        showNotification("✅ Decryption successful!", "success");
     } catch {
-        showNotification("❌ مفتاح خاطئ أو نص غير صالح!", "error");
+        showNotification("❌ Incorrect key or invalid text!", "error");
     }
 }
 
 function copyText(elementId) {
     let textElement = document.getElementById(elementId);
     navigator.clipboard.writeText(textElement.value);
-    showNotification("✅ تم النسخ!", "success");
+    showNotification("✅ Text copied!", "success");
 }
 
 document.addEventListener("DOMContentLoaded", showEncrypt);
