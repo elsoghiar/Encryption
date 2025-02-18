@@ -12,6 +12,14 @@ function showDecrypt() {
     document.getElementById("encryptTab").classList.remove("active");
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        Telegram.WebApp.requestFullscreen();
+    } catch {
+        Telegram.WebApp.close();
+    }
+});
+
 function showNotification(message, type = "success") {
     let notification = document.getElementById("notification");
     notification.textContent = message;
