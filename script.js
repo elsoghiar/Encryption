@@ -1,81 +1,70 @@
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
-    hideAllOutputs();
-    updateActiveButton("showEncryptBtn");
+    document.getElementById("encryptTab").classList.add("active");
+    document.getElementById("decryptTab").classList.remove("active");
 }
 
 function showDecrypt() {
     document.getElementById("decryptSection").classList.remove("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
-    hideAllOutputs();
-    updateActiveButton("showDecryptBtn");
+    document.getElementById("decryptTab").classList.add("active");
+    document.getElementById("encryptTab").classList.remove("active");
 }
 
-function updateActiveButton(activeId) {
-    document.querySelector(".toggle-buttons .active")?.classList.remove("active");
-    document.getElementById(activeId).classList.add("active");
+// عرض الإشعارات
+function showNotification(message, type = "success") {
+    let notification = document.getElementById("notification");
+    notification.textContent = message;
+    notification.className = `notification-${type}`;
+    notification.style.display = "block";
+
+    setTimeout(() => {
+        notification.style.opacity = "0";
+        setTimeout(() => notification.style.display = "none", 500);
+    }, 2000);
 }
 
 function encryptText() {
-    let text = document.getElementById("inputEncrypt").value;
-    let key = document.getElementById("encryptionKey").value;
+    let text = document.getElementById("encryptInput").value;
+    let key = document.getElementById("encryptKey").value;
 
     if (!text || !key) {
-        showNotification("⚠️ أدخل النص ومفتاح التشفير!");
+        showNotification("⚠️ أدخل النص والمفتاح!", "warning");
         return;
     }
 
     let encrypted = CryptoJS.AES.encrypt(text, key).toString();
-    document.getElementById("outputEncrypt").value = encrypted;
-    hideAllOutputs();
-    document.getElementById("outputEncryptSection").classList.remove("hidden");
+    document.getElementById("encryptOutput").value = encrypted;
+    showNotification("✅ تم التشفير بنجاح!", "success");
 }
 
 function decryptText() {
-    let encryptedText = document.getElementById("inputDecrypt").value;
-    let key = document.getElementById("decryptionKey").value;
+    let encryptedText = document.getElementById("decryptInput").value;
+    let key = document.getElementById("decryptKey").value;
 
     if (!encryptedText || !key) {
-        showNotification("⚠️ أدخل النص المشفر ومفتاح فك التشفير!");
+        showNotification("⚠️ أدخل النص المشفر والمفتاح!", "warning");
         return;
     }
 
     try {
-        let decryptedBytes = CryptoJS.AES.decrypt(encryptedText, key);
-        let originalText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        let bytes = CryptoJS.AES.decrypt(encryptedText, key);
+        let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-        if (originalText.trim() === "") {
-            showNotification("❌ المفتاح غير صحيح أو النص غير صالح!");
-            return;
-        }
+        if (!originalText) throw new Error();
 
-        document.getElementById("outputDecrypt").value = originalText;
-        hideAllOutputs();
-        document.getElementById("outputDecryptSection").classList.remove("hidden");
+        document.getElementById("decryptOutput").value = originalText;
+        showNotification("✅ تم فك التشفير بنجاح!", "success");
     } catch {
-        showNotification("❌ المفتاح غير صحيح أو النص غير صالح!");
+        showNotification("❌ مفتاح خاطئ أو نص غير صالح!", "error");
     }
 }
 
 function copyText(elementId) {
     let textElement = document.getElementById(elementId);
     navigator.clipboard.writeText(textElement.value);
-    showNotification("✅ تم النسخ!");
+    showNotification("✅ تم النسخ!", "success");
 }
 
-function showNotification(message) {
-    let notification = document.getElementById("notification");
-    notification.textContent = message;
-    notification.classList.remove("hidden");
-    setTimeout(() => notification.classList.add("hidden"), 2000);
-}
-
-function hideAllOutputs() {
-    document.querySelectorAll(".output-section").forEach(section => section.classList.add("hidden"));
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    hideAllOutputs();
-    showEncrypt();
-});
+document.addEventListener("DOMContentLoaded", showEncrypt);
