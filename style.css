@@ -108,7 +108,10 @@ button {
 }
 
 .footer .highlight {
-    color: #2D83EC; 
+    background: linear-gradient(90deg, #2D83EC, #9B59B6); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    color: transparent;
     font-weight: 600; 
     text-decoration: none; 
     transition: color 0.3s ease; 
@@ -136,11 +139,14 @@ button {
     font-weight: bold;
 }
 
-.page-title p {
-    color: #2D83EC;
+.page-title span {
+    background: linear-gradient(90deg, #2D83EC, #9B59B6); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    color: transparent;
     font-weight: bold;
-}
-   
+} 
+
 .titley {
     text-align: left;
     margin-top: 10px;
