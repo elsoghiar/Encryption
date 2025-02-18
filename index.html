@@ -10,10 +10,10 @@
     <script> eruda.init(); </script>
 </head>
 <body>
-    <header>
-        <h1 id="title">cryptor <span class="highlight">spark</span></h1>
-    </header>
     <div class="container">
+        <header>
+        <h1 id="title">cryptor <span class="highlight">spark</span></h1>
+        </header>
         <div class="section" id="encryptSection">
             <div class="toggle-buttons">
                 <button onclick="showEncrypt()" id="showEncryptBtn" class="active">🔐 تشفير</button>
@@ -36,11 +36,11 @@
             <textarea id="outputDecrypt" readonly placeholder="سيظهر النص الأصلي هنا..."></textarea>
             <button onclick="copyText('outputDecrypt')" id="copyDecryptBtn">نسخ النص الأصلي 📋</button>
         </div>
+        <footer>
+           <p>© جميع الحقوق محفوظة 2025</p>
+        </footer>
         <div id="notification" class="hidden"></div>
     </div>
-    <footer>
-       <p>© جميع الحقوق محفوظة 2025</p>
-    </footer>
     <script src="script.js"></script>
 </body>
 </html>
