@@ -53,12 +53,17 @@ h1 {
     cursor: pointer;
     border-bottom: 2px solid transparent;
     transition: 0.5s;
+    font-weight: bold;
+    background: linear-gradient(90deg, #2D83EC, #9B59B6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .tabs button.active {
-    border-bottom: 2px solid #2D83EC;
-    color: #2D83EC;
-}
+    border-bottom: 2px solid;
+    border-image: linear-gradient(90deg, #2D83EC, #9B59B6) 1;
+    -webkit-text-fill-color: transparent;
+} 
 
 .content {
     display: flex;
