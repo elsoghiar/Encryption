@@ -84,7 +84,7 @@ input, textarea {
     width: 100%;
     color: #fff;
     padding: 10px;
-    border: 1px solid #181818;
+    border: 1px dashed #181818;
     border-radius: 5px;
     font-size: 14px;
     font-weight: 500;
@@ -126,16 +126,16 @@ button {
 
 #notification {
     position: fixed;
-    top: 10px;
+    top: 15px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 5px 50px;
-    border-radius: 5px;
+    padding: 10px 80px;
+    border-radius: 10px;
     font-size: 14px;
     white-space: nowrap;
     font-weight: 500;
     color: white;
-    text-align: center;
+    text-align: left;
     display: none;
     z-index: 1000;
     transition: opacity 0.5s ease-in-out;
