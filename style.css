@@ -21,8 +21,18 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column;
 }
 
+.page-title {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+}
+ 
 .container {
     background: #0C0C0C;
     padding: 20px;
@@ -95,10 +105,13 @@ button {
 }
 
 .footer {
-    margin-top: 15px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 12px;
     color: #808080;
-}
+} 
 
 #notification {
     position: fixed;
