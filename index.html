@@ -6,15 +6,11 @@
     <title>Classic Cryptor</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script> eruda.init(); </script>
-
 </head>
 <body>
+    <div class="page-title">🔒 Cryptor Spark</div>
     <div id="notification" class="hidden"></div>
     <div class="container">
-        <h1>🔒 cryptor spark</h1>
-        
         <div class="tabs">
             <button id="encryptTab" class="active" onclick="showEncrypt()">تشفير</button>
             <button id="decryptTab" onclick="showDecrypt()">فك التشفير</button>
@@ -35,9 +31,8 @@
             <textarea id="decryptOutput" readonly placeholder="📜 النص الأصلي سيظهر هنا..."></textarea>
             <button onclick="copyText('decryptOutput')">📋 نسخ النص</button>
         </div>
-
-        <p class="footer">© 2025 جميع الحقوق محفوظة</p>
     </div>
+    <p class="footer">© 2025 جميع الحقوق محفوظة</p>
     <script src="script.js"></script>
 </body>
 </html>
