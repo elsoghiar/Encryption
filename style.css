@@ -36,8 +36,6 @@ body {
     height: 100%;
     background-color: #0C0C0C;
     margin: 20px auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     text-align: center;
     position: relative;
 }
