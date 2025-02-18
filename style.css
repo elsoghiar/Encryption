@@ -105,11 +105,10 @@ button {
 }
 
 .footer {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
+    margin-top: 50px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 13px;
     color: #808080;
 } 
 
