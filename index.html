@@ -9,30 +9,37 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1 id="title">cryptor <spark>spark</spark></h1>
-            <select id="langSelect" onchange="changeLanguage()">
-                <option value="en">English</option>
-                <option value="ar">العربية</option>
-            </select>
-        </header>
-        <div class="section">
-            <h2 id="encryptTitle">🔐 Encrypt Text</h2>
-            <textarea id="inputEncrypt" placeholder="Enter text here..."></textarea>
-            <button onclick="encryptText()" id="encryptBtn">Encrypt 🔐</button>
-            <textarea id="outputEncrypt" readonly placeholder="Encrypted text will appear here..."></textarea>
-            <button onclick="copyText('outputEncrypt')" id="copyEncryptBtn"> Copy Encrypted Text 📋</button>
-        </div>
-        <div class="section">
-            <h2 id="decryptTitle">🔓 Decrypt Text</h2>
-            <textarea id="inputDecrypt" placeholder="Enter encrypted text here..."></textarea>
-            <button onclick="decryptText()" id="decryptBtn">Decrypt 🔓</button>
-            <textarea id="outputDecrypt" readonly placeholder="Original text will appear here..."></textarea>
-            <button onclick="copyText('outputDecrypt')" id="copyDecryptBtn">Copy Decrypted Text 📋</button>
-        </div>
+    <header>
+        <h1 id="title">cryptor <spark>spark</spark></h1>
+    </header>
 
-        <div id="notification" class="hidden"></div>
+    <!-- أزرار التبديل -->
+    <div class="toggle-buttons">
+        <button onclick="showEncrypt()" id="showEncryptBtn">🔐 تشفير</button>
+        <button onclick="showDecrypt()" id="showDecryptBtn">🔓 فك التشفير</button>
     </div>
+
+    <!-- حاوية التشفير -->
+    <div class="section" id="encryptSection">
+        <h2 id="encryptTitle">🔐 Encrypt Text</h2>
+        <textarea id="inputEncrypt" placeholder="Enter text here..."></textarea>
+        <button onclick="encryptText()" id="encryptBtn">Encrypt 🔐</button>
+        <textarea id="outputEncrypt" readonly placeholder="Encrypted text will appear here..."></textarea>
+        <button onclick="copyText('outputEncrypt')" id="copyEncryptBtn"> Copy Encrypted Text 📋</button>
+    </div>
+
+    <!-- حاوية فك التشفير -->
+    <div class="section hidden" id="decryptSection">
+        <h2 id="decryptTitle">🔓 Decrypt Text</h2>
+        <textarea id="inputDecrypt" placeholder="Enter encrypted text here..."></textarea>
+        <button onclick="decryptText()" id="decryptBtn">Decrypt 🔓</button>
+        <textarea id="outputDecrypt" readonly placeholder="Original text will appear here..."></textarea>
+        <button onclick="copyText('outputDecrypt')" id="copyDecryptBtn">Copy Decrypted Text 📋</button>
+    </div>
+
+    <div id="notification" class="hidden"></div>
+</div>
+
 
     <script src="script.js"></script>
 </body>
