@@ -131,6 +131,7 @@ button {
     text-align: left;
     margin-top: 10px;
     font-size: 22px;
+    white-space: nowrap;
     color: #fff;
     font-weight: bold;
 }
