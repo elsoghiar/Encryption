@@ -1,14 +1,14 @@
-const SECRET_KEY = "verystrvsjssbzkzzbongkey-0120089Mm6522Bdshzgxb@#((_-+xosbsjzbzjzbzz";
+const SECRET_KEY = "ve4http/#181818rys500348751156trvsjssb}{}÷×<>zkzzbongkey-0120089Mm6522Bdshzgxb@#((_-+xosbsjzbzjzbzz";
 const translations = {
     en: {
         title: "🔒 Secure Text Encryptor",
         description: "Encrypt and decrypt text securely using advanced encryption.",
         encryptTitle: "🔐 Encrypt Text",
-        encryptBtn: "Encrypt",
-        copyEncryptBtn: "📋 Copy Encrypted Text",
+        encryptBtn: "Encrypt 🔐",
+        copyEncryptBtn: "Copy Encrypted Text 📋",
         decryptTitle: "🔓 Decrypt Text",
-        decryptBtn: "Decrypt",
-        copyDecryptBtn: "📋 Copy Decrypted Text",
+        decryptBtn: "Decrypt 🔓",
+        copyDecryptBtn: "Copy Decrypted Text 📋",
         enterText: "⚠️ Please enter text!",
         enterEncryptedText: "⚠️ Please enter encrypted text!",
         invalidText: "❌ Invalid encrypted text!",
