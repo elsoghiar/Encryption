@@ -68,6 +68,7 @@ select {
 }
 
 textarea {
+    overflow: hidden;
     width: 85%;
     height: 80px;
     background: #181818;
