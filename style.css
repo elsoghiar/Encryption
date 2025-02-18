@@ -67,6 +67,10 @@ h1 {
     -webkit-text-fill-color: transparent;
 } 
 
+.tabs svg.active {
+    color: #2D83EC;
+} 
+
 .content {
     display: flex;
     flex-direction: column;
@@ -110,8 +114,8 @@ button {
 }
 
 button svg {
-    width: 20px; 
-    height: 20px;
+    width: 22px; 
+    height: 22px;
 }
 
 .footer {
