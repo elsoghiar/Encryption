@@ -71,6 +71,7 @@ textarea {
     width: 85%;
     height: 80px;
     background: #181818;
+    color: #fff;
     margin: 10px 0;
     padding: 10px;
     font-size: 16px;
@@ -78,19 +79,20 @@ textarea {
 }
 
 button {
-    padding: 10px;
+    padding: 12px 18px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    background: #fff;
-    color: #000;
+    background: linear-gradient(135deg, #4A90E2, #1C1C1C); 
+    color: #fff;
     border: none;
-    border-radius: 10px;
-    transition: 0.3s;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
 }
 
 button:hover {
-    color: #fff;
-    background: #000;
+    background: linear-gradient(135deg, #1C1C1C, #4A90E2);
+    transform: scale(1.05); 
 }
 
 .hidden {
