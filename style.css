@@ -114,9 +114,8 @@ button {
 } 
 
 .pag-title {
-    position: absolute;
-    bottom: 30px;
-    left: 20px;
+    margin: 15px auto;
+    text-align: left;
     font-size: 13px;
     color: #808080;
 }  
