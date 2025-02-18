@@ -1,33 +1,15 @@
-const SECRET_KEY = "ve4http/#181818rys500348751156trvsjssb}{}÷×<>zkzzbongkey-0120089Mm6522Bdshzgxb@#((_-+xosbsjzbzjzbzz";
-const translations = {
-    en: {
-        title: "🔒 Secure Text Encryptor",
-        encryptTitle: "🔐 Encrypt Text",
-        encryptBtn: "Encrypt 🔐",
-        copyEncryptBtn: "Copy Encrypted Text 📋",
-        decryptTitle: "🔓 Decrypt Text",
-        decryptBtn: "Decrypt 🔓",
-        copyDecryptBtn: "Copy Decrypted Text 📋",
-        enterText: "⚠️ Please enter text!",
-        enterEncryptedText: "⚠️ Please enter encrypted text!",
-        invalidText: "❌ Invalid encrypted text!",
-        copied: "✅ Text copied!"
-    },
-    ar: {
-        title: "🔒 مشفر النصوص الآمن",
-        encryptTitle: "🔐 تشفير النص",
-        encryptBtn: "🔐 تشفير",
-        copyEncryptBtn: "📋 نسخ النص المشفر",
-        decryptTitle: "🔓 فك تشفير النص",
-        decryptBtn: "🔓 فك التشفير",
-        copyDecryptBtn: "📋 نسخ النص الأصلي",
-        enterText: "⚠️ الرجاء إدخال نص!",
-        enterEncryptedText: "⚠️ الرجاء إدخال النص المشفر!",
-        invalidText: "❌ النص المشفر غير صالح!",
-        copied: "✅ تم النسخ!"
-    }
-};
+function showEncrypt() {
+    document.getElementById("encryptSection").classList.remove("hidden");
+    document.getElementById("decryptSection").classList.add("hidden");
+}
 
+function showDecrypt() {
+    document.getElementById("decryptSection").classList.remove("hidden");
+    document.getElementById("encryptSection").classList.add("hidden");
+}
+
+
+const SECRET_KEY = "ve4http/#181818rys500348751156trvsjssb}{}÷×<>zkzzbongkey-0120089Mm6522Bdshzgxb@#((_-+xosbsjzbzjzbzz";
 function encryptText() {
     let text = document.getElementById("inputEncrypt").value;
 
@@ -77,18 +59,5 @@ function showNotification(message) {
     setTimeout(() => {
         notification.classList.add("hidden");
     }, 2000);
-}
-
-let currentLang = "en";
-
-function changeLanguage() {
-    currentLang = document.getElementById("langSelect").value;
-    document.getElementById("title").textContent = translations[currentLang].title;
-    document.getElementById("encryptTitle").textContent = translations[currentLang].encryptTitle;
-    document.getElementById("encryptBtn").textContent = translations[currentLang].encryptBtn;
-    document.getElementById("copyEncryptBtn").textContent = translations[currentLang].copyEncryptBtn;
-    document.getElementById("decryptTitle").textContent = translations[currentLang].decryptTitle;
-    document.getElementById("decryptBtn").textContent = translations[currentLang].decryptBtn;
-    document.getElementById("copyDecryptBtn").textContent = translations[currentLang].copyDecryptBtn;
 }
 
