@@ -29,6 +29,7 @@ body {
     align-items: center;
     height: 100vh;
     overflow: hidden;
+    overflow-y: auto; 
     overflow-x: hidden;
     position: relative;
     transition: background-color 0.5s, color 0.5s;
