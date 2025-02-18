@@ -22,41 +22,39 @@ img {
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #0C0C0C;
+    background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
 }
 
 .container {
-    width: 100%;
-    height: 100%;
-    background-color: #0C0C0C;
-    margin: 20px auto;
+    width: 90%;
+    max-width: 500px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
     text-align: center;
-    position: relative;
 }
 
 .highlight {
     color: #2D83EC;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 .toggle-buttons {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-} 
+    gap: 15px;
+    margin-bottom: 20px;
+}
 
 .toggle-buttons button {
     background: transparent;
-    color: #aaa;
-    border-radius: 0;
+    color: #888;
     font-size: 18px;
     cursor: pointer;
     border: none;
@@ -71,62 +69,52 @@ body {
 
 .toggle-buttons button:hover {
     color: #fff;
-    border-bottom: 2px solid #444;
 }
- 
 
 .section {
+    background: #1c1c1c;
+    border-radius: 15px;
     padding: 20px;
-    background: #101010;
-    border-radius: 20px;
-    margin: 20px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
 
-textarea {
-    width: 90%;
-    background: #181818;
+.output-section {
+    background: #222;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+textarea,
+input[type="password"] {
+    width: 100%;
+    background: #333;
     color: #fff;
-    border-radius: 20px;
+    border: 1px solid #444;
+    border-radius: 10px;
     padding: 10px;
     margin: 10px 0;
-    border: none;
-    text-align: center;
-}
-
-input[type="password"]{
-    width: 90%;
-    background: #181818;
-    color: #fff;
-    border-radius: 20px;
-    padding: 10px;
-    margin: 5px 0;
-    border: none;
-    text-align: center;
+    resize: none;
 }
 
 button {
-    padding: 10px 18px;
-    font-size: 16px;
+    padding: 10px 20px;
     background: #2D83EC;
     color: #fff;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s, transform 0.3s;
+    transition: background 0.3s;
 }
 
 button:hover {
-    background: #181818;
-    transform: scale(1.05);
-}
-
-.hidden {
-    display: none;
+    background: #1a60b8;
 }
 
 footer {
     margin-top: 20px;
-    color: #555;
+    color: #777;
     font-size: 14px;
 }
