@@ -132,7 +132,8 @@ button {
     padding: 5px 50px;
     border-radius: 5px;
     font-size: 14px;
-    font-weight: bold;
+    white-space: nowrap;
+    font-weight: 500;
     color: white;
     text-align: center;
     display: none;
