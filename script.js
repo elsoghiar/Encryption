@@ -1,37 +1,46 @@
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
+    updateActiveButton("showEncryptBtn");
 }
 
 function showDecrypt() {
     document.getElementById("decryptSection").classList.remove("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
+    updateActiveButton("showDecryptBtn");
 }
 
+function updateActiveButton(activeId) {
+    document.querySelectorAll('.toggle-buttons button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.getElementById(activeId).classList.add('active');
+}
 
-const SECRET_KEY = "ve4http/#181818rys500348751156trvsjssb}{}÷×<>zkzzbongkey-0120089Mm6522Bdshzgxb@#((_-+xosbsjzbzjzbzz";
 function encryptText() {
     let text = document.getElementById("inputEncrypt").value;
+    let key = document.getElementById("encryptionKey").value;
 
-    if (!text) {
-        showNotification(translations[currentLang].enterText);
+    if (!text || !key) {
+        showNotification("⚠️ أدخل النص ومفتاح التشفير!");
         return;
     }
 
-    let encrypted = CryptoJS.AES.encrypt(text, SECRET_KEY).toString();
+    let encrypted = CryptoJS.AES.encrypt(text, key).toString();
     document.getElementById("outputEncrypt").value = encrypted;
 }
 
 function decryptText() {
     let encryptedText = document.getElementById("inputDecrypt").value;
+    let key = document.getElementById("decryptionKey").value;
 
-    if (!encryptedText) {
-        showNotification(translations[currentLang].enterEncryptedText);
+    if (!encryptedText || !key) {
+        showNotification("⚠️ أدخل النص المشفر ومفتاح فك التشفير!");
         return;
     }
 
     try {
-        let decryptedBytes = CryptoJS.AES.decrypt(encryptedText, SECRET_KEY);
+        let decryptedBytes = CryptoJS.AES.decrypt(encryptedText, key);
         let originalText = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
         if (!originalText) {
@@ -40,7 +49,7 @@ function decryptText() {
 
         document.getElementById("outputDecrypt").value = originalText;
     } catch (error) {
-        showNotification(translations[currentLang].invalidText);
+        showNotification("❌ المفتاح غير صحيح أو النص غير صالح!");
     }
 }
 
@@ -48,7 +57,7 @@ function copyText(elementId) {
     let textElement = document.getElementById(elementId);
     textElement.select();
     document.execCommand("copy");
-    showNotification(translations[currentLang].copied);
+    showNotification("✅ تم النسخ!");
 }
 
 function showNotification(message) {
@@ -60,4 +69,3 @@ function showNotification(message) {
         notification.classList.add("hidden");
     }, 2000);
 }
-
