@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Classic Cryptor</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
@@ -12,27 +12,27 @@
     <div class="container">
         <div class="page-title">🔒 Cryptor Spark</div>
         <div class="tabs">
-            <button id="encryptTab" class="active" onclick="showEncrypt()">تشفير</button>
-            <button id="decryptTab" onclick="showDecrypt()">فك التشفير</button>
+            <button id="encryptTab" class="active" onclick="showEncrypt()">Encrypt</button>
+            <button id="decryptTab" onclick="showDecrypt()">Decrypt</button>
         </div>
 
         <div id="encryptSection" class="content">
-            <input type="password" id="encryptKey" placeholder="🔑 أدخل مفتاح التشفير">
-            <textarea id="encryptInput" placeholder="✍️ أدخل النص هنا..."></textarea>
-            <button onclick="encryptText()">🔐 تشفير</button>
-            <textarea id="encryptOutput" readonly placeholder="🔒 النص المشفر سيظهر هنا..."></textarea>
-            <button onclick="copyText('encryptOutput')">📋 نسخ النص</button>
+            <input type="password" id="encryptKey" placeholder="🔑 Enter encryption key">
+            <textarea id="encryptInput" placeholder="✍️ Enter text here..."></textarea>
+            <button onclick="encryptText()">🔐 Encrypt</button>
+            <textarea id="encryptOutput" readonly placeholder="🔒 Encrypted text will appear here..."></textarea>
+            <button onclick="copyText('encryptOutput')">📋 Copy text</button>
         </div>
 
         <div id="decryptSection" class="content hidden">
-            <input type="password" id="decryptKey" placeholder="🔑 أدخل مفتاح فك التشفير">
-            <textarea id="decryptInput" placeholder="🔏 أدخل النص المشفر هنا..."></textarea>
-            <button onclick="decryptText()">🔓 فك التشفير</button>
-            <textarea id="decryptOutput" readonly placeholder="📜 النص الأصلي سيظهر هنا..."></textarea>
-            <button onclick="copyText('decryptOutput')">📋 نسخ النص</button>
+            <input type="password" id="decryptKey" placeholder="🔑 Enter decryption key">
+            <textarea id="decryptInput" placeholder="🔏 Enter encrypted text here..."></textarea>
+            <button onclick="decryptText()">🔓 Decrypt</button>
+            <textarea id="decryptOutput" readonly placeholder="📜 Original text will appear here..."></textarea>
+            <button onclick="copyText('decryptOutput')">📋 Copy text</button>
         </div>
-        <div class="pag-title">Cryptor Spark - حافظ على خصوصيتك 🔒 قم بتشفير نصوصك بسهولة باستخدام تشفير AES القوي، واستعدها بكلمة مرورك السرية. لا يتم تخزين أي بيانات، كل العمليات تتم محليًا على جهازك لضمان الأمان التام. 🚀</div>
-        <p class="footer">© 2025 جميع الحقوق محفوظة</p>
+        <div class="page-title">Cryptor Spark - Keep your privacy safe 🔒 Encrypt your texts easily using strong AES encryption and retrieve them with your secret password. No data is stored, all operations are performed locally on your device for complete security. 🚀</div>
+        <p class="footer">© 2025 Cryptor Spark. All rights reserved.</p>
     </div>
      <script src="script.js"></script>
 </body>
