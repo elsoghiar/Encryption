@@ -23,25 +23,25 @@
         <div class="section" id="encryptSection">
             <input type="password" id="encryptionKey" placeholder="🔑 أدخل مفتاح التشفير">
             <textarea id="inputEncrypt" placeholder="أدخل النص هنا..."></textarea>
-            <button onclick="encryptText()" id="encryptBtn">تشفير 🔐</button>
+            <button onclick="encryptText()">تشفير 🔐</button>
         </div>
 
         <!-- حاوية فك التشفير -->
         <div class="section hidden" id="decryptSection">
             <input type="password" id="decryptionKey" placeholder="🔑 أدخل مفتاح فك التشفير">
             <textarea id="inputDecrypt" placeholder="أدخل النص المشفر هنا..."></textarea>
-            <button onclick="decryptText()" id="decryptBtn">فك التشفير 🔓</button>
+            <button onclick="decryptText()">فك التشفير 🔓</button>
         </div>
 
         <!-- حاويات الإخراج -->
-        <div class="output-section hidden">
+        <div class="output-section hidden" id="outputEncryptSection">
             <textarea id="outputEncrypt" readonly placeholder="سيظهر النص المشفر هنا..."></textarea>
-            <button onclick="copyText('outputEncrypt')" id="copyEncryptBtn">نسخ النص المشفر 📋</button>
+            <button onclick="copyText('outputEncrypt')">نسخ النص المشفر 📋</button>
         </div>
 
-        <div class="output-section hidden">
+        <div class="output-section hidden" id="outputDecryptSection">
             <textarea id="outputDecrypt" readonly placeholder="سيظهر النص الأصلي هنا..."></textarea>
-            <button onclick="copyText('outputDecrypt')" id="copyDecryptBtn">نسخ النص الأصلي 📋</button>
+            <button onclick="copyText('outputDecrypt')">نسخ النص الأصلي 📋</button>
         </div>
 
         <footer>
