@@ -2,54 +2,39 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>cryptor spark</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Cryptor</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script> eruda.init(); </script>
 </head>
 <body>
+    <div id="notification" class="hidden"></div>
     <div class="container">
-        <header>
-            <h1 id="title">cryptor <span class="highlight">spark</span></h1>
-            <div class="toggle-buttons">
-                <button onclick="showEncrypt()" id="showEncryptBtn" class="active">🔐 تشفير</button>
-                <button onclick="showDecrypt()" id="showDecryptBtn">🔓 فك التشفير</button>
-            </div>
-        </header>
-
-        <!-- حاوية التشفير (ظاهرة افتراضيًا) -->
-        <div class="section" id="encryptSection">
-            <input type="password" id="encryptionKey" placeholder="🔑 أدخل مفتاح التشفير">
-            <textarea id="inputEncrypt" placeholder="أدخل النص هنا..."></textarea>
-            <button onclick="encryptText()">تشفير 🔐</button>
+        <h1>🔒 cryptor spark</h1>
+        
+        <div class="tabs">
+            <button id="encryptTab" class="active" onclick="showEncrypt()">تشفير</button>
+            <button id="decryptTab" onclick="showDecrypt()">فك التشفير</button>
         </div>
 
-        <!-- حاوية فك التشفير (مخفية افتراضيًا) -->
-        <div class="section hidden" id="decryptSection">
-            <input type="password" id="decryptionKey" placeholder="🔑 أدخل مفتاح فك التشفير">
-            <textarea id="inputDecrypt" placeholder="أدخل النص المشفر هنا..."></textarea>
-            <button onclick="decryptText()">فك التشفير 🔓</button>
+        <div id="encryptSection" class="content">
+            <input type="password" id="encryptKey" placeholder="🔑 أدخل مفتاح التشفير">
+            <textarea id="encryptInput" placeholder="✍️ أدخل النص هنا..."></textarea>
+            <button onclick="encryptText()">🔐 تشفير</button>
+            <textarea id="encryptOutput" readonly placeholder="🔒 النص المشفر سيظهر هنا..."></textarea>
+            <button onclick="copyText('encryptOutput')">📋 نسخ النص</button>
         </div>
 
-        <!-- حاويات الإخراج -->
-        <div class="output-section hidden" id="outputEncryptSection">
-            <textarea id="outputEncrypt" readonly placeholder="سيظهر النص المشفر هنا..."></textarea>
-            <button onclick="copyText('outputEncrypt')">نسخ النص المشفر 📋</button>
+        <div id="decryptSection" class="content hidden">
+            <input type="password" id="decryptKey" placeholder="🔑 أدخل مفتاح فك التشفير">
+            <textarea id="decryptInput" placeholder="🔏 أدخل النص المشفر هنا..."></textarea>
+            <button onclick="decryptText()">🔓 فك التشفير</button>
+            <textarea id="decryptOutput" readonly placeholder="📜 النص الأصلي سيظهر هنا..."></textarea>
+            <button onclick="copyText('decryptOutput')">📋 نسخ النص</button>
         </div>
 
-        <div class="output-section hidden" id="outputDecryptSection">
-            <textarea id="outputDecrypt" readonly placeholder="سيظهر النص الأصلي هنا..."></textarea>
-            <button onclick="copyText('outputDecrypt')">نسخ النص الأصلي 📋</button>
-        </div>
-
-        <footer>
-           <p>© جميع الحقوق محفوظة 2025</p>
-        </footer>
-        <div id="notification" class="hidden"></div>
+        <p class="footer">© 2025 جميع الحقوق محفوظة</p>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
