@@ -82,7 +82,6 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-input[type="password"],
 textarea {
     width: 90%;
     background: #181818;
@@ -90,6 +89,17 @@ textarea {
     border-radius: 20px;
     padding: 10px;
     margin: 10px 0;
+    border: none;
+    text-align: center;
+}
+
+input[type="password"]{
+    width: 90%;
+    background: #181818;
+    color: #fff;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 5px 0;
     border: none;
     text-align: center;
 }
