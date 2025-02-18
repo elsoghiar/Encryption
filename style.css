@@ -54,8 +54,8 @@ h1 {
 }
 
 .tabs button.active {
-    border-bottom: 3px solid #007BFF;
-    color: #007BFF;
+    border-bottom: 2px solid #2D83EC;
+    color: #2D83EC;
 }
 
 .content {
@@ -72,7 +72,7 @@ input, textarea {
     background: #0C0C0C;
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #181818;
     border-radius: 5px;
     font-size: 14px;
 }
@@ -84,7 +84,7 @@ textarea {
 
 button {
     padding: 10px;
-    background-color: #007BFF;
+    background-color: #2D83EC;
     color: white;
     border: none;
     border-radius: 5px;
@@ -105,7 +105,7 @@ button {
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 10px 20px;
+    padding: 5px 50px;
     border-radius: 5px;
     font-size: 14px;
     font-weight: bold;
@@ -118,7 +118,7 @@ button {
 
 /* ألوان الإشعار */
 .notification-success {
-    background-color: #28a745;
+    background-color: #2D83EC;
 }
 
 .notification-error {
