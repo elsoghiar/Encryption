@@ -129,7 +129,8 @@ button {
     top: 15px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 10px 80px;
+    width: 95%;
+    padding: 10px 60px;
     border-radius: 10px;
     font-size: 14px;
     white-space: nowrap;
