@@ -184,7 +184,7 @@ button {
 .notification-error,
 .notification-warning {
     background: linear-gradient(90deg, #101010, #202020); 
-    box-shadow: 0px 4px 8px rgba(45, 131, 236, 0.3);
+   /*box-shadow: 0px 4px 8px rgba(45, 131, 236, 0.3);*/
 }
 
 .notification-success {
