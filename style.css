@@ -67,10 +67,10 @@ h1 {
     -webkit-text-fill-color: transparent;
 } 
 
-.tabs button svg.active {
-    color: #2D83EC;
-} 
-
+.tabs button.active svg {
+    stroke: #2D83EC;
+}
+ 
 .content {
     display: flex;
     flex-direction: column;
