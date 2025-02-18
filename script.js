@@ -1,15 +1,21 @@
+// التنقل بين حاويتي التشفير وفك التشفير
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
+    document.querySelector(".output-section:nth-of-type(1)").classList.add("hidden");
+    document.querySelector(".output-section:nth-of-type(2)").classList.add("hidden");
     updateActiveButton("showEncryptBtn");
 }
 
 function showDecrypt() {
     document.getElementById("decryptSection").classList.remove("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
+    document.querySelector(".output-section:nth-of-type(1)").classList.add("hidden");
+    document.querySelector(".output-section:nth-of-type(2)").classList.add("hidden");
     updateActiveButton("showDecryptBtn");
 }
 
+// تحديث حالة الزر النشط
 function updateActiveButton(activeId) {
     document.querySelectorAll('.toggle-buttons button').forEach(btn => {
         btn.classList.remove('active');
@@ -17,6 +23,7 @@ function updateActiveButton(activeId) {
     document.getElementById(activeId).classList.add('active');
 }
 
+// تشفير النص
 function encryptText() {
     let text = document.getElementById("inputEncrypt").value;
     let key = document.getElementById("encryptionKey").value;
@@ -28,8 +35,13 @@ function encryptText() {
 
     let encrypted = CryptoJS.AES.encrypt(text, key).toString();
     document.getElementById("outputEncrypt").value = encrypted;
+
+    // إظهار حاوية الإخراج للتشفير
+    document.querySelector(".output-section:nth-of-type(1)").classList.remove("hidden");
+    document.querySelector(".output-section:nth-of-type(2)").classList.add("hidden");
 }
 
+// فك تشفير النص
 function decryptText() {
     let encryptedText = document.getElementById("inputDecrypt").value;
     let key = document.getElementById("decryptionKey").value;
@@ -48,18 +60,30 @@ function decryptText() {
         }
 
         document.getElementById("outputDecrypt").value = originalText;
+
+        // إظهار حاوية الإخراج لفك التشفير
+        document.querySelector(".output-section:nth-of-type(2)").classList.remove("hidden");
+        document.querySelector(".output-section:nth-of-type(1)").classList.add("hidden");
     } catch (error) {
         showNotification("❌ المفتاح غير صحيح أو النص غير صالح!");
     }
 }
 
+// نسخ النص من حاوية الإخراج
 function copyText(elementId) {
     let textElement = document.getElementById(elementId);
+
+    if (!textElement.value) {
+        showNotification("⚠️ لا يوجد نص للنسخ!");
+        return;
+    }
+
     textElement.select();
     document.execCommand("copy");
     showNotification("✅ تم النسخ!");
 }
 
+// عرض رسائل الإشعارات
 function showNotification(message) {
     let notification = document.getElementById("notification");
     notification.textContent = message;
@@ -69,3 +93,9 @@ function showNotification(message) {
         notification.classList.add("hidden");
     }, 2000);
 }
+
+// إخفاء جميع حاويات الإخراج عند بدء التحميل
+window.onload = function() {
+    document.querySelector(".output-section:nth-of-type(1)").classList.add("hidden");
+    document.querySelector(".output-section:nth-of-type(2)").classList.add("hidden");
+};
