@@ -181,20 +181,21 @@ button {
     transition: opacity 0.5s ease-in-out;
 }
 
-.notification-success {
-    background: linear-gradient(90deg, #2D83EC, #60A5FA);
-    color: white;
+.notification-success,
+.notification-error,
+.notification-warning {
+    background: linear-gradient(90deg, #101010, #202020); 
     box-shadow: 0px 4px 8px rgba(45, 131, 236, 0.3);
 }
 
+.notification-success {
+    color: #2D83EC; 
+}
+
 .notification-error {
-    background: linear-gradient(90deg, #DC3545, #FF6B6B);
-    color: white;
-    box-shadow: 0px 4px 8px rgba(220, 53, 69, 0.3);
+    color: #ff4c4c;
 }
 
 .notification-warning {
-    background: linear-gradient(90deg, #FFC107, #FFD54F);
-    color: #333;
-    box-shadow: 0px 4px 8px rgba(255, 193, 7, 0.3);
-} 
+    color: #ffcc00;
+}
