@@ -169,26 +169,26 @@ button {
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
-    padding: 10px 60px;
+    padding: 10px 50px;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 13px;
     white-space: nowrap;
     font-weight: 500;
     color: white;
-    text-align: left;
+    text-align: center;
     display: none;
     z-index: 1000;
     transition: opacity 0.5s ease-in-out;
 }
 
 .notification-success {
-    background-color: #2D83EC;
+    background-color: rgba(45, 131, 236, 0.6);
 }
 
 .notification-error {
-    background-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.6);
 }
 
 .notification-warning {
-    background-color: #ffc107;
-}
+    background-color: rgba(255, 193, 7, 0.6);
+} 
