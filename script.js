@@ -2,7 +2,6 @@ const SECRET_KEY = "ve4http/#181818rys500348751156trvsjssb}{}÷×<>zkzzbongkey-0
 const translations = {
     en: {
         title: "🔒 Secure Text Encryptor",
-        description: "Encrypt and decrypt text securely using advanced encryption.",
         encryptTitle: "🔐 Encrypt Text",
         encryptBtn: "Encrypt 🔐",
         copyEncryptBtn: "Copy Encrypted Text 📋",
@@ -16,7 +15,6 @@ const translations = {
     },
     ar: {
         title: "🔒 مشفر النصوص الآمن",
-        description: "قم بتشفير وفك تشفير النصوص بأمان باستخدام تشفير متقدم.",
         encryptTitle: "🔐 تشفير النص",
         encryptBtn: "🔐 تشفير",
         copyEncryptBtn: "📋 نسخ النص المشفر",
@@ -86,7 +84,6 @@ let currentLang = "en";
 function changeLanguage() {
     currentLang = document.getElementById("langSelect").value;
     document.getElementById("title").textContent = translations[currentLang].title;
-    document.getElementById("description").textContent = translations[currentLang].description;
     document.getElementById("encryptTitle").textContent = translations[currentLang].encryptTitle;
     document.getElementById("encryptBtn").textContent = translations[currentLang].encryptBtn;
     document.getElementById("copyEncryptBtn").textContent = translations[currentLang].copyEncryptBtn;
