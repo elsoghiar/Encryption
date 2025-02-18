@@ -95,6 +95,7 @@ textarea {
 }
 
 button {
+    font-weight: 600;
     padding: 10px;
     background-color: #2D83EC;
     color: white;
@@ -106,6 +107,7 @@ button {
 }
 
 .footer {
+    font-weight: 500;
     margin-top: 50px;
     margin-bottom: 10px;
     text-align: center;
@@ -114,6 +116,7 @@ button {
 } 
 
 .pag-title {
+    font-weight: 500;
     margin: 15px auto;
     text-align: left;
     font-size: 13px;
