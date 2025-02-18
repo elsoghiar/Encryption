@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-    <title>Secure Text Encryptor</title>
+    <title>cryptor spark</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 id="title">🔒 Secure Text Encryptor</h1>
+            <h1 id="title">cryptor <spark>spark</spark></h1>
             <select id="langSelect" onchange="changeLanguage()">
                 <option value="en">English</option>
                 <option value="ar">العربية</option>
             </select>
         </header>
-
-        <p id="description">Encrypt and decrypt text securely using advanced encryption.</p>
-
         <div class="section">
             <h2 id="encryptTitle">🔐 Encrypt Text</h2>
             <textarea id="inputEncrypt" placeholder="Enter text here..."></textarea>
@@ -26,7 +23,6 @@
             <textarea id="outputEncrypt" readonly placeholder="Encrypted text will appear here..."></textarea>
             <button onclick="copyText('outputEncrypt')" id="copyEncryptBtn"> Copy Encrypted Text 📋</button>
         </div>
-
         <div class="section">
             <h2 id="decryptTitle">🔓 Decrypt Text</h2>
             <textarea id="inputDecrypt" placeholder="Enter encrypted text here..."></textarea>
