@@ -114,6 +114,18 @@ button {
     text-align: center;
     font-size: 13px;
     color: #808080;
+}
+
+.footer .highlight {
+    color: #2D83EC; 
+    font-weight: 600; 
+    text-decoration: none; 
+    transition: color 0.3s ease; 
+}
+
+.footer .highlight:hover {
+    color: #181818; 
+    text-decoration: underline
 } 
 
 .pag-title {
