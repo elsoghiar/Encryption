@@ -12,35 +12,44 @@
 <body>
     <div class="container">
         <header>
-        <h1 id="title">cryptor <span class="highlight">spark</span></h1>
-        </header>
-        <div class="section" id="encryptSection">
+            <h1 id="title">cryptor <span class="highlight">spark</span></h1>
             <div class="toggle-buttons">
                 <button onclick="showEncrypt()" id="showEncryptBtn" class="active">🔐 تشفير</button>
                 <button onclick="showDecrypt()" id="showDecryptBtn">🔓 فك التشفير</button>
             </div>
-            <textarea id="inputEncrypt" placeholder="أدخل النص هنا..."></textarea>
+        </header>
+
+        <!-- حاوية التشفير -->
+        <div class="section" id="encryptSection">
             <input type="password" id="encryptionKey" placeholder="🔑 أدخل مفتاح التشفير">
+            <textarea id="inputEncrypt" placeholder="أدخل النص هنا..."></textarea>
             <button onclick="encryptText()" id="encryptBtn">تشفير 🔐</button>
+        </div>
+
+        <!-- حاوية فك التشفير -->
+        <div class="section hidden" id="decryptSection">
+            <input type="password" id="decryptionKey" placeholder="🔑 أدخل مفتاح فك التشفير">
+            <textarea id="inputDecrypt" placeholder="أدخل النص المشفر هنا..."></textarea>
+            <button onclick="decryptText()" id="decryptBtn">فك التشفير 🔓</button>
+        </div>
+
+        <!-- حاويات الإخراج -->
+        <div class="output-section">
             <textarea id="outputEncrypt" readonly placeholder="سيظهر النص المشفر هنا..."></textarea>
             <button onclick="copyText('outputEncrypt')" id="copyEncryptBtn">نسخ النص المشفر 📋</button>
         </div>
-        <div class="section hidden" id="decryptSection">
-            <div class="toggle-buttons">
-                <button onclick="showEncrypt()" id="showEncryptBtn">🔐 تشفير</button>
-                <button onclick="showDecrypt()" id="showDecryptBtn" class="active">🔓 فك التشفير</button>
-            </div>
-            <textarea id="inputDecrypt" placeholder="أدخل النص المشفر هنا..."></textarea>
-            <input type="password" id="decryptionKey" placeholder="🔑 أدخل مفتاح فك التشفير">
-            <button onclick="decryptText()" id="decryptBtn">فك التشفير 🔓</button>
+
+        <div class="output-section">
             <textarea id="outputDecrypt" readonly placeholder="سيظهر النص الأصلي هنا..."></textarea>
             <button onclick="copyText('outputDecrypt')" id="copyDecryptBtn">نسخ النص الأصلي 📋</button>
         </div>
+
         <footer>
            <p>© جميع الحقوق محفوظة 2025</p>
         </footer>
         <div id="notification" class="hidden"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
