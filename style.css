@@ -96,13 +96,23 @@ textarea {
 button {
     font-weight: 600;
     padding: 10px;
-    background-color: #2D83EC;
-    color: white;
-    border: none;
+    background: none;
+    color: transparent;
+    border: 2px solid;
+    border-image: linear-gradient(90deg, #2D83EC, #9B59B6) 1;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
     transition: 0.3s;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #2D83EC, #9B59B6);
+    color: white;
+    -webkit-text-fill-color: white;
 }
 
 .footer {
