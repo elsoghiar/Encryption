@@ -1,4 +1,4 @@
-button, input, select, textarea, img, a {
+button, input, select, textarea {
     outline: none;
     box-shadow: none;
     border: none;
@@ -13,8 +13,6 @@ button, input, select, textarea, img, a {
     padding: 0;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
-    -webkit-user-select: none; 
-    -ms-user-select: none; 
 }
 
 body {
@@ -61,17 +59,13 @@ header {
     cursor: pointer;
     border: none;
     border-bottom: 2px solid transparent;
-    transition: color 0.3s, border-bottom 0.3s;
     padding: 10px;
+    transition: color 0.3s, border-bottom 0.3s;
 }
 
 .toggle-buttons button.active {
     color: #2D83EC;
     border-bottom: 2px solid #2D83EC;
-}
-
-.toggle-buttons button:hover {
-    color: #000;
 }
 
 .section {
@@ -92,22 +86,10 @@ header {
     background: #2D83EC;
     color: white;
     padding: 10px 20px;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.section button:hover {
-    background: #1a60b8;
-}
-
-/* تعديل خاص عند تفعيل زر */
-.toggle-buttons button.active {
-    color: #2D83EC;
-    border-bottom: 2px solid #2D83EC;
-}
-
-/* تعديل النص والزر عندما يظهر */
 .output-section {
     margin-top: 20px;
     display: none;
@@ -122,13 +104,10 @@ header {
     background: #f9f9f9;
 }
 
-footer {
-    margin-top: 20px;
-    font-size: 12px;
-    color: #777;
+.hidden {
+    display: none;
 }
 
-/* إظهار إشعار */
 #notification {
     position: absolute;
     top: 20px;
@@ -137,9 +116,5 @@ footer {
     color: #fff;
     padding: 10px;
     border-radius: 5px;
-    display: none;
-}
-
-.hidden {
     display: none;
 }
