@@ -102,4 +102,7 @@ function hideAllOutputs() {
 // التأكد من تنفيذ الكود بعد تحميل الصفحة بالكامل
 document.addEventListener("DOMContentLoaded", function() {
     hideAllOutputs();
+    // جعل حاوية التشفير هي الظاهرة افتراضيًا
+    document.getElementById("encryptSection").classList.remove("hidden");
+    document.getElementById("decryptSection").classList.add("hidden");
 });
