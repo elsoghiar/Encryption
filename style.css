@@ -71,6 +71,7 @@ h1 {
 input, textarea {
     background: #0C0C0C;
     width: 100%;
+    color: #fff;
     padding: 10px;
     border: 1px solid #181818;
     border-radius: 5px;
@@ -99,7 +100,6 @@ button {
     color: #808080;
 }
 
-/* إشعار */
 #notification {
     position: fixed;
     top: 10px;
@@ -116,7 +116,6 @@ button {
     transition: opacity 0.5s ease-in-out;
 }
 
-/* ألوان الإشعار */
 .notification-success {
     background-color: #2D83EC;
 }
