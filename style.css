@@ -32,14 +32,6 @@ body {
     color: #fff;
     font-weight: bold;
 }
-
-.pag-title {
-    position: absolute;
-    top: 50px;
-    left: 20px;
-    font-size: 15px;
-    color: #808080;
-} 
  
 .container {
     background: #0C0C0C;
@@ -114,12 +106,20 @@ button {
 
 .footer {
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 12px;
     color: #808080;
 } 
+
+.pag-title {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    font-size: 13px;
+    color: #808080;
+}  
 
 #notification {
     position: fixed;
