@@ -67,7 +67,7 @@ h1 {
     -webkit-text-fill-color: transparent;
 } 
 
-.tabs svg.active {
+.tabs button svg.active {
     color: #2D83EC;
 } 
 
