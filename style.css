@@ -12,7 +12,8 @@ button, input, select, textarea {
     padding: 0;
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Rubik',sans-serif ;
+    font-weight: 700;
 }
 
 body {
