@@ -1,13 +1,13 @@
 function showEncrypt() {
-    document.querySelectorAll('.section').forEach(el => el.classList.add('hidden'));
     document.getElementById("encryptSection").classList.remove("hidden");
+    document.getElementById("decryptSection").classList.add("hidden");
     hideAllOutputs();
     updateActiveButton("showEncryptBtn");
 }
 
 function showDecrypt() {
-    document.querySelectorAll('.section').forEach(el => el.classList.add('hidden'));
     document.getElementById("decryptSection").classList.remove("hidden");
+    document.getElementById("encryptSection").classList.add("hidden");
     hideAllOutputs();
     updateActiveButton("showDecryptBtn");
 }
