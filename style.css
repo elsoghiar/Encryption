@@ -342,9 +342,9 @@ button svg {
     border: 1px dashed #181818;
     background: rgba(0, 0, 0, 0.1);
     color: white;
-    width: 70px;
-    height: 30px;
-    padding: 5px;
+    width: 80px;
+    height: 40px;
+    padding: 8px;
     font-size: 13px;
     font-weight: 600;
     border-radius: 50px;
