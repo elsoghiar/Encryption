@@ -16,14 +16,18 @@ button, input, select, textarea {
     font-weight: 700;
 }
 
-body {
-    background: #0C0C0C;
-    display: flex;
-    justify-content: center;
-    overflow-y: auto;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
+ body {
+   margin: 0;
+   background-color: #0C0C0C;
+   color: #fff;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   overflow: hidden;
+   overflow-x: hidden;
+   position: relative;
+   transition: background-color 0.5s, color 0.5s;
 }
 
 .container {
