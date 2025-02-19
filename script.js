@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function initializeEventListeners() {
     document.getElementById("encryptTab").addEventListener("click", showEncrypt);
     document.getElementById("decryptTab").addEventListener("click", showDecrypt);
+    document.getElementById("TransactionsTab").addEventListener("click", showWallet); // إضافة المستمع هنا
+
     document.getElementById("encryptButton").addEventListener("click", () => {
         encryptText();
         resetEventListeners();
@@ -28,6 +30,16 @@ function initializeEventListeners() {
         copyText('decryptOutput');
         resetEventListeners();
     });
+}
+
+function showWallet() {
+    document.getElementById("WalletAnalyzer").classList.remove("hidden");
+    document.getElementById("encryptSection").classList.add("hidden");
+    document.getElementById("decryptSection").classList.add("hidden");
+
+    document.getElementById("encryptTab").classList.remove("active");
+    document.getElementById("decryptTab").classList.remove("active");
+    document.getElementById("TransactionsTab").classList.add("active");
 }
 
 function resetEventListeners() {
