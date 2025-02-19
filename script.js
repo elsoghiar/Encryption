@@ -163,15 +163,16 @@ async function fetchTONData(address) {
         let totalBalance = parseFloat(balanceData.balance) / 1e9;
         console.log("Balance data:", balanceData);
 
-        let allTransactions = await fetchAllTransactions(address);
-        analyzeTONData(allTransactions, totalBalance);
+        let todayTransactions = await fetchTodayTransactions(address);
+        analyzeTodayData(todayTransactions, totalBalance);
     } catch (error) {
         console.error("Error fetching TON data:", error);
         alert("Failed to fetch data: " + error.message);
     }
 }
 
-async function fetchAllTransactions(address) {
+async function fetchTodayTransactions(address) {
+    let today = new Date().toISOString().split('T')[0];
     let transactions = [];
     let lastLt = null;
     let hasMore = true;
@@ -199,16 +200,19 @@ async function fetchAllTransactions(address) {
             if (!response.ok) throw new Error(`Transactions API Error: ${response.status}`);
             let data = await response.json();
 
-            if (data.transactions && Array.isArray(data.transactions) && data.transactions.length > 0) {
-                transactions.push(...data.transactions);
-                let newLastLt = data.transactions[data.transactions.length - 1]?.transaction_id?.lt || null;
-                
+            let filteredTransactions = data.transactions.filter(tx => 
+                new Date(tx.utime * 1000).toISOString().split('T')[0] === today
+            );
+            transactions.push(...filteredTransactions);
+            
+            if (filteredTransactions.length > 0) {
+                let newLastLt = filteredTransactions[filteredTransactions.length - 1]?.transaction_id?.lt || null;
                 if (newLastLt === lastLt) {
                     console.log("Duplicate lastLt detected, stopping fetch.");
                     hasMore = false;
                 } else {
                     lastLt = newLastLt;
-                    console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
+                    console.log(`Fetched ${filteredTransactions.length} today's transactions, total: ${transactions.length}`);
                     requestCount++;
                     await delay(1000);
                 }
@@ -227,41 +231,30 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function analyzeTONData(transactions, totalBalance) {
-    let sentCount = 0, receivedCount = 0, totalComments = 0;
-    let todaySent = 0, todayReceived = 0, todayBalance = 0;
-    const today = new Date().toISOString().split('T')[0];
+function analyzeTodayData(transactions, totalBalance) {
+    let todaySent = 0, todayReceived = 0, todayComments = 0, todayBalance = 0;
 
     transactions.forEach(tx => {
-        let timestamp = new Date(tx.utime * 1000).toISOString().split('T')[0];
-
         if (tx.in_msg) {
-            receivedCount++;
-            if (timestamp === today) {
-                todayReceived++;
-                todayBalance += parseInt(tx.in_msg.value) / 1e9;
-            }
-            if (tx.in_msg.msg_data && tx.in_msg.msg_data.body) totalComments++;
+            todayReceived++;
+            todayBalance += parseInt(tx.in_msg.value) / 1e9;
+            if (tx.in_msg.msg_data && tx.in_msg.msg_data.body) todayComments++;
         }
-
         if (tx.out_msgs && tx.out_msgs.length > 0) {
-            sentCount++;
-            if (timestamp === today) todaySent++;
+            todaySent++;
             tx.out_msgs.forEach(msg => {
-                if (msg.msg_data && msg.msg_data.body) totalComments++;
+                if (msg.msg_data && msg.msg_data.body) todayComments++;
             });
         }
     });
     
-    displayTONData(sentCount, receivedCount, totalComments, todaySent, todayReceived, todayBalance, totalBalance);
+    displayTodayData(todaySent, todayReceived, todayComments, todayBalance, totalBalance);
 }
 
-function displayTONData(sent, received, comments, todaySent, todayReceived, todayBalance, totalBalance) {
-    document.getElementById("totalSent").textContent = sent;
-    document.getElementById("totalReceived").textContent = received;
-    document.getElementById("totalComments").textContent = comments;
+function displayTodayData(todaySent, todayReceived, todayComments, todayBalance, totalBalance) {
     document.getElementById("todaySent").textContent = todaySent;
     document.getElementById("todayReceived").textContent = todayReceived;
+    document.getElementById("todayComments").textContent = todayComments;
     document.getElementById("todayBalance").textContent = todayBalance.toFixed(6) + " TON";
     document.getElementById("totalBalance").textContent = totalBalance.toFixed(6) + " TON";
 }
