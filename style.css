@@ -310,11 +310,12 @@ button svg {
     align-items: center;
     justify-content: center;
     gap: 3px;
+    white-space: nowrap;
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     border: none;
     width: 35%;
-    padding: 7px 15px;
+    padding: 5px 15px;
     font-size: 12px;
     font-weight: 600;
     border-radius: 30px;
