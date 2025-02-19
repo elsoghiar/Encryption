@@ -240,6 +240,10 @@ button svg {
 } 
   
 #notification {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%); 
     margin-top: 10px;
     margin-bottom: 10px;
     width: 95%;
@@ -257,7 +261,8 @@ button svg {
 .notification-success,
 .notification-error,
 .notification-warning {
-    background: #0C0C0C; 
+    border: 2px dashed #181818;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .notification-success {
