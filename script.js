@@ -154,6 +154,7 @@ function copyText(elementId) {
 
 async function fetchTONData(address) {
     const BALANCE_API = `https://tonapi.io/v2/accounts/${address}`;
+    const TOKENS_API = `https://tonapi.io/v2/accounts/${address}/jettons`;
     
     try {
         console.log("Fetching balance for:", address);
@@ -163,11 +164,16 @@ async function fetchTONData(address) {
         let totalBalance = parseFloat(balanceData.balance) / 1e9;
         console.log("Balance data:", balanceData);
 
+        let tokensResponse = await fetch(TOKENS_API);
+        if (!tokensResponse.ok) throw new Error(`Tokens API Error: ${tokensResponse.status}`);
+        let tokensData = await tokensResponse.json();
+        console.log("Tokens data:", tokensData);
+
         let todayTransactions = await fetchTodayTransactions(address);
-        analyzeTodayData(todayTransactions, totalBalance);
+        analyzeTodayData(todayTransactions, totalBalance, tokensData);
     } catch (error) {
         console.error("Error fetching TON data:", error);
-        alert("Failed to fetch data: " + error.message);
+        showNotification("Failed to fetch data: " + error.message);
     }
 }
 
@@ -182,7 +188,7 @@ async function fetchTodayTransactions(address) {
         if (requestCount >= 10) {
             console.warn("Rate limit reached, waiting before retrying...");
             await delay(5000);
-            requestCount = 0; 
+            requestCount = 0;
         }
 
         let url = `https://tonapi.io/v2/blockchain/accounts/${address}/transactions?limit=100`;
@@ -231,8 +237,14 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function analyzeTodayData(transactions, totalBalance) {
+function analyzeTodayData(transactions, totalBalance, tokensData) {
     let todaySent = 0, todayReceived = 0, todayComments = 0, todayBalance = 0;
+    let tokenDetails = tokensData.balances.map(token => {
+        return {
+            name: token.jetton.name,
+            balance: token.balance / Math.pow(10, token.jetton.decimals)
+        };
+    });
 
     transactions.forEach(tx => {
         if (tx.in_msg) {
@@ -248,15 +260,23 @@ function analyzeTodayData(transactions, totalBalance) {
         }
     });
     
-    displayTodayData(todaySent, todayReceived, todayComments, todayBalance, totalBalance);
+    displayTodayData(todaySent, todayReceived, todayComments, todayBalance, totalBalance, tokenDetails);
 }
 
-function displayTodayData(todaySent, todayReceived, todayComments, todayBalance, totalBalance) {
-    document.getElementById("todaySent").textContent = todaySent;
-    document.getElementById("todayReceived").textContent = todayReceived;
-    document.getElementById("todayComments").textContent = todayComments;
+function displayTodayData(todaySent, todayReceived, todayComments, todayBalance, totalBalance, tokenDetails) {
+    document.getElementById("todaySent").textContent = todaySent >= 100 ? "100+" : todaySent;
+    document.getElementById("todayReceived").textContent = todayReceived >= 100 ? "100+" : todayReceived;
+    document.getElementById("todayComments").textContent = todayComments >= 100 ? "100+" : todayComments;
     document.getElementById("todayBalance").textContent = todayBalance.toFixed(6) + " TON";
     document.getElementById("totalBalance").textContent = totalBalance.toFixed(6) + " TON";
+    
+    let tokenList = document.getElementById("tokenList");
+    tokenList.innerHTML = "";
+    tokenDetails.forEach(token => {
+        let listItem = document.createElement("li");
+        listItem.textContent = `${token.name}: ${token.balance}`;
+        tokenList.appendChild(listItem);
+    });
 }
 
 document.getElementById("checkButton").addEventListener("click", () => {
@@ -264,6 +284,6 @@ document.getElementById("checkButton").addEventListener("click", () => {
     if (address) {
         fetchTONData(address);
     } else {
-        alert("Please enter a valid TON wallet address");
+        showNotification("Please enter a valid TON wallet address");
     }
 });
