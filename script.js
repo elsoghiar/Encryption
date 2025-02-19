@@ -242,7 +242,7 @@ function analyzeTodayData(transactions, totalBalance, tokensData) {
     
     let tokenDetails = tokensData.balances.map(token => {
         return {
-            name: token.jetton.name,
+            symbol: token.jetton.symbol || "N/A",
             balance: token.balance / Math.pow(10, token.jetton.decimals),
             image: token.jetton.image || "https://via.placeholder.com/40"
         };
@@ -274,31 +274,58 @@ function displayTodayData(todaySent, todayReceived, todayComments, todayBalance,
     document.getElementById("totalBalance").textContent = totalBalance.toFixed(6) + " TON";
 
     let tokenList = document.getElementById("tokenList");
+    let modalTokenList = document.getElementById("modalTokenList");
+    let noTokensMessage = document.getElementById("noTokensMessage");
+
     tokenList.innerHTML = "";
+    modalTokenList.innerHTML = "";
 
-    tokenDetails.forEach(token => {
-        let listItem = document.createElement("li");
-        listItem.className = "token-item";
+    if (tokenDetails.length === 0) {
+        noTokensMessage.style.display = "block";
+    } else {
+        noTokensMessage.style.display = "none";
+        tokenDetails.forEach(token => {
+            let listItem = document.createElement("li");
+            listItem.className = "token-item";
 
-        let tokenImg = document.createElement("img");
-        tokenImg.src = token.image;
-        tokenImg.alt = token.name;
-        tokenImg.className = "token-img";
+            let tokenImg = document.createElement("img");
+            tokenImg.src = token.image;
+            tokenImg.alt = token.name;
+            tokenImg.className = "token-img";
 
-        let tokenInfo = document.createElement("div");
-        tokenInfo.className = "token-info";
-        tokenInfo.innerHTML = `<strong>${token.name}</strong>`;
+            let tokenInfo = document.createElement("div");
+            tokenInfo.className = "token-info";
+            tokenInfo.innerHTML = `<small>${token.symbol}</small>`;
 
-        let tokenBalance = document.createElement("span");
-        tokenBalance.textContent = token.balance.toFixed(6);
+            let tokenBalance = document.createElement("span");
+            tokenBalance.textContent = token.balance.toFixed(6);
 
-        listItem.appendChild(tokenImg);
-        listItem.appendChild(tokenInfo);
-        listItem.appendChild(tokenBalance);
-
-        tokenList.appendChild(listItem);
-    });
+            listItem.appendChild(tokenImg);
+            listItem.appendChild(tokenInfo);
+            listItem.appendChild(tokenBalance);
+            if (tokenList.children.length < 2) {
+                tokenList.appendChild(listItem.cloneNode(true));
+            }
+            modalTokenList.appendChild(listItem);
+        });
+    }
 }
+
+document.getElementById("showTokensButton").addEventListener("click", function () {
+    document.getElementById("tokenModal").style.display = "block";
+});
+
+document.querySelector(".close-button").addEventListener("click", function () {
+    document.getElementById("tokenModal").style.display = "none";
+});
+
+// إغلاق النافذة عند الضغط خارجها
+window.addEventListener("click", function (event) {
+    let modal = document.getElementById("tokenModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
 
 
 document.getElementById("checkButton").addEventListener("click", () => {
