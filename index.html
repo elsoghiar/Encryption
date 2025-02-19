@@ -47,6 +47,20 @@
                 ADDRESS
             </button>
         </div>
+        <div id="WalletAnalyzer" class="content hidden">
+        <h2>TON Wallet Analyzer</h2>
+        <input type="text" id="walletAddress" placeholder="Enter TON Wallet Address">
+        <button id="checkButton">Check Wallet</button>
+        <div class="result">
+            <p>Total Sent: <span id="totalSent">0</span></p>
+            <p>Total Received: <span id="totalReceived">0</span></p>
+            <p>Total Comments: <span id="totalComments">0</span></p>
+            <p>Transactions Sent Today: <span id="todaySent">0</span></p>
+            <p>Transactions Received Today: <span id="todayReceived">0</span></p>
+            <p>Balance Received Today: <span id="todayBalance">0 TON</span></p>
+            <p>Total Balance: <span id="totalBalance">0 TON</span></p>
+        </div>
+        </div>
         <div id="encryptSection" class="content">
             <input type="password" id="encryptKey" placeholder="🔑 Enter your secret key…">
          <div class="container-here">
