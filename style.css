@@ -329,20 +329,19 @@ button svg {
     width: 100%;
     font-size: 13px;
     color: #fff;
-    padding: 10px;
+    padding: 5px;
     margin: auto;
 }
 
 .result-header, .result-2 {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.00001);
-    border-radius: 10px;
-    margin-bottom: 10px;
+    width: 100%; 
 }
 
 .result p, .result-2 p {
+    width: 100%;
     display: flex;
     padding: 5px;
+    border-radius: 5px;
     border: 2px dashed #181818;
     justify-content: space-between;
     font-weight: 600;
