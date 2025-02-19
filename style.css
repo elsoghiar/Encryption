@@ -77,19 +77,20 @@ h1 {
     align-items: center;
 }
 
-#decryptInput {
+#decryptInput, #encryptInput {
     padding-right: 50px; 
+    
     resize: none;
 }
 
-#decryptButton {
+#decryptButton, #encryptButton {
     position: absolute;
     right: 10px;
     bottom: 10px;
 }
 
-#decryptButton:hover {
-    background-color: #0056b3;
+#decryptButton:hover, #encryptButton:hover {
+    background-color: #101010;
 }
  
  
