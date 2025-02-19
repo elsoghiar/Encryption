@@ -1,3 +1,13 @@
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("encryptTab").addEventListener("click", showEncrypt);
+    document.getElementById("decryptTab").addEventListener("click", showDecrypt);
+    document.getElementById("encryptButton").addEventListener("click", encryptText);
+    document.getElementById("decryptButton").addEventListener("click", decryptText);
+    document.getElementById("copyEncrypt").addEventListener("click", () => copyText("encryptOutput"));
+    document.getElementById("copyDecrypt").addEventListener("click", () => copyText("decryptOutput"));
+});
+
+
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
