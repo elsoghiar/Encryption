@@ -64,14 +64,19 @@ function showDecrypt() {
 
 function showNotification(message, type = "success") {
     let notification = document.getElementById("notification");
+    
+    notification.style.opacity = "1";
+    notification.style.display = "block";
+    
     notification.textContent = message;
     notification.className = `notification-${type}`;
-    notification.style.display = "block";
+
     setTimeout(() => {
         notification.style.opacity = "0";
         setTimeout(() => notification.style.display = "none", 500);
-    }, 2000);
+    }, 2500);
 }
+
 
 function encryptText() {
     let text = document.getElementById("encryptInput").value.trim();
