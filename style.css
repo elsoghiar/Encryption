@@ -84,10 +84,10 @@ h1 {
 
 #copyDecrypt, #copyEncrypt, #decryptButton, #encryptButton {
     position: absolute;
-    right: 4px;
+    right: 2px;
     font-size: 13px;
     padding: 5px 10px;
-    bottom: 4px;
+    bottom: 2px;
 }
  
 .content {
@@ -126,7 +126,7 @@ button {
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     border: none;
-    border-radius: 1px;
+    border-radius: 10px 0 0 0;
     cursor: pointer;
     font-size: 14px;
     transition: 0.3s;
