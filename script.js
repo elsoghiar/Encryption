@@ -244,7 +244,6 @@ function analyzeTodayData(transactions, totalBalance, tokensData) {
         return {
             name: token.jetton.name,
             balance: token.balance / Math.pow(10, token.jetton.decimals),
-            symbol: token.jetton.symbol || "N/A",
             image: token.jetton.image || "https://via.placeholder.com/40"
         };
     });
