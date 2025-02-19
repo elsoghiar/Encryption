@@ -196,6 +196,9 @@ button svg {
 }
 
 .tit- {
+    display: flex;
+    align-items: center;
+    gap: 3px;
     text-align: left;
     margin-top: 10px;
     margin-bottom: 5px;
