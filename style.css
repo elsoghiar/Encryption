@@ -325,3 +325,36 @@ button svg {
     transform: scale(1.05);
 }
  
+.result {
+    background: linear-gradient(to right, #222, #444);
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Rubik', sans-serif;
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.result-header, .result-2 {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.result p, .result-2 p {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.today-transactions {
+    text-align: center;
+    font-weight: 700;
+    padding: 10px;
+    background: #ff9800;
+    border-radius: 5px;
+    color: #222;
+} 
