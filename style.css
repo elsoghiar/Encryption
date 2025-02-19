@@ -365,22 +365,26 @@ button svg {
 .token-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     padding: 5px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 0.5px solid #181818;
 }
 
 .token-img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 
 .token-info {
+    margin-left: 30px;
+    margin-right: auto;
     flex-grow: 1;
 }
 
 .token-balance {
+    margin-left: auto;
+    margin-right: 20px;
     font-weight: bold;
 }
  
