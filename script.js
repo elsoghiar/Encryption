@@ -15,11 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function clearFields(container) {
+    container.querySelectorAll("input, textarea").forEach(field => field.value = "");
+}
+
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
     document.getElementById("encryptTab").classList.add("active");
     document.getElementById("decryptTab").classList.remove("active");
+    clearFields(document.getElementById("decryptSection"));
 }
 
 function showDecrypt() {
@@ -27,6 +32,7 @@ function showDecrypt() {
     document.getElementById("encryptSection").classList.add("hidden");
     document.getElementById("decryptTab").classList.add("active");
     document.getElementById("encryptTab").classList.remove("active");
+    clearFields(document.getElementById("encryptSection"));
 }
 
 function showNotification(message, type = "success") {
@@ -41,8 +47,8 @@ function showNotification(message, type = "success") {
 }
 
 function encryptText() {
-    let text = document.getElementById("encryptInput").value;
-    let key = document.getElementById("encryptKey").value;
+    let text = document.getElementById("encryptInput").value.trim();
+    let key = document.getElementById("encryptKey").value.trim();
 
     if (!text || !key) {
         showNotification("⚠️ Enter text and key!", "warning");
@@ -55,8 +61,8 @@ function encryptText() {
 }
 
 function decryptText() {
-    let encryptedText = document.getElementById("decryptInput").value;
-    let key = document.getElementById("decryptKey").value;
+    let encryptedText = document.getElementById("decryptInput").value.trim();
+    let key = document.getElementById("decryptKey").value.trim();
 
     if (!encryptedText || !key) {
         showNotification("⚠️ Enter encrypted text and key!", "warning");
@@ -72,12 +78,20 @@ function decryptText() {
         document.getElementById("decryptOutput").value = originalText;
         showNotification("✅ Decryption successful!", "success");
     } catch {
+        document.getElementById("decryptKey").value = "";
+        document.getElementById("decryptInput").value = "";
+        document.getElementById("decryptOutput").value = "";
+        
         showNotification("❌ Incorrect key or invalid text!", "error");
     }
 }
 
 function copyText(elementId) {
     let textElement = document.getElementById(elementId);
+    if (textElement.value.trim() === "") {
+        showNotification("⚠️ No text to copy!", "warning");
+        return;
+    }
     navigator.clipboard.writeText(textElement.value);
     showNotification("✅ Text copied!", "success");
 }
