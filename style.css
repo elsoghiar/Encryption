@@ -455,3 +455,21 @@ button svg {
     border-top: 1.5px dashed #181818; 
     margin: 8px 0; 
 }  
+
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #222;
+    color: #fff;
+    margin-top: 20px;
+}
+
+.privacy-policy a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.privacy-policy a:hover {
+    text-decoration: underline;
+}
