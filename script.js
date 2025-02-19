@@ -187,9 +187,9 @@ async function fetchAllTransactions(address) {
         if (!response.ok) throw new Error(`Transactions API Error: ${response.status}`);
         let data = await response.json();
 
-        if (data.transactions && data.transactions.length > 0) {
+        if (data.transactions && Array.isArray(data.transactions) && data.transactions.length > 0) {
             transactions.push(...data.transactions);
-            lastLt = data.transactions[data.transactions.length - 1].transaction_id.lt;
+            lastLt = data.transactions[data.transactions.length - 1]?.transaction_id?.lt;
             console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
         } else {
             hasMore = false;
