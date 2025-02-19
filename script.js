@@ -154,7 +154,6 @@ function copyText(elementId) {
 
 async function fetchTONData(address) {
     const BALANCE_API = `https://tonapi.io/v2/accounts/${address}`;
-    const TRANSACTIONS_API = `https://tonapi.io/v2/blockchain/accounts/${address}/transactions?limit=100`;
     
     try {
         console.log("Fetching balance for:", address);
@@ -176,26 +175,49 @@ async function fetchAllTransactions(address) {
     let transactions = [];
     let lastLt = null;
     let hasMore = true;
+    let requestCount = 0;
 
     while (hasMore) {
+        if (requestCount >= 10) { // تجنب الحظر بعد عدد معين من الطلبات
+            console.warn("Rate limit reached, waiting before retrying...");
+            await delay(5000); // انتظر 5 ثوانٍ قبل المتابعة
+            requestCount = 0; 
+        }
+
         let url = `https://tonapi.io/v2/blockchain/accounts/${address}/transactions?limit=100`;
         if (lastLt) {
             url += `&before_lt=${lastLt}`;
         }
         console.log("Fetching transactions from:", url);
-        let response = await fetch(url);
-        if (!response.ok) throw new Error(`Transactions API Error: ${response.status}`);
-        let data = await response.json();
+        try {
+            let response = await fetch(url);
+            if (response.status === 429) {
+                console.warn("Too many requests, waiting...");
+                await delay(5000); // انتظر 5 ثوانٍ ثم أعد المحاولة
+                continue;
+            }
+            if (!response.ok) throw new Error(`Transactions API Error: ${response.status}`);
+            let data = await response.json();
 
-        if (data.transactions && Array.isArray(data.transactions) && data.transactions.length > 0) {
-            transactions.push(...data.transactions);
-            lastLt = data.transactions[data.transactions.length - 1]?.transaction_id?.lt;
-            console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
-        } else {
-            hasMore = false;
+            if (data.transactions && Array.isArray(data.transactions) && data.transactions.length > 0) {
+                transactions.push(...data.transactions);
+                lastLt = data.transactions[data.transactions.length - 1]?.transaction_id?.lt;
+                console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
+                requestCount++;
+                await delay(1000); // إضافة تأخير زمني بسيط (1 ثانية) بين الطلبات
+            } else {
+                hasMore = false;
+            }
+        } catch (error) {
+            console.error("Error fetching transactions:", error);
+            break; // أوقف التكرار عند حدوث خطأ
         }
     }
     return transactions;
+}
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function analyzeTONData(transactions, totalBalance) {
