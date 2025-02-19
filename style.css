@@ -177,10 +177,12 @@ button svg {
 }
   
 #notification {
-   /* position: fixed;
-    bottom: 30px;
+    position: fixed;
+    /*bottom: 30px;*/
+    margin-top: 20px;
+    margin-bottom: 20px;
     left: 50%;
-    transform: translateX(-50%);*/
+    transform: translateX(-50%);
     width: 95%;
     padding: 10px 50px;
     border-radius: 10px;
