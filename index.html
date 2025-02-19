@@ -35,14 +35,15 @@
         </div>
         <div id="encryptSection" class="content">
             <input type="password" id="encryptKey" placeholder="🔑 Enter your secret key…">
-            <textarea id="encryptInput" placeholder="Enter text here...">
-             <button id="encryptButton">
+         <div class="container-here">
+            <textarea id="encryptInput" placeholder="Enter text here..."></textarea>
+            <button id="encryptButton">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/>
                 </svg>
                 Encrypt
             </button>
-            </textarea>
+          </div>
             <textarea id="encryptOutput" readonly placeholder="Encrypted text will appear here..."></textarea>
             <button id="copyEncrypt">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -53,14 +54,15 @@
         </div>
         <div id="decryptSection" class="content hidden">
             <input type="password" id="decryptKey" placeholder="🔑 Enter your secret key…">
-            <textarea id="decryptInput" placeholder="Enter encrypted text here...">
+          <div class="container-here">
+            <textarea id="decryptInput" placeholder="Enter encrypted text here..."></textarea>
             <button id="decryptButton">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="16" r="1"/><rect width="18" height="12" x="3" y="10" rx="2"/><path d="M7 10V7a5 5 0 0 1 9.33-2.5"/>
                 </svg>
                 Decrypt
             </button>
-            </textarea>
+          </div>
             <textarea id="decryptOutput" readonly placeholder="Original text will appear here..."></textarea>
             <button id="copyDecrypt">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
