@@ -239,10 +239,13 @@ function delay(ms) {
 
 function analyzeTodayData(transactions, totalBalance, tokensData) {
     let todaySent = 0, todayReceived = 0, todayComments = 0, todayBalance = 0;
+    
     let tokenDetails = tokensData.balances.map(token => {
         return {
             name: token.jetton.name,
-            balance: token.balance / Math.pow(10, token.jetton.decimals)
+            balance: token.balance / Math.pow(10, token.jetton.decimals),
+            symbol: token.jetton.symbol || "N/A",
+            image: token.jetton.image || "https://via.placeholder.com/40"
         };
     });
 
@@ -259,9 +262,10 @@ function analyzeTodayData(transactions, totalBalance, tokensData) {
             });
         }
     });
-    
+
     displayTodayData(todaySent, todayReceived, todayComments, todayBalance, totalBalance, tokenDetails);
 }
+
 
 function displayTodayData(todaySent, todayReceived, todayComments, todayBalance, totalBalance, tokenDetails) {
     document.getElementById("todaySent").textContent = todaySent >= 100 ? "100+" : todaySent;
@@ -269,15 +273,34 @@ function displayTodayData(todaySent, todayReceived, todayComments, todayBalance,
     document.getElementById("todayComments").textContent = todayComments >= 100 ? "100+" : todayComments;
     document.getElementById("todayBalance").textContent = todayBalance.toFixed(6) + " TON";
     document.getElementById("totalBalance").textContent = totalBalance.toFixed(6) + " TON";
-    
+
     let tokenList = document.getElementById("tokenList");
     tokenList.innerHTML = "";
+
     tokenDetails.forEach(token => {
         let listItem = document.createElement("li");
-        listItem.textContent = `${token.name}: ${token.balance}`;
+        listItem.className = "token-item";
+
+        let tokenImg = document.createElement("img");
+        tokenImg.src = token.image;
+        tokenImg.alt = token.name;
+        tokenImg.className = "token-img";
+
+        let tokenInfo = document.createElement("div");
+        tokenInfo.className = "token-info";
+        tokenInfo.innerHTML = `<strong>${token.name}</strong><br><small>${token.symbol}</small>`;
+
+        let tokenBalance = document.createElement("span");
+        tokenBalance.textContent = token.balance.toFixed(6);
+
+        listItem.appendChild(tokenImg);
+        listItem.appendChild(tokenInfo);
+        listItem.appendChild(tokenBalance);
+
         tokenList.appendChild(listItem);
     });
 }
+
 
 document.getElementById("checkButton").addEventListener("click", () => {
     let address = document.getElementById("walletAddress").value.trim();
