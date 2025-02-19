@@ -27,7 +27,7 @@ body {
 
 .container {
     width: 100%;
-    max-width: 300px;
+    max-width: 330px;
     height: 100%;
     margin: 0 auto;
     display: flex;
@@ -224,11 +224,8 @@ button svg {
 } 
   
 #notification {
-    position: fixed;
     margin-top: 20px;
     margin-bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 95%;
     padding: 10px 50px;
     border-radius: 10px;
