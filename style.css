@@ -308,8 +308,8 @@ button svg {
 } 
 
 .social-btn {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
@@ -342,8 +342,8 @@ button svg {
     border: 1px dashed #181818;
     background: rgba(0, 0, 0, 0.1);
     color: white;
-    width: 150px;
-    height: 40px;
+    width: 130px;
+    height: 35px;
     font-size: 13px;
     font-weight: 600;
     border-radius: 50px;
