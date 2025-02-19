@@ -155,8 +155,8 @@ button svg {
 
 .footer {
     font-weight: 500;
-    margin-top: 25px;
-    margin-bottom: 0;
+    margin-top: 10px;
+    margin-bottom: 15px;
     text-align: center;
     font-size: 13px;
     color: #808080;
@@ -403,7 +403,7 @@ button svg {
 .token-balance {
     margin-left: auto;
     margin-right: 10px;
-}
+} 
  
 .modal {
     background-color: rgba(255, 255, 255, 0);
@@ -458,15 +458,11 @@ button svg {
 
 
 footer {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 12px;
     color: #808080;
     text-align: left;
     margin-bottom: 20px;
     margin-top: 20px;
-}
-
-.privacy-policy a {
-    color: #2D83EC;
 }
 
