@@ -326,18 +326,15 @@ button svg {
 }
  
 .result {
-    background: linear-gradient(to right, #222, #444);
+    width: 100%;
+    font-size: 14px;
     color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    font-family: 'Rubik', sans-serif;
-    max-width: 400px;
+    padding: 10px;
     margin: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .result-header, .result-2 {
-    padding: 15px;
+    padding: 10px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     margin-bottom: 10px;
@@ -351,10 +348,13 @@ button svg {
 }
 
 .today-transactions {
-    text-align: center;
-    font-weight: 700;
-    padding: 10px;
-    background: #ff9800;
-    border-radius: 5px;
-    color: #222;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #808080;
+    font-weight: 500;
 } 
