@@ -466,9 +466,28 @@ button svg {
 }  
 
 footer {
-    font-size: 11px;
+    font-size: 10px;
     color: #808080;
     text-align: left;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin: 20px 0;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+.privacy-policy h3 {
+    font-size: 12px;
+    font-weight: 400;
+    color: #4a4a4a;
+    margin-bottom: 8px;
+}
+
+.privacy-policy p {
+    margin: 4px 0;
+    font-weight: 500;
+}
+
+.privacy-policy a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
 }
