@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
     initializeEventListeners();
     showEncrypt();
-
     try {
         Telegram.WebApp.requestFullscreen();
     } catch {
         console.warn("Fullscreen mode is not supported. Running in normal mode.");
+        document.documentElement.style.setProperty("--container-padding-top", "10px");
     }
 });
 
