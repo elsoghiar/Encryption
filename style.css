@@ -340,12 +340,12 @@ button svg {
 .result p, .result-2 p {
     width: 100%;
     display: flex;
-    padding: 5px;
+    padding: 6px;
     border-radius: 5px;
-    border: 2px dashed #181818;
+    border: 1px dashed #181818;
     justify-content: space-between;
     font-weight: 600;
-    margin: 8px 0;
+    margin: 5px 0;
 }
 
 .today-transactions {
