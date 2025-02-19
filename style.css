@@ -198,6 +198,15 @@ button svg {
     color: #808080;
     font-weight: 500;
 }
+
+.tit- {
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #808080;
+    font-weight: 500;
+} 
   
 #notification {
     position: fixed;
