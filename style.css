@@ -356,6 +356,12 @@ button svg {
     font-weight: 500;
 } 
 
+.today-transactions span {
+    color: #fff;
+    border-bottom: 1px solid #fff; 
+    padding-bottom: 1px; 
+} 
+
 .token-list {
     list-style-type: none;
     padding: 0;
@@ -427,21 +433,4 @@ button svg {
     float: right;
     font-size: 25px;
     cursor: pointer;
-}
-
-#showTokensButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    margin-top: 8px;
-    margin-bottom: 10px;
-    font-weight: 600;
-    padding: 5px 10px;
-    background: linear-gradient(90deg, #2D83EC, #9B59B6);
-    color: white;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: 0.3s;
 }
