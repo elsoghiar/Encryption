@@ -75,8 +75,30 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    position: relative;
 }
 
+/* أزرار التشفير وفك التشفير */
+#encryptButton, #decryptButton {
+    position: absolute;
+    right: 10px;
+    bottom: -40px;
+    width: auto;
+    padding: 8px 12px;
+}
+
+/* أزرار النسخ داخل خانة الإخراج */
+#copyEncrypt, #copyDecrypt {
+    position: absolute;
+    right: 10px;
+    bottom: 10px; 
+}
+
+textarea {
+    position: relative;
+    padding-bottom: 10px; 
+}
+ 
 .hidden {
     display: none;
 }
