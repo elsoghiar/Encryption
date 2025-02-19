@@ -287,7 +287,7 @@ function displayTodayData(todaySent, todayReceived, todayComments, todayBalance,
 
         let tokenInfo = document.createElement("div");
         tokenInfo.className = "token-info";
-        tokenInfo.innerHTML = `<strong>${token.name}</strong><br><small>${token.symbol}</small>`;
+        tokenInfo.innerHTML = `<strong>${token.name}</strong>`;
 
         let tokenBalance = document.createElement("span");
         tokenBalance.textContent = token.balance.toFixed(6);
