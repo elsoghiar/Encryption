@@ -285,7 +285,8 @@ button svg {
     justify-content: center; 
     align-items: center;
     gap: 15px; 
-    margin-top: 20px;
+    margin-bottom: 15px;
+    margin-top: 10px;
 }
 
 .support-btn,
@@ -293,7 +294,7 @@ button svg {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 3px;
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     border: none;
