@@ -284,10 +284,9 @@ button svg {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
     margin-top: 10px;
     margin-bottom: 20px;
-    left: 20px;
+    margin-left: 20px;
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     border: none;
