@@ -25,12 +25,26 @@ body {
     flex-direction: column;
 }
 
-.container {
+/*.container {
     background: #0C0C0C;
     padding: 20px;
     width: 350px;
     text-align: center;
-}
+}*/
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    background: #0C0C0C;
+    background-size: cover;
+    background-position: center;
+}  
 
 h1 {
     font-size: 22px;
