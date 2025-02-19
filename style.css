@@ -68,8 +68,8 @@ button, input, select, textarea {
     background: none;
     border-radius: 0;
     white-space: nowrap;
-    border-bottom: 1px solid #808080;
-    color: #808080;
+    border-bottom: 1px solid #4a4a4a;
+    color: #4a4a4a;
     font-size: 13px;
     cursor: pointer; 
     transition: 0.5s;
@@ -168,7 +168,7 @@ button svg {
     margin-bottom: 15px;
     text-align: center;
     font-size: 13px;
-    color: #808080;
+    color: #4a4a4a;
 }
 
 .footer .highlight {
@@ -191,7 +191,7 @@ button svg {
     margin: 15px auto;
     text-align: left;
     font-size: 12px;
-    color: #808080;
+    color: #4a4a4a;
 }  
 
 .p-title {
@@ -199,7 +199,7 @@ button svg {
     margin: 2px auto;
     text-align: left;
     font-size: 12px;
-    color: #808080;
+    color: #4a4a4a;
 }  
  
 .page-title {
@@ -224,7 +224,7 @@ button svg {
     margin-top: 10px;
     margin-bottom: 20px;
     font-size: 13px;
-    color: #808080;
+    color: #4a4a4a;
     font-weight: 500;
 }
 
@@ -236,7 +236,7 @@ button svg {
     margin-top: 10px;
     margin-bottom: 5px;
     font-size: 13px;
-    color: #808080;
+    color: #4a4a4a;
     font-weight: 500;
 } 
   
@@ -327,7 +327,8 @@ button svg {
     justify-content: center;
     gap: 3px;
     white-space: nowrap;
-    background: linear-gradient(90deg, #2D83EC, #9B59B6);
+    border: 2px dashed #181818;
+    background-color: rgba(0, 0, 0, 0.1);
     color: white;
     border: none;
     padding: 5px 20px;
@@ -370,7 +371,7 @@ button svg {
     margin-top: 10px;
     margin-bottom: 5px;
     font-size: 13px;
-    color: #808080;
+    color: #4a4a4a;
     font-weight: 500;
 } 
 
@@ -414,7 +415,7 @@ button svg {
     backdrop-filter: blur(20px); 
     padding: 20px;
     border-radius: 10px 10px 0 0; 
-    border-top: 2px solid #343434;
+    border-top: 2px solid #4a4a4a;
     text-align: center;
     position: fixed;
     bottom: 0;
@@ -472,7 +473,7 @@ footer {
 .privacy-policy h3 {
     font-size: 13px;
     font-weight: 600;
-    color: #808080;
+    color: #181818;
     margin-bottom: 8px;
 }
 
