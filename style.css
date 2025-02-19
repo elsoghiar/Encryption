@@ -83,12 +83,21 @@ h1 {
     resize: none;
 }
 
-#checkButton, #copyDecrypt, #copyEncrypt, #decryptButton, #encryptButton {
+#copyDecrypt, #copyEncrypt, #decryptButton, #encryptButton {
     position: absolute;
     right: 2px;
     font-size: 13px;
     padding: 5px 10px;
     bottom: 2px;
+}
+
+ #checkButton {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    font-size: 13px;
+    padding: 5px 8px;
+    bottom: 0;
 }
  
 .content {
