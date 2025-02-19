@@ -178,9 +178,9 @@ async function fetchAllTransactions(address) {
     let requestCount = 0;
 
     while (hasMore) {
-        if (requestCount >= 10) { // تجنب الحظر بعد عدد معين من الطلبات
+        if (requestCount >= 10) {
             console.warn("Rate limit reached, waiting before retrying...");
-            await delay(5000); // انتظر 5 ثوانٍ قبل المتابعة
+            await delay(5000);
             requestCount = 0; 
         }
 
@@ -193,7 +193,7 @@ async function fetchAllTransactions(address) {
             let response = await fetch(url);
             if (response.status === 429) {
                 console.warn("Too many requests, waiting...");
-                await delay(5000); // انتظر 5 ثوانٍ ثم أعد المحاولة
+                await delay(5000);
                 continue;
             }
             if (!response.ok) throw new Error(`Transactions API Error: ${response.status}`);
@@ -201,16 +201,16 @@ async function fetchAllTransactions(address) {
 
             if (data.transactions && Array.isArray(data.transactions) && data.transactions.length > 0) {
                 transactions.push(...data.transactions);
-                lastLt = data.transactions[data.transactions.length - 1].transaction_id.lt; // تحديث lastLt
+                lastLt = data.transactions[data.transactions.length - 1]?.transaction_id?.lt || null;
                 console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
                 requestCount++;
-                await delay(1000); // إضافة تأخير زمني بسيط (1 ثانية) بين الطلبات
+                await delay(1000);
             } else {
                 hasMore = false;
             }
         } catch (error) {
             console.error("Error fetching transactions:", error);
-            break; // أوقف التكرار عند حدوث خطأ
+            break;
         }
     }
     return transactions;
