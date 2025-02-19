@@ -143,3 +143,86 @@ function copyText(elementId) {
     navigator.clipboard.writeText(textElement.value);
     showNotification("✅ Text copied!", "success");
 }
+
+
+
+
+
+
+
+async function fetchTONData(address) {
+    const BALANCE_API = `https://tonapi.io/v2/accounts/${address}`;
+    const TRANSACTIONS_API = `https://tonapi.io/v2/blockchain/accounts/${address}/transactions`;
+
+    try {
+        console.log("Fetching balance for:", address);
+        let balanceResponse = await fetch(BALANCE_API);
+        if (!balanceResponse.ok) throw new Error(`Balance API Error: ${balanceResponse.status}`);
+        let balanceData = await balanceResponse.json();
+        let totalBalance = parseFloat(balanceData.balance) / 1e9;
+        console.log("Balance data:", balanceData);
+
+        console.log("Fetching transactions for:", address);
+        let transactionsResponse = await fetch(TRANSACTIONS_API);
+        if (!transactionsResponse.ok) throw new Error(`Transactions API Error: ${transactionsResponse.status}`);
+        let transactionsData = await transactionsResponse.json();
+        console.log("Transactions data:", transactionsData);
+
+        if (!transactionsData.transactions || transactionsData.transactions.length === 0) {
+            throw new Error("No transactions found for this address.");
+        }
+
+        analyzeTONData(transactionsData.transactions, totalBalance);
+    } catch (error) {
+        console.error("Error fetching TON data:", error);
+        alert("Failed to fetch data: " + error.message);
+    }
+}
+
+function analyzeTONData(transactions, totalBalance) {
+    let sentCount = 0, receivedCount = 0, totalComments = 0;
+    let todaySent = 0, todayReceived = 0, todayBalance = 0;
+    const today = new Date().toISOString().split('T')[0];
+
+    transactions.forEach(tx => {
+        let timestamp = new Date(tx.utime * 1000).toISOString().split('T')[0];
+
+        if (tx.in_msg) {
+            receivedCount++;
+            if (timestamp === today) {
+                todayReceived++;
+                todayBalance += parseInt(tx.in_msg.value) / 1e9;
+            }
+            if (tx.in_msg.msg_data && tx.in_msg.msg_data.body) totalComments++;
+        }
+
+        if (tx.out_msgs && tx.out_msgs.length > 0) {
+            sentCount++;
+            if (timestamp === today) todaySent++;
+            tx.out_msgs.forEach(msg => {
+                if (msg.msg_data && msg.msg_data.body) totalComments++;
+            });
+        }
+    });
+    
+    displayTONData(sentCount, receivedCount, totalComments, todaySent, todayReceived, todayBalance, totalBalance);
+}
+
+function displayTONData(sent, received, comments, todaySent, todayReceived, todayBalance, totalBalance) {
+    document.getElementById("totalSent").textContent = sent;
+    document.getElementById("totalReceived").textContent = received;
+    document.getElementById("totalComments").textContent = comments;
+    document.getElementById("todaySent").textContent = todaySent;
+    document.getElementById("todayReceived").textContent = todayReceived;
+    document.getElementById("todayBalance").textContent = todayBalance.toFixed(6) + " TON";
+    document.getElementById("totalBalance").textContent = totalBalance.toFixed(6) + " TON";
+}
+
+document.getElementById("checkButton").addEventListener("click", () => {
+    let address = document.getElementById("walletAddress").value.trim();
+    if (address) {
+        fetchTONData(address);
+    } else {
+        alert("Please enter a valid TON wallet address");
+    }
+});
