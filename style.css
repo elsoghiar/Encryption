@@ -49,9 +49,10 @@ h1 {
     padding: 10px;
     background: none;
     border-radius: 0;
+    white-space: nowrap;
     border-bottom: 1px solid #808080;
     color: #808080;
-    font-size: 15px;
+    font-size: 13px;
     cursor: pointer; 
     transition: 0.5s;
     font-weight: bold;
