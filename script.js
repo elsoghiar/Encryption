@@ -178,7 +178,7 @@ async function fetchTONData(address) {
         analyzeTONData(transactionsData.transactions, totalBalance);
     } catch (error) {
         console.error("Error fetching TON data:", error);
-        alert("Failed to fetch data: " + error.message);
+        showNotification("Failed to fetch data: " + error.message , "error");
     }
 }
 
@@ -226,6 +226,6 @@ document.getElementById("checkButton").addEventListener("click", () => {
     if (address) {
         fetchTONData(address);
     } else {
-        alert("Please enter a valid TON wallet address");
+        showNotification("Please enter a valid TON wallet address", "warning");
     }
 });
