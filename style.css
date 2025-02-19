@@ -146,7 +146,7 @@ button svg {
 
 .footer {
     font-weight: 500;
-    margin-top: 10px;
+    margin-top: 25px;
     margin-bottom: 0;
     text-align: center;
     font-size: 13px;
@@ -262,7 +262,7 @@ button svg {
     display: flex;
     justify-content: center; 
     align-items: center;
-    gap: 15px; 
+    gap: 20px; 
     width: 100%;
     margin: 80px auto 5px auto; 
 } 
@@ -272,7 +272,7 @@ button svg {
     margin: 10px auto 5px auto; 
     background-color: rgba(0, 0, 0, 0.1);
     display: flex;
-    gap: 15px;
+    gap: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     padding: 10px; 
 } 
