@@ -201,10 +201,17 @@ async function fetchAllTransactions(address) {
 
             if (data.transactions && Array.isArray(data.transactions) && data.transactions.length > 0) {
                 transactions.push(...data.transactions);
-                lastLt = data.transactions[data.transactions.length - 1]?.transaction_id?.lt || null;
-                console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
-                requestCount++;
-                await delay(1000);
+                let newLastLt = data.transactions[data.transactions.length - 1]?.transaction_id?.lt || null;
+                
+                if (newLastLt === lastLt) {
+                    console.log("Duplicate lastLt detected, stopping fetch.");
+                    hasMore = false;
+                } else {
+                    lastLt = newLastLt;
+                    console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
+                    requestCount++;
+                    await delay(1000);
+                }
             } else {
                 hasMore = false;
             }
