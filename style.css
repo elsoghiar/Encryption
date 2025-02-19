@@ -2,7 +2,6 @@
 :root {
     --container-padding-top: 90px;
 }
-
 button, input, select, textarea {
     outline: none;
     box-shadow: none;
@@ -136,7 +135,7 @@ input, textarea {
 
 #walletAddress {
     font-size: 13px;
-    height: 50px;
+    height: 70px;
     resize: none; 
 } 
 
