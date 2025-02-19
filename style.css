@@ -79,20 +79,19 @@ h1 {
 
 #decryptInput, #encryptInput {
     padding-right: 50px; 
-    
     resize: none;
 }
 
 #decryptButton, #encryptButton {
     position: absolute;
     right: 10px;
+    padding: 8px 13px;
     bottom: 10px;
 }
 
 #decryptButton:hover, #encryptButton:hover {
     background-color: #101010;
 }
- 
  
 .content {
     display: flex;
@@ -108,7 +107,7 @@ input, textarea {
     background: #0C0C0C;
     width: 100%;
     color: #fff;
-    padding: 10px;
+    padding: 15px;
     border: 1px dashed #181818;
     border-radius: 5px;
     font-size: 14px;
