@@ -1,11 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
     initializeEventListeners();
     showEncrypt();
+
     try {
-        Telegram.WebApp.requestFullscreen();
-    } catch {
-        console.warn("Fullscreen mode is not supported. Running in normal mode.");
-        document.documentElement.style.setProperty("--container-padding-top", "10px");
+        if (window.Telegram?.WebApp) {
+            Telegram.WebApp.requestFullscreen();
+        } else {
+            console.warn("Running outside Telegram. Fullscreen mode is not available.");
+            document.documentElement.style.setProperty("--container-padding-top", "25px");
+        }
+    } catch (error) {
+        console.warn("Failed to enter fullscreen mode:", error);
+        document.documentElement.style.setProperty("--container-padding-top", "25px");
     }
 });
 
