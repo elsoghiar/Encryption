@@ -165,7 +165,7 @@ button svg {
 .footer {
     font-weight: 500;
     margin-top: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-align: center;
     font-size: 13px;
     color: #4a4a4a;
@@ -204,7 +204,6 @@ button svg {
  
 .page-title {
     text-align: left;
-    /*margin-top: 90px;*/
     font-size: 22px;
     white-space: nowrap;
     color: #fff;
