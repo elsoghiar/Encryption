@@ -3,10 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("decryptTab").addEventListener("click", showDecrypt);
     document.getElementById("encryptButton").addEventListener("click", encryptText);
     document.getElementById("decryptButton").addEventListener("click", decryptText);
-    document.getElementById("copyEncrypt").addEventListener("click", () => copyText("encryptOutput"));
-    document.getElementById("copyDecrypt").addEventListener("click", () => copyText("decryptOutput"));
-});
+    document.getElementById("copyEncrypt").addEventListener("click", () => copyText('encryptOutput'));
+    document.getElementById("copyDecrypt").addEventListener("click", () => copyText('decryptOutput'));
 
+    showEncrypt();
+
+    try {
+        Telegram.WebApp.requestFullscreen();
+    } catch {
+        console.warn("Fullscreen mode is not supported. Running in normal mode.");
+    }
+});
 
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
@@ -21,14 +28,6 @@ function showDecrypt() {
     document.getElementById("decryptTab").classList.add("active");
     document.getElementById("encryptTab").classList.remove("active");
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    try {
-        Telegram.WebApp.requestFullscreen();
-    } catch {
-        console.warn("Fullscreen mode is not supported. Running in normal mode.");
-    }
-});
 
 function showNotification(message, type = "success") {
     let notification = document.getElementById("notification");
@@ -82,5 +81,3 @@ function copyText(elementId) {
     navigator.clipboard.writeText(textElement.value);
     showNotification("✅ Text copied!", "success");
 }
-
-document.addEventListener("DOMContentLoaded", showEncrypt);
