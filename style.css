@@ -285,6 +285,7 @@ button svg {
     justify-content: center; 
     align-items: center;
     gap: 15px; 
+    width: 100%;
     margin-bottom: 15px;
     margin-top: 10px;
 }
@@ -298,6 +299,7 @@ button svg {
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     border: none;
+    width: 45%;
     padding: 8px 15px;
     font-size: 13px;
     font-weight: 600;
