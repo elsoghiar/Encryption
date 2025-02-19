@@ -213,12 +213,13 @@ button svg {
 }
 
 .social-container {
-    width: 100%; 
+    width: fit-content; 
     margin: 60px auto 10px auto; 
     background-color: rgba(0, 0, 0, 0.1);
     display: flex;
     gap: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px; 
 } 
 
 .social-btn {
