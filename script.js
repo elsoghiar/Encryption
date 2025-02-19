@@ -33,13 +33,14 @@ function initializeEventListeners() {
 function resetEventListeners() {
     let buttons = ["encryptButton", "decryptButton", "copyEncrypt", "copyDecrypt"];
     buttons.forEach(id => {
-        let oldElement = document.getElementById(id);
-        let newElement = oldElement.cloneNode(true);
-        oldElement.parentNode.replaceChild(newElement, oldElement);
+        let button = document.getElementById(id);
+        let newButton = button.cloneNode(true);
+        button.replaceWith(newButton); 
     });
 
     initializeEventListeners();
 }
+
 
 function clearFields(container) {
     container.querySelectorAll("input, textarea").forEach(field => field.value = "");
