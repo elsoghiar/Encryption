@@ -29,7 +29,7 @@
       </div>
         <div class="tabs">
             <button id="encryptTab" class="active">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
                     <circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/>
                 </svg>
                 ENCRYPT
@@ -48,10 +48,9 @@
             </button>
         </div>
         <div id="WalletAnalyzer" class="content hidden">
-        <h2>TON Wallet Analyzer</h2>
-        <input type="text" id="walletAddress" placeholder="Enter TON Wallet Address">
-        <button id="checkButton">Check Wallet</button>
-        <div class="result">
+         <input type="text" id="walletAddress" placeholder="Enter Ton Wallet Address…">
+         <button id="checkButton">Check Wallet</button>
+          <div class="result">
             <p>Total Sent: <span id="totalSent">0</span></p>
             <p>Total Received: <span id="totalReceived">0</span></p>
             <p>Total Comments: <span id="totalComments">0</span></p>
@@ -59,7 +58,7 @@
             <p>Transactions Received Today: <span id="todayReceived">0</span></p>
             <p>Balance Received Today: <span id="todayBalance">0 TON</span></p>
             <p>Total Balance: <span id="totalBalance">0 TON</span></p>
-        </div>
+          </div>
         </div>
         <div id="encryptSection" class="content">
             <input type="password" id="encryptKey" placeholder="🔑 Enter your secret key…">
