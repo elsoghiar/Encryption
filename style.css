@@ -258,9 +258,18 @@ button svg {
     color: #ffcc00;
 }
 
+.tab-Profile {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 15px; 
+    width: 100%;
+    margin: 80px auto 5px auto; 
+} 
+
 .social-container {
     width: fit-content; 
-    margin: 80px auto 15px auto; 
+    margin: 10px auto 5px auto; 
     background-color: rgba(0, 0, 0, 0.1);
     display: flex;
     gap: 15px;
@@ -295,16 +304,6 @@ button svg {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 } 
 
-.tab-Profile {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    gap: 15px; 
-    width: 100%;
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
 .support-btn,
 .Profile-btn {
     display: flex;
@@ -314,7 +313,7 @@ button svg {
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     border: none;
-    width: 50%;
+    width: 40%;
     padding: 7px 15px;
     font-size: 13px;
     font-weight: 600;
