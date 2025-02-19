@@ -20,6 +20,7 @@ body {
     background: #0C0C0C;
     display: flex;
     justify-content: center;
+    overflow-y: auto;
     align-items: center;
     height: 100vh;
     flex-direction: column;
@@ -225,8 +226,8 @@ button svg {
 } 
   
 #notification {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 95%;
     padding: 10px 50px;
     border-radius: 10px;
