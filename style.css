@@ -84,10 +84,10 @@ h1 {
 
 #decryptButton, #encryptButton {
     position: absolute;
-    right: 10px;
+    right: 5px;
     font-size: 13px;
     padding: 5px 10px;
-    bottom: 10px;
+    bottom: 5px;
 }
 
 #decryptButton:hover, #encryptButton:hover {
