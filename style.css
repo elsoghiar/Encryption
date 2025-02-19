@@ -499,6 +499,10 @@ footer {
     font-weight: 500;
 }
 
+.key-content  {
+    position: relative;
+}
+ 
 .key-content svg {
     position: absolute;
     left: 10px;
