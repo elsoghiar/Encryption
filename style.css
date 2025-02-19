@@ -355,3 +355,32 @@ button svg {
     color: #808080;
     font-weight: 500;
 } 
+
+
+.token-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.token-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.token-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.token-info {
+    flex-grow: 1;
+}
+
+.token-balance {
+    font-weight: bold;
+}
+ 
