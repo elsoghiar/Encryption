@@ -1,11 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("encryptTab").addEventListener("click", showEncrypt);
-    document.getElementById("decryptTab").addEventListener("click", showDecrypt);
-    document.getElementById("encryptButton").addEventListener("click", encryptText);
-    document.getElementById("decryptButton").addEventListener("click", decryptText);
-    document.getElementById("copyEncrypt").addEventListener("click", () => copyText('encryptOutput'));
-    document.getElementById("copyDecrypt").addEventListener("click", () => copyText('decryptOutput'));
-
+    initializeEventListeners();
     showEncrypt();
 
     try {
@@ -14,6 +8,38 @@ document.addEventListener("DOMContentLoaded", () => {
         console.warn("Fullscreen mode is not supported. Running in normal mode.");
     }
 });
+
+function initializeEventListeners() {
+    document.getElementById("encryptTab").addEventListener("click", showEncrypt);
+    document.getElementById("decryptTab").addEventListener("click", showDecrypt);
+    document.getElementById("encryptButton").addEventListener("click", () => {
+        encryptText();
+        resetEventListeners();
+    });
+    document.getElementById("decryptButton").addEventListener("click", () => {
+        decryptText();
+        resetEventListeners();
+    });
+    document.getElementById("copyEncrypt").addEventListener("click", () => {
+        copyText('encryptOutput');
+        resetEventListeners();
+    });
+    document.getElementById("copyDecrypt").addEventListener("click", () => {
+        copyText('decryptOutput');
+        resetEventListeners();
+    });
+}
+
+function resetEventListeners() {
+    let buttons = ["encryptButton", "decryptButton", "copyEncrypt", "copyDecrypt"];
+    buttons.forEach(id => {
+        let oldElement = document.getElementById(id);
+        let newElement = oldElement.cloneNode(true);
+        oldElement.parentNode.replaceChild(newElement, oldElement);
+    });
+
+    initializeEventListeners();
+}
 
 function clearFields(container) {
     container.querySelectorAll("input, textarea").forEach(field => field.value = "");
