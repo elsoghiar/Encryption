@@ -281,12 +281,20 @@ button svg {
     width: 100%;
 } 
 
+.title7 {
+    text-align: left;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #4a4a4a;
+    font-weight: 500;
+} 
+
 .social-container {
     width: 100%;
     width: fit-content; 
     margin-left: 0;
     margin-right: auto;
-    margin-top: 20px;
     margin-bottom: 10px;
     display: flex;
     gap: 15px;
