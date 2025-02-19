@@ -201,7 +201,7 @@ async function fetchAllTransactions(address) {
 
             if (data.transactions && Array.isArray(data.transactions) && data.transactions.length > 0) {
                 transactions.push(...data.transactions);
-                lastLt = data.transactions[data.transactions.length - 1]?.transaction_id?.lt;
+                lastLt = data.transactions[data.transactions.length - 1].transaction_id.lt; // تحديث lastLt
                 console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
                 requestCount++;
                 await delay(1000); // إضافة تأخير زمني بسيط (1 ثانية) بين الطلبات
