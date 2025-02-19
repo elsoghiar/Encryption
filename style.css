@@ -78,7 +78,7 @@ h1 {
     align-items: center;
 }
 
-#decryptInput, #encryptInput {
+#walletAddress, #decryptInput, #encryptInput {
     padding-right: 50px; 
     resize: none;
 }
