@@ -84,10 +84,10 @@ h1 {
 
 #copyDecrypt, #copyEncrypt, #decryptButton, #encryptButton {
     position: absolute;
-    right: 5px;
+    right: 0;
     font-size: 13px;
     padding: 5px 10px;
-    bottom: 5px;
+    bottom: 0;
 }
 
 #decryptButton:hover, #encryptButton:hover {
