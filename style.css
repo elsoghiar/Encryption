@@ -335,7 +335,6 @@ button svg {
 
 .result-header, .result-2 {
     width: 100%;
-    padding: 5px;
     background: rgba(255, 255, 255, 0.00001);
     border-radius: 10px;
     margin-bottom: 10px;
@@ -343,6 +342,8 @@ button svg {
 
 .result p, .result-2 p {
     display: flex;
+    padding: 5px;
+    border: 2px dashed #181818;
     justify-content: space-between;
     font-weight: 600;
     margin: 8px 0;
