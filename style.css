@@ -499,14 +499,27 @@ footer {
     font-weight: 500;
 }
 
-.key-content  {
+.key-content {
     position: relative;
+    width: 100%;
 }
- 
+
 .key-content svg {
     position: absolute;
-    left: 10px;
-    width: 20px;
-    height: 20px;
+    left: 10px; 
+    width: 24px;
+    height: 24px;
     color: #fff;
 }
+
+/*.key-content input {
+    width: 100%;
+    background: #0C0C0C;
+    color: #fff;
+    padding: 10px;
+    padding-left: 40px; 
+    border: 1px dashed #181818;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+}*/
