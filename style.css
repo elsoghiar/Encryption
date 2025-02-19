@@ -83,7 +83,7 @@ h1 {
     resize: none;
 }
 
-#copyDecrypt, #copyEncrypt, #decryptButton, #encryptButton {
+#checkButton, #copyDecrypt, #copyEncrypt, #decryptButton, #encryptButton {
     position: absolute;
     right: 2px;
     font-size: 13px;
@@ -91,16 +91,6 @@ h1 {
     bottom: 2px;
 }
 
- #checkButton {
-    position: absolute;
-    right: 0;
-    height: 100%;
-    border-radius: 0 4px 0 4px;
-    font-size: 13px;
-    padding: 5px 8px;
-    bottom: 0;
-}
- 
 .content {
     display: flex;
     flex-direction: column;
@@ -121,6 +111,11 @@ input, textarea {
     font-size: 14px;
     font-weight: 500;
 }
+
+#walletAddress{
+    height: 40px;
+    resize: none; 
+} 
 
 textarea {
     height: 80px;
