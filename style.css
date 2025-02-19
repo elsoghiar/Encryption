@@ -376,9 +376,8 @@ button svg {
 }
 
 .token-info {
-    margin-left: 0;
+    margin-left: 10px;
     margin-right: auto;
-    flex-grow: 1;
 }
 
 .token-balance {
