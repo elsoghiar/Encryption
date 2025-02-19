@@ -152,11 +152,10 @@ function copyText(elementId) {
 
 
 
-
 async function fetchTONData(address) {
     const BALANCE_API = `https://tonapi.io/v2/accounts/${address}`;
-    const TRANSACTIONS_API = `https://tonapi.io/v2/blockchain/accounts/${address}/transactions`;
-
+    const TRANSACTIONS_API = `https://tonapi.io/v2/blockchain/accounts/${address}/transactions?limit=100`;
+    
     try {
         console.log("Fetching balance for:", address);
         let balanceResponse = await fetch(BALANCE_API);
@@ -165,21 +164,38 @@ async function fetchTONData(address) {
         let totalBalance = parseFloat(balanceData.balance) / 1e9;
         console.log("Balance data:", balanceData);
 
-        console.log("Fetching transactions for:", address);
-        let transactionsResponse = await fetch(TRANSACTIONS_API);
-        if (!transactionsResponse.ok) throw new Error(`Transactions API Error: ${transactionsResponse.status}`);
-        let transactionsData = await transactionsResponse.json();
-        console.log("Transactions data:", transactionsData);
-
-        if (!transactionsData.transactions || transactionsData.transactions.length === 0) {
-            throw new Error("No transactions found for this address.");
-        }
-
-        analyzeTONData(transactionsData.transactions, totalBalance);
+        let allTransactions = await fetchAllTransactions(address);
+        analyzeTONData(allTransactions, totalBalance);
     } catch (error) {
         console.error("Error fetching TON data:", error);
-        showNotification("Failed to fetch data: " + error.message , "error");
+        alert("Failed to fetch data: " + error.message);
     }
+}
+
+async function fetchAllTransactions(address) {
+    let transactions = [];
+    let lastLt = null;
+    let hasMore = true;
+
+    while (hasMore) {
+        let url = `https://tonapi.io/v2/blockchain/accounts/${address}/transactions?limit=100`;
+        if (lastLt) {
+            url += `&before_lt=${lastLt}`;
+        }
+        console.log("Fetching transactions from:", url);
+        let response = await fetch(url);
+        if (!response.ok) throw new Error(`Transactions API Error: ${response.status}`);
+        let data = await response.json();
+
+        if (data.transactions && data.transactions.length > 0) {
+            transactions.push(...data.transactions);
+            lastLt = data.transactions[data.transactions.length - 1].transaction_id.lt;
+            console.log(`Fetched ${data.transactions.length} transactions, total: ${transactions.length}`);
+        } else {
+            hasMore = false;
+        }
+    }
+    return transactions;
 }
 
 function analyzeTONData(transactions, totalBalance) {
@@ -226,6 +242,6 @@ document.getElementById("checkButton").addEventListener("click", () => {
     if (address) {
         fetchTONData(address);
     } else {
-        showNotification("Please enter a valid TON wallet address", "warning");
+        alert("Please enter a valid TON wallet address");
     }
 });
