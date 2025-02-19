@@ -303,7 +303,7 @@ function displayTodayData(todaySent, todayReceived, todayComments, todayBalance,
             listItem.appendChild(tokenImg);
             listItem.appendChild(tokenInfo);
             listItem.appendChild(tokenBalance);
-            if (tokenList.children.length < 2) {
+            if (tokenList.children.length < 1) {
                 tokenList.appendChild(listItem.cloneNode(true));
             }
             modalTokenList.appendChild(listItem);
@@ -319,7 +319,6 @@ document.querySelector(".close-button").addEventListener("click", function () {
     document.getElementById("tokenModal").style.display = "none";
 });
 
-// إغلاق النافذة عند الضغط خارجها
 window.addEventListener("click", function (event) {
     let modal = document.getElementById("tokenModal");
     if (event.target === modal) {
