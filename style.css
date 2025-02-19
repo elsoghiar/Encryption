@@ -344,6 +344,7 @@ button svg {
     color: white;
     width: 70px;
     height: 30px;
+    padding: 5px;
     font-size: 13px;
     font-weight: 600;
     border-radius: 50px;
