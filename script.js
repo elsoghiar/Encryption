@@ -61,6 +61,7 @@ function clearFields(container) {
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
+    document.getElementById("WalletAnalyzer").classList.add("hidden");
     document.getElementById("encryptTab").classList.add("active");
     document.getElementById("decryptTab").classList.remove("active");
     clearFields(document.getElementById("decryptSection"));
@@ -68,6 +69,7 @@ function showEncrypt() {
 
 function showDecrypt() {
     document.getElementById("decryptSection").classList.remove("hidden");
+    document.getElementById("WalletAnalyzer").classList.add("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
     document.getElementById("decryptTab").classList.add("active");
     document.getElementById("encryptTab").classList.remove("active");
