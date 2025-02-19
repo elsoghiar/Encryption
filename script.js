@@ -36,6 +36,7 @@ function showWallet() {
     document.getElementById("WalletAnalyzer").classList.remove("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
+    document.getElementById("pagetitle").classList.add("hidden");
 
     document.getElementById("encryptTab").classList.remove("active");
     document.getElementById("decryptTab").classList.remove("active");
@@ -60,6 +61,7 @@ function clearFields(container) {
 
 function showEncrypt() {
     document.getElementById("encryptSection").classList.remove("hidden");
+    document.getElementById("pagetitle").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
     document.getElementById("WalletAnalyzer").classList.add("hidden");
     document.getElementById("TransactionsTab").classList.remove("active");
@@ -70,6 +72,7 @@ function showEncrypt() {
 
 function showDecrypt() {
     document.getElementById("decryptSection").classList.remove("hidden");
+    document.getElementById("pagetitle").classList.remove("hidden");
     document.getElementById("WalletAnalyzer").classList.add("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
     document.getElementById("TransactionsTab").classList.remove("active");
