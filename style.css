@@ -260,7 +260,7 @@ button svg {
 
 .social-container {
     width: fit-content; 
-    margin: 65px auto 15px auto; 
+    margin: 80px auto 15px auto; 
     background-color: rgba(0, 0, 0, 0.1);
     display: flex;
     gap: 15px;
