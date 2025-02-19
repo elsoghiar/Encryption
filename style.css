@@ -178,7 +178,7 @@ button svg {
   
 #notification {
     position: fixed;
-    bottom: 35px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
@@ -196,8 +196,7 @@ button svg {
 .notification-success,
 .notification-error,
 .notification-warning {
-    background: linear-gradient(90deg, #101010, #202020); 
-   /*box-shadow: 0px 4px 8px rgba(45, 131, 236, 0.3);*/
+    background: linear-gradient(135deg, #101010, #0C0C0C); 
 }
 
 .notification-success {
