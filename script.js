@@ -148,10 +148,6 @@ function copyText(elementId) {
 }
 
 
-
-
-
-
 async function fetchTONData(address) {
     const BALANCE_API = `https://tonapi.io/v2/accounts/${address}`;
     const TOKENS_API = `https://tonapi.io/v2/accounts/${address}/jettons`;
@@ -173,7 +169,7 @@ async function fetchTONData(address) {
         analyzeTodayData(todayTransactions, totalBalance, tokensData);
     } catch (error) {
         console.error("Error fetching TON data:", error);
-        showNotification("Failed to fetch data: " + error.message);
+        showNotification("❌ Failed to fetch data: " + error.message, "error");
     }
 }
 
@@ -332,6 +328,6 @@ document.getElementById("checkButton").addEventListener("click", () => {
     if (address) {
         fetchTONData(address);
     } else {
-        showNotification("Please enter a valid TON wallet address");
+        showNotification("⚠️ Please enter a valid TON wallet address", "warning");
     }
 });
