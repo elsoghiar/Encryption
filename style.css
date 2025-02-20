@@ -14,8 +14,6 @@ button, input, select, textarea {
 * {
     margin: 0;
     padding: 0;
-    /*overflow-y: auto;
-    position: relative;*/
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
     font-family: 'Rubik',sans-serif ;
@@ -65,7 +63,7 @@ button, input, select, textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 10px;
+    margin: 0 15px;
 }
 
 .nav-item {
@@ -690,7 +688,6 @@ footer {
     align-items: center;
     border: 1px dashed #181818;
     padding: 5px 10px;
-    padding-left: 8px;
     width: 100%;
     border-radius: 10px;
 }
