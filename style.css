@@ -74,10 +74,7 @@ button, input, select, textarea {
  
  .nav-item svg {
     stroke: #4a4a4a;
-} 
-
-.nav-item.active svg {
-    stroke: url(#active-gradient);
+    transition: fill 0.3s ease;
 } 
 
 .container {
