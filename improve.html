@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project promotion</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script> eruda.init(); </script>
 </head>
 <body>
     <div class="containers">
@@ -23,13 +25,20 @@
             </div>
             <div class="content">
                 <h2>Instant support using ton</h2>
-                <input type="number" id="amountInput" placeholder="أدخل المبلغ بـ TON">
+                <input type="number" id="amountInput" placeholder="Enter the amount in ton">
                 <button id="connectButton"> Conect wallet</button>
-                <button id="payButton" disabled>Make payment</button>
+                <button id="ton-connect" disabled>Make payment</button>
              </div>
           </div>
         </div>
             <script>
+                const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+  manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
+  buttonRootId: 'ton-connect',
+  uiOptions: {
+    twaReturnUrl: 'https://t.me/SparkOne_Bot',
+  },
+});
                 const tonConnect = new TONConnectSDK.TonConnect();
                 let isWalletConnected = false;
                 // وظيفة لنسخ عنوان المحفظة
