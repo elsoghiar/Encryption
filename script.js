@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initializeEventListeners() {
-    document.getElementById("encryptTab").addEventListener("click", showEncrypt);
-    document.getElementById("decryptTab").addEventListener("click", showDecrypt);
+    document.getElementById("encryptTaab").addEventListener("click", showEncrypt);
+    document.getElementById("decryptTaab").addEventListener("click", showDecrypt);
     document.getElementById("TransactionsTab").addEventListener("click", showWallet); // إضافة المستمع هنا
 
     document.getElementById("encryptButton").addEventListener("click", () => {
@@ -44,8 +44,8 @@ function showWallet() {
     document.getElementById("decryptSection").classList.add("hidden");
     document.getElementById("pagetitle").classList.add("hidden");
 
-    document.getElementById("encryptTab").classList.remove("active");
-    document.getElementById("decryptTab").classList.remove("active");
+    document.getElementById("encryptTaab").classList.remove("active");
+    document.getElementById("decryptTaab").classList.remove("active");
     document.getElementById("TransactionsTab").classList.add("active");
 }
 
@@ -71,8 +71,8 @@ function showEncrypt() {
     document.getElementById("decryptSection").classList.add("hidden");
     document.getElementById("WalletAnalyzer").classList.add("hidden");
     document.getElementById("TransactionsTab").classList.remove("active");
-    document.getElementById("encryptTab").classList.add("active");
-    document.getElementById("decryptTab").classList.remove("active");
+    document.getElementById("encryptTaab").classList.add("active");
+    document.getElementById("decryptTaab").classList.remove("active");
     clearFields(document.getElementById("decryptSection"));
 }
 
@@ -82,8 +82,8 @@ function showDecrypt() {
     document.getElementById("WalletAnalyzer").classList.add("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
     document.getElementById("TransactionsTab").classList.remove("active");
-    document.getElementById("decryptTab").classList.add("active");
-    document.getElementById("encryptTab").classList.remove("active");
+    document.getElementById("decryptTaab").classList.add("active");
+    document.getElementById("encryptTaab").classList.remove("active");
     clearFields(document.getElementById("encryptSection"));
 }
 
