@@ -27,73 +27,55 @@
             <div class="content">
                 <h2>Instant Support Using TON</h2>
                 <input type="number" id="amountInput" placeholder="Enter the amount in TON">
-                <button id="connectWalletButton">Connect Wallet</button>
-                <button id="payButton" disabled>Make Payment</button>
+                <button id="payButton">Make Payment</button>
             </div>
         </div>
     </div>
 
     <script>
         let isWalletConnected = false;
-
-        // Initialize TonConnectUI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
-            buttonRootId: 'connectWalletButton',
-            uiOptions: {
-                twaReturnUrl: 'https://t.me/SparkOne_Bot',
-            },
+            uiOptions: { twaReturnUrl: 'https://t.me/SparkOne_Bot' },
         });
 
-        // Function to copy wallet address
-        function copyAddress() {
-            const address = document.getElementById("walletAddress").innerText;
-            navigator.clipboard.writeText(address);
-        }
-
-        // Connect Wallet Function
-        document.getElementById("connectWalletButton").addEventListener("click", async () => {
-            try {
-                await tonConnectUI.connect();
-                isWalletConnected = true;
-                document.getElementById("payButton").disabled = false;
-            } catch (error) {
-                console.error("Wallet connection error:", error);
-            }
-        });
-
-        // Payment button
-        document.getElementById("payButton").addEventListener("click", async () => {
+        async function handlePayment() {
             const amountInput = parseFloat(document.getElementById("amountInput").value);
-            
             if (!amountInput || amountInput <= 0) {
                 alert("Please enter a valid amount.");
                 return;
             }
 
-            if (!isWalletConnected) {
-                alert("You need to connect your wallet first.");
-                return;
-            }
-
             try {
-                const amount = (amountInput * 1e9).toString(); // Convert to nanotons
+                const connectedWallet = await tonConnectUI.getWallet();
+                if (!connectedWallet) {
+                    await tonConnectUI.connect();
+                }
+
+                const amount = (amountInput * 1e9).toString(); // تحويل إلى النانو تون
                 const recipientAddress = "UQBPlXtbw-tBxfzovzo3c4HYcdyyQkaw1KnP3L45s2syeTUS";
-                
+
                 const transaction = {
-                    validUntil: Math.floor(Date.now() / 1000) + 600, // Valid for 10 minutes
+                    validUntil: Math.floor(Date.now() / 1000) + 600, // صالح لمدة 10 دقائق
                     messages: [{ address: recipientAddress, amount }],
                 };
 
                 await tonConnectUI.sendTransaction(transaction);
             } catch (error) {
-                if (error.message.includes("User rejected the transaction")) {
-                    return; // لا تعرض أي إشعار إذا رفض المستخدم العملية بنفسه
+                if (!error.message.includes("User rejected the transaction")) {
+                    alert("An error occurred during payment. Please try again.");
+                    console.error("Payment error:", error);
                 }
-                alert("An error occurred during payment. Please try again.");
-                console.error("Payment error:", error);
             }
-        });
+        }
+
+        // زر الدفع
+        document.getElementById("payButton").addEventListener("click", handlePayment);
+
+        // نسخ عنوان المحفظة
+        function copyAddress() {
+            navigator.clipboard.writeText(document.getElementById("walletAddress").innerText);
+        }
     </script>
 </body>
 </html>
