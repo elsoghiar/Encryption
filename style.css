@@ -713,3 +713,6 @@ footer {
     gap: 10px;
 }
  
+#amountInput {
+    padding-left: 15px;
+} 
