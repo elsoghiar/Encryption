@@ -589,7 +589,8 @@ footer {
 
 .tit-image {
     font-weight: 600;
-    margin: 10px auto;
+    margin-top: 10px;
+    margin-bottom: 5px;
     text-align: left;
     font-size: 15px;
     color: #4a4a4a;
