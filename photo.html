@@ -2,41 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    <title>🔒 تشفير النص داخل الصور</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Encrypt text inside image</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script> eruda.init(); </script>
+    <script>
+        eruda.init();
+    </script>
 </head>
 <body>
-    
-<div class="containers">
-<div class="container">
+    <div class="containers">
+        <div class="container">
+            <div class="page-title">CRYPTOR <span>QEXX.</span> </div>
+            <div class="titley">Encrypt text inside the image securely </div>
 
-<div class="page-title">CRYPTOR <span>QEXX.</span> </div>
-<div class="titley">Encrypt text inside the image securely </div>
-          
-<div class="encrypt-section">
-    <h3>إخفاء النص داخل صورة</h3>
-    <input type="file" id="uploadImage" accept="image/*"><br>
-    <textarea id="inputTe" placeholder="📝 أدخل النص هنا"></textarea><br>
-    <input type="password" id="encryptionPassword" placeholder="🔑 أدخل مفتاح التشفير (اختياري)"><br>
-    <button id="cryptButton">🔐 تشفير النص</button>
-    <a id="downloadEncryptedImage" style="display:none;" download="encrypted.png">⬇️ تحميل الصورة المشفرة</a>
-</div>
+            <div class="content">
+                <h3>إخفاء النص داخل صورة</h3>
+                <input type="file" id="uploadImage" accept="image/*">
+                <br>
+                <textarea id="inputTe" placeholder="📝 أدخل النص هنا"></textarea>
+                <br>
 
-<br>
+                <div class="key-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+                        <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+                    </svg>
+                    <input type="password" id="encryptionPassword" placeholder="Enter your secret key…">
+                </div>
+                <button id="cryptButton">🔐 تشفير النص</button>
+                <a id="downloadEncryptedImage" style="display:none;" download="encrypted.png">⬇️ تحميل الصورة المشفرة</a>
+            </div>
+            <br>
+            <div class="content">
+                <h3>🔍 استخراج النص من صورة</h3>
+                <input type="file" id="decodeImage" accept="image/*">
+                <br>
 
-<div class="decrypt-section">
-    <h3>🔍 استخراج النص من صورة</h3>
-    <input type="file" id="decodeImage" accept="image/*"><br>
-    <input type="password" id="decryptionPassword" placeholder="🔑 أدخل مفتاح فك التشفير (إن وجد)"><br>
-    <button id="cryptButton">🔎 فك التشفير</button>
-    <p id="outputText"></p>
-</div>
-
-<div class="bottom-nav">
+                <div class="key-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+                        <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+                    </svg>
+                    <input type="password" id="decryptionPassword" placeholder="Enter your secret key…">
+                </div>
+                <button id="cryptButton">🔎 فك التشفير</button>
+                <p id="outputText"></p>
+            </div>
+            <div class="bottom-nav">
                 <a href="index.html" class="nav-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-align-left">
                         <path d="M15 12H3" />
@@ -59,12 +74,10 @@
                         <path d="m15 18-2-2" />
                     </svg>
                 </a>
+            </div>
+            <canvas id="hiddenCanvas" style="display:none;"></canvas>
+        </div>
     </div>
-
-<canvas id="hiddenCanvas" style="display:none;"></canvas>
-</div>
-</div>
-<script src="script-photo.js"></script>
-
+    <script src="script-photo.js"></script>
 </body>
 </html>
