@@ -5,8 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputText = document.getElementById('inputTe');
     const encryptionPassword = document.getElementById('encryptionPassword');
     const encryptButton = document.getElementById('cryptButton');
-    const downloadEncryptedImage = document.getElementById('downloadEncryptedImage');
-
     const decodeImage = document.getElementById('decodeImage');
     const decryptionPassword = document.getElementById('decryptionPassword');
     const decryptButton = document.getElementById('dcryptButton');
@@ -15,36 +13,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById('hiddenCanvas');
     const ctx = canvas.getContext('2d');
 
-    // التحقق مما إذا كان التطبيق يعمل داخل Telegram WebApp
     function isTelegramWebApp() {
         return window.Telegram?.WebApp !== undefined;
     }
 
-    // معالجة عملية تنزيل الصورة داخل أو خارج Telegram
     function handleImageDownload(blob) {
         const url = URL.createObjectURL(blob);
 
         if (isTelegramWebApp()) {
-            // استخدام showPopup داخل Telegram WebApp
-            Telegram.WebApp.showPopup({
-                title: "تحميل الملف",
-                message: "اضغط على الزر أدناه لتنزيل الصورة المشفرة.",
-                buttons: [{ text: "تحميل", url: url }]
-            });
+            // فتح رابط التنزيل مباشرة داخل Telegram Web App
+            window.open(url, "_blank");
         } else {
-            // التنزيل الطبيعي في المتصفح
-            handleNormalDownload(blob);
+            // التنزيل العادي في المتصفح
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "encrypted-image.png";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
     }
 
-    function handleNormalDownload(blob) {
-        const url = URL.createObjectURL(blob);
-        downloadEncryptedImage.href = url;
-        downloadEncryptedImage.download = 'encrypted-image.png';
-        downloadEncryptedImage.style.display = 'block';
-    }
-
-    // تشفير الصورة
     encryptButton.addEventListener('click', () => {
         const file = uploadImage.files[0];
         const text = inputText.value;
@@ -96,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }, "image/png");
 
-                // تنظيف الحقول
                 uploadImage.value = '';
                 inputText.value = '';
                 encryptionPassword.value = '';
@@ -105,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.readAsDataURL(file);
     });
 
-    // فك تشفير الصورة
     decryptButton.addEventListener('click', () => {
         const file = decodeImage.files[0];
         const key = decryptionPassword.value || DEFAULT_KEY;
@@ -154,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.readAsDataURL(file);
     });
 
-    // تهيئة Telegram WebApp إذا كان مفتوحًا في بيئة التليجرام
     if (isTelegramWebApp()) {
         Telegram.WebApp.expand();
     }
