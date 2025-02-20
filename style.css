@@ -36,6 +36,24 @@ button, input, select, textarea {
    transition: background-color 0.5s, color 0.5s;
 }
 
+.screen-content {
+    flex: 1;
+    display: none;
+    padding: 10px;
+    position: relative;
+    background: inherit;
+    overflow: hidden;
+}
+
+.screen-content.scrollable {
+    overflow-y: auto;
+}
+
+.screen-content.active {
+    display: block;
+} 
+
+
 .containers {
     padding-top: var(--container-padding-top);
     width: 100%;
