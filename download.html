@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تنزيل الصورة</title>
+</head>
+<body>
+    <script>
+        // استخراج رابط الصورة من الـ URL
+        const params = new URLSearchParams(window.location.search);
+        const imageData = params.get('image');
+
+        if (imageData) {
+            // إنشاء رابط للتنزيل
+            const link = document.createElement('a');
+            link.href = imageData;
+            link.download = 'encrypted_image.png';
+            document.body.appendChild(link);
+
+            // التنزيل التلقائي
+            link.click();
+
+            // إعادة التوجيه إلى تليجرام بعد 3 ثوانٍ
+            setTimeout(() => {
+                if (window.Telegram && window.Telegram.WebApp) {
+                    window.Telegram.WebApp.close();
+                } else {
+                    window.location.href = 'https://web.telegram.org/';
+                }
+            }, 3000);
+        } else {
+            alert('⚠️ لا توجد صورة للتنزيل.');
+        }
+    </script>
+</body>
+</html>
