@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
 
     const uploadImage = document.getElementById('uploadImage');
-    const inputText = document.getElementById('inputText');
+    const inputText = document.getElementById('inputTe');
     const encryptionPassword = document.getElementById('encryptionPassword');
     const encryptButton = document.getElementById('encryptButton');
     const downloadEncryptedImage = document.getElementById('downloadEncryptedImage');
