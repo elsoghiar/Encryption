@@ -82,6 +82,11 @@ button, input, select, textarea {
     position: relative;
 }
 
+.menu-item-container svg {
+    height: 30px;
+    width: 30px;
+} 
+
 .menu-item {
     background: none;
     border: none;
