@@ -693,3 +693,12 @@ footer {
     border-radius: 10px;
 }
 
+.go {
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+} 
+
