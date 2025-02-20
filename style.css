@@ -133,6 +133,14 @@ input, textarea {
     font-weight: 500;
 }
 
+input::placeholder {
+    color: #4a4a4a; 
+}
+
+textarea::placeholder {
+    color: #4a4a4a; 
+}
+
 #walletAddress {
     font-size: 13px;
     height: 60px;
