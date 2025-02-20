@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const tonConnectUI = new TonConnectUI({
         manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
+        buttonRootId: 'ton-connect', 
         uiOptions: { twaReturnUrl: 'https://t.me/SparkOne_Bot' },
     });
 
