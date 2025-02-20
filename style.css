@@ -48,7 +48,7 @@ button, input, select, textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 55px;
     position: fixed;
     bottom: 30px;
     border-bottom: 2px solid #181818;
@@ -57,33 +57,8 @@ button, input, select, textarea {
     left: 50%;
     transform: translateX(-50%);
     z-index: 50;
-    background: #0C0C0C;
+    background: linear-gradient(90deg, #101010, #0C0C0C, #101010); 
 }
-
-.nav-item {
-    color: white;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 12px;
-}
-
-.icon-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.icon-wrapper svg {
-    stroke: white;
-    width: 26px;
-    height: 26px;
-} 
  
 .container {
     width: 100%;
