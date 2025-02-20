@@ -76,6 +76,10 @@ button, input, select, textarea {
     stroke: #4a4a4a;
 } 
 
+.nav-item.active svg {
+    stroke: url(#active-gradient);
+} 
+
 .container {
     width: 100%;
     max-width: 320px;
