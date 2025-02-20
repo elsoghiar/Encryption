@@ -528,6 +528,7 @@ footer {
 
 .tabs-bo {
     display: flex;
+    gap: 10px;
     width: 100%;
     justify-content: space-between;
     margin-top: 10px;
@@ -535,15 +536,15 @@ footer {
 }
 
 .tabs-bo button {
-    width: 45%;
+    width: 40%;
     flex: 1;
     padding: 5px 10px;
     background: none;
     border-radius: 10px;
     white-space: nowrap;
     border: 1px dashed #181818;
-    color: #fff;
-    font-size: 13px;
+    color: #4a4a4a;
+    font-size: 12px;
     cursor: pointer; 
     transition: 0.5s;
     font-weight: bold;
