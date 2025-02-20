@@ -48,17 +48,17 @@ button, input, select, textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
+    height: 50px;
     position: fixed;
-    bottom: 35px;
+    bottom: 30px;
     padding-bottom: 4px;
-    border: 2px dashed #181818;
+    border: 1px dashed #181818;
     border-radius: 20px;
     width: 80%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
-    background: rgba(0, 0, 0, 0.7); 
+    background: rgba(0, 0, 0, 0.5); 
 }
 
 .menu-list {
@@ -101,8 +101,8 @@ button, input, select, textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background-color: transparent;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -117,7 +117,6 @@ button, input, select, textarea {
 .menu button:hover::before {
     opacity: 1;
 } 
- 
  
 .container {
     width: 100%;
