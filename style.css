@@ -643,6 +643,7 @@ footer {
 }
 
 .custom-file-upload label {
+    background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     padding: 10px;
     cursor: pointer;
