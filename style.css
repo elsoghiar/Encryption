@@ -49,6 +49,7 @@ button, input, select, textarea {
     justify-content: space-between;
     align-items: center;
     height: 55px;
+    gap: 10px;
     position: fixed;
     bottom: 30px;
     border-bottom: 2px solid #181818;
