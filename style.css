@@ -523,3 +523,26 @@ footer {
 #encryptKey, #decryptKey{
     padding-left: 35px;
 } 
+
+
+
+.tabs-bo {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tabs-bo button {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border-radius: 10px;
+    white-space: nowrap;
+    border: 1px solid #181818;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer; 
+    transition: 0.5s;
+    font-weight: bold;
+} 
