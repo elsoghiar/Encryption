@@ -38,6 +38,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('hiddenCanvas');
     const ctx = canvas.getContext('2d');
 
+    // التحقق من بيئة Telegram WebApp
+    function isTelegramWebApp() {
+        return window.Telegram?.WebApp !== undefined;
+    }
+
+    // إنشاء ملف Blob وإدارة التنزيل
+    function handleImageDownload(blob) {
+        if (isTelegramWebApp()) {
+            // استخدام fileDownloadRequested داخل التليجرام
+            const file = new File([blob], "encrypted-image.png", { type: "image/png" });
+            Telegram.WebApp.fileDownloadRequested(file);
+
+            Telegram.WebApp.onEvent('fileDownloadRequested', (event) => {
+                if (event.status === 'downloading') {
+                    console.log("📥 التنزيل قيد التقدم...");
+                } else if (event.status === 'cancelled') {
+                    alert("⚠️ تم إلغاء التنزيل من قبل المستخدم.");
+                }
+            });
+        } else {
+            // تنزيل طبيعي خارج التليجرام
+            const url = URL.createObjectURL(blob);
+            downloadEncryptedImage.href = url;
+            downloadEncryptedImage.download = 'encrypted-image.png';
+            downloadEncryptedImage.style.display = 'block';
+        }
+    }
+
+    // تشفير الصورة
     encryptButton.addEventListener('click', () => {
         const file = uploadImage.files[0];
         const text = inputText.value;
@@ -82,16 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 ctx.putImageData(imageData, 0, 0);
                 canvas.toBlob((blob) => {
-    if (blob) {
-        const url = URL.createObjectURL(blob);
-        downloadEncryptedImage.href = url;
-        downloadEncryptedImage.download = 'encrypted-image.png';
-        downloadEncryptedImage.style.display = 'block';
-    } else {
-        alert("⚠️ حدث خطأ أثناء إنشاء الصورة المشفرة.");
-    }
-}, "image/png");
+                    if (blob) {
+                        handleImageDownload(blob);
+                    } else {
+                        alert("⚠️ حدث خطأ أثناء إنشاء الصورة المشفرة.");
+                    }
+                }, "image/png");
 
+                // تنظيف الحقول
                 uploadImage.value = '';
                 inputText.value = '';
                 encryptionPassword.value = '';
@@ -100,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 
+    // فك تشفير الصورة
     decryptButton.addEventListener('click', () => {
         const file = decodeImage.files[0];
         const key = decryptionPassword.value || DEFAULT_KEY;
@@ -148,4 +176,3 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 });
-
