@@ -3,29 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Image Encryption</title>
+    <title>Encrypt Text in Images</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="page-title">IMAGE <span>ENCRYPTION</span></div>
-        <div class="titley">Embed text inside an image securely.</div>
-
-        <input type="file" id="imageInput" accept="image/*">
-        <input type="text" id="textInput" placeholder="Enter text to hide...">
-        <button id="encryptImageButton">Encrypt in Image</button>
-        <button id="decryptImageButton">Extract Text</button>
-
-        <canvas id="canvas" style="display: none;"></canvas>
-        <img id="outputImage" style="max-width: 100%; display: none;">
-
-        <div class="bottom-nav">
-            <button onclick="window.location.href='index.html'">🔐 Text Encryption</button>
-            <button onclick="window.location.href='image-encryption.html'">🖼️ Image Encryption</button>
+    <div class="containers">
+        <div class="container">
+            <div class="page-title">CRYPTOR <span>QEXX.</span></div>
+            <div class="titley">Hide encrypted text inside images.</div>
+            <input type="file" id="imageInput">
+            <textarea id="hiddenText" placeholder="Enter text to hide..."></textarea>
+            <button id="encryptImage">Encrypt in Image</button>
+            <canvas id="imageCanvas"></canvas>
         </div>
     </div>
 
-    <script src="image-encryption.js"></script>
+    <!-- قائمة التنقل السفلية -->
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item">🔐 نصوص</a>
+        <a href="photo.html" class="nav-item">🖼️ صور</a>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
