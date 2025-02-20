@@ -1,3 +1,21 @@
+document.addEventListener("DOMContentLoaded", () => {
+    initializeEventListeners();
+    showEncrypt();
+
+    try {
+        if (window.Telegram?.WebApp) {
+            Telegram.WebApp.requestFullscreen();
+        } else {
+            console.warn("Running outside Telegram. Fullscreen mode is not available.");
+            document.documentElement.style.setProperty("--container-padding-top", "25px");
+        }
+    } catch (error) {
+        console.warn("Failed to enter fullscreen mode:", error);
+        document.documentElement.style.setProperty("--container-padding-top", "25px");
+    }
+});
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const homePage = "index.html";
     const currentPage = window.location.pathname.split('/').pop() || homePage;
