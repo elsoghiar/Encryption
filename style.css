@@ -60,6 +60,16 @@ button, input, select, textarea {
     z-index: 50;
     background: linear-gradient(90deg, #101010, #0C0C0C, #101010); 
 }
+
+.menu-item-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+ 
  
 .container {
     width: 100%;
