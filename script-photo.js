@@ -15,13 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('hiddenCanvas');
     const ctx = canvas.getContext('2d');
 
+    function showMessage(message) {
+        console.log(message);
+        outputText.innerText = message;
+    }
+
     encryptButton.addEventListener('click', () => {
         const file = uploadImage.files[0];
-        const text = inputText.value;
+        const text = inputText.value.trim();
         const key = encryptionPassword.value || DEFAULT_KEY;
 
         if (!file || !text) {
-            alert("⚠️ يرجى اختيار صورة وإدخال نص.");
+            showMessage("⚠️ يرجى اختيار صورة وإدخال نص.");
             return;
         }
 
@@ -38,35 +43,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const pixels = imageData.data;
 
-                const encryptedText = CryptoJS.AES.encrypt(text, key).toString();
-                let binaryText = '';
-                for (let i = 0; i < encryptedText.length; i++) {
-                    binaryText += encryptedText.charCodeAt(i).toString(2).padStart(8, '0');
+                try {
+                    const encryptedText = CryptoJS.AES.encrypt(text, key).toString();
+                    let binaryText = '';
+                    for (let i = 0; i < encryptedText.length; i++) {
+                        binaryText += encryptedText.charCodeAt(i).toString(2).padStart(8, '0');
+                    }
+
+                    if (binaryText.length > pixels.length / 4) {
+                        showMessage("⚠️ النص طويل جدًا بالنسبة لهذه الصورة.");
+                        return;
+                    }
+
+                    let index = 0;
+                    for (let i = 0; i < pixels.length && index < binaryText.length; i += 4) {
+                        pixels[i] = (pixels[i] & 0xFE) | parseInt(binaryText[index] || '0');
+                        pixels[i + 1] = (pixels[i + 1] & 0xFE) | parseInt(binaryText[index + 1] || '0');
+                        pixels[i + 2] = (pixels[i + 2] & 0xFE) | parseInt(binaryText[index + 2] || '0');
+                        index += 3;
+                    }
+
+                    ctx.putImageData(imageData, 0, 0);
+
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        downloadEncryptedImage.href = url;
+                        downloadEncryptedImage.style.display = 'block';
+                        downloadEncryptedImage.innerText = "⬇️ تحميل الصورة المشفرة";
+                    }, 'image/png');
+                } catch (error) {
+                    showMessage("❌ حدث خطأ أثناء التشفير.");
+                    console.error(error);
                 }
+            };
 
-                if (binaryText.length > pixels.length / 4) {
-                    alert("⚠️ النص طويل جدًا بالنسبة لهذه الصورة.");
-                    return;
-                }
-
-                let index = 0;
-                for (let i = 0; i < pixels.length && index < binaryText.length; i += 4) {
-                    pixels[i] = (pixels[i] & 0xFE) | parseInt(binaryText[index] || '0');
-                    pixels[i + 1] = (pixels[i + 1] & 0xFE) | parseInt(binaryText[index + 1] || '0');
-                    pixels[i + 2] = (pixels[i + 2] & 0xFE) | parseInt(binaryText[index + 2] || '0');
-                    index += 3;
-                }
-
-                ctx.putImageData(imageData, 0, 0);
-                const encryptedImage = canvas.toDataURL("image/png");
-                downloadEncryptedImage.href = encryptedImage;
-                downloadEncryptedImage.style.display = 'block';
-
-                uploadImage.value = '';
-                inputText.value = '';
-                encryptionPassword.value = '';
+            img.onerror = () => {
+                showMessage("⚠️ تعذر تحميل الصورة.");
             };
         };
+
+        reader.onerror = () => {
+            showMessage("⚠️ حدث خطأ أثناء قراءة الملف.");
+        };
+
         reader.readAsDataURL(file);
     });
 
@@ -75,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = decryptionPassword.value || DEFAULT_KEY;
 
         if (!file) {
-            alert("⚠️ يرجى اختيار صورة لفك التشفير.");
+            showMessage("⚠️ يرجى اختيار صورة لفك التشفير.");
             return;
         }
 
@@ -111,10 +130,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     const decryptedText = CryptoJS.AES.decrypt(extractedText, key).toString(CryptoJS.enc.Utf8);
                     outputText.innerText = decryptedText ? `🔓 النص المستخرج: ${decryptedText}` : "⚠️ لا يوجد نص مستخرج أو المفتاح غير صحيح.";
                 } catch (error) {
-                    alert("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
+                    showMessage("⚠️ فشل فك التشفير.");
+                    console.error(error);
                 }
             };
+
+            img.onerror = () => {
+                showMessage("⚠️ تعذر تحميل الصورة.");
+            };
         };
+
+        reader.onerror = () => {
+            showMessage("⚠️ حدث خطأ أثناء قراءة الملف.");
+        };
+
         reader.readAsDataURL(file);
     });
 });
