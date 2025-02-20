@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const decodeImage = document.getElementById('decodeImage');
     const decryptionPassword = document.getElementById('decryptionPassword');
-    const decryptButton = document.getElementById('cryptButton');
+    const decryptButton = document.getElementById('dcryptButton');
     const outputText = document.getElementById('outputText');
 
     const canvas = document.getElementById('hiddenCanvas');
