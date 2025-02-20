@@ -613,4 +613,18 @@ footer {
     color: #4a4a4a;
 }   
 
-
+#dcryptButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-weight: 600;
+    padding: 8px;
+    background: linear-gradient(90deg, #2D83EC, #9B59B6);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.3s;
+}
