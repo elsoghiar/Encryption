@@ -511,6 +511,5 @@ footer {
     transform: translateY(-50%); 
     width: 24px;
     height: 24px;
-    color: #fff;
-    z-index: 1; 
+    color: #4a4a4a;
 }
