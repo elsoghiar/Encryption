@@ -36,6 +36,26 @@ function showNotification(message, type = "success") {
     }, 2500);
 }
 
+document.getElementById('uploadImage').addEventListener('change', function () {
+    const file = this.files[0];
+    const imagePreview = document.getElementById('imagePreview');
+    const fileNameDisplay = document.getElementById('fileName');
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+        fileNameDisplay.textContent = `Selected file: ${file.name}`;
+    } else {
+        imagePreview.style.display = 'none';
+        fileNameDisplay.textContent = '';
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
