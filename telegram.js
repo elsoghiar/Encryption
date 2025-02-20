@@ -17,20 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const homePage = "index.html";
     const currentPage = window.location.pathname.split('/').pop() || homePage;
 
-    // إزالة الفئة "active" من جميع الأزرار
-    document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+    // تحديد جميع عناصر التنقل
+    const navItems = document.querySelectorAll(".nav-item");
 
-    // تحديد الزر النشط بناءً على الصفحة الحالية
-    document.querySelectorAll(".nav-item").forEach(item => {
-        if (item.getAttribute("href") === currentPage) {
+    navItems.forEach(item => {
+        const link = item.getAttribute("href");
+        if (link === currentPage) {
             item.classList.add("active");
+        } else {
+            item.classList.remove("active");
         }
     });
 
-    // تحديث زر الرجوع في Telegram WebApp
+    // Telegram WebApp Back Button
     const telegramApp = window.Telegram.WebApp;
     telegramApp.ready();
-    
+
     if (currentPage === homePage) {
         telegramApp.BackButton.hide();
     } else {
