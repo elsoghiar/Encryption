@@ -690,6 +690,7 @@ footer {
     align-items: center;
     border: 1px dashed #181818;
     padding: 5px 10px;
+    padding-left: 8px;
     width: 100%;
     border-radius: 10px;
 }
