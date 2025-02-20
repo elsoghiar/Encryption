@@ -18,17 +18,15 @@
 
             <div class="content">
                 <h2>Wallet Qexx</h2>
+                <p>Support the development and continuous updates of the application financially through TON.</p>
                 <div class="wallet-address">
                     <span id="walletAddress">UQBPlXtbw-tBxfzovzo3c4HYcdyyQkaw1KnP3L45s2syeTUS</span>
                     <button onclick="copyAddress()">📋 Copy</button>
                 </div>
-                <p>Support the development and continuous updates of the application financially through TON.</p>
             </div>
-
             <div class="content">
                 <h2>Instant Support Using TON</h2>
                 <input type="number" id="amountInput" placeholder="Enter the amount in TON">
-                <button id="connectWallet">Connect Wallet</button>
                 <button id="payButton" disabled>Make Payment</button>
             </div>
         </div>
@@ -40,7 +38,7 @@
         // Initialize TonConnectUI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
-            buttonRootId: 'connectWallet',
+            buttonRootId: 'payButton',
             uiOptions: {
                 twaReturnUrl: 'https://t.me/SparkOne_Bot',
             },
