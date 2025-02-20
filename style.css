@@ -63,11 +63,12 @@ button, input, select, textarea {
 
 .menu-item-container {
     display: flex;
-    width: 100%;
+    width: 20%;
+    margin: 5px auto;
     justify-content: space-between;
     align-items: center;
     flex: 1;
-    position: relative;
+    
 }
  
  
