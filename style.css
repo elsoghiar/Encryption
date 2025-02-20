@@ -74,7 +74,9 @@ button, input, select, textarea {
     align-items: center;
 }
  
- 
+ .nav-item svg {
+    stroke: #fff;
+} 
  
 .container {
     width: 100%;
