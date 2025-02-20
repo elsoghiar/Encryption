@@ -506,7 +506,7 @@ footer {
 
 .key-content svg {
     position: absolute;
-    left: 10px; 
+    left: 8px; 
     top: 50%;
     transform: translateY(-50%); 
     width: 24px;
@@ -516,5 +516,5 @@ footer {
 }
 
 #encryptKey, #decryptKey{
-    padding-left: 10px;
+    padding-left: 20px;
 } 
