@@ -169,42 +169,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-document.getElementById('uploadImage').addEventListener('change', function () {
-    const file = this.files[0];
-    const imagePreview = document.getElementById('imagePreview');
-    const fileName = document.getElementById('fileName');
+function handleImagePreview(inputId, imageId, fileNameId) {
+    const input = document.getElementById(inputId);
+    const imagePreview = document.getElementById(imageId);
+    const fileNameDisplay = document.getElementById(fileNameId);
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            imagePreview.src = e.target.result;
-            imagePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
+    input.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                fileNameDisplay.textContent = `File Name: ${file.name}`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.style.display = 'none';
+            fileNameDisplay.textContent = '';
+        }
+    });
+}
 
-        fileName.textContent = `File Name: ${file.name}`;
-    } else {
-        imagePreview.style.display = 'none';
-        fileName.textContent = '';
-    }
-});
-
-document.getElementById('decodeImage').addEventListener('change', function () {
-    const file = this.files[0];
-    const imagePreviewDe = document.getElementById('imagePreview-de');
-    const fileNameDe = document.getElementById('fileName-de');
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            imagePreviewDe.src = e.target.result;
-            imagePreviewDe.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-
-        fileNameDe.textContent = `File Name: ${file.name}`;
-    } else {
-        imagePreviewDe.style.display = 'none';
-        fileNameDe.textContent = '';
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    handleImagePreview('uploadImage', 'imagePreview', 'fileName');
+    handleImagePreview('decodeImage', 'imagePreview-de', 'fileName-de');
 });
