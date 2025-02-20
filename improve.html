@@ -27,18 +27,21 @@
             <div class="content">
                 <h2>Instant Support Using TON</h2>
                 <input type="number" id="amountInput" placeholder="Enter the amount in TON">
+                <button id="connectWalletButton">Connect Wallet</button>
                 <button id="payButton" disabled>Make Payment</button>
+                <p id="walletBalance">Balance: <span>0 TON</span></p>
             </div>
         </div>
     </div>
 
     <script>
         let isWalletConnected = false;
+        let userBalance = 0;
 
         // Initialize TonConnectUI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
-            buttonRootId: 'payButton',
+            buttonRootId: 'connectWalletButton',
             uiOptions: {
                 twaReturnUrl: 'https://t.me/SparkOne_Bot',
             },
@@ -52,25 +55,36 @@
             });
         }
 
-        // Check if wallet is already connected
-        async function checkWalletConnection() {
-            const wallets = await tonConnectUI.getWallets();
-            if (wallets.length > 0) {
-                isWalletConnected = true;
-                document.getElementById("payButton").disabled = false;
-            }
-        }
-        checkWalletConnection();
+        // Connect Wallet Function
+        document.getElementById("connectWalletButton").addEventListener("click", async () => {
             try {
-                await tonConnectUI.connectWallet();
+                await tonConnectUI.connect();
                 isWalletConnected = true;
                 alert("Wallet connected successfully!");
+
+                // Fetch wallet balance
+                await updateBalance();
+
                 document.getElementById("payButton").disabled = false;
             } catch (error) {
                 alert("Failed to connect wallet. Please try again.");
                 console.error("Wallet connection error:", error);
             }
         });
+
+        // Function to update user balance
+        async function updateBalance() {
+            try {
+                const wallet = await tonConnectUI.getWallets();
+                if (wallet.length > 0) {
+                    // Simulated balance fetch (Replace with actual API call)
+                    userBalance = 10.5; // Assume 10.5 TON for testing
+                    document.getElementById("walletBalance").innerHTML = `Balance: <span>${userBalance} TON</span>`;
+                }
+            } catch (error) {
+                console.error("Error fetching balance:", error);
+            }
+        }
 
         // Payment button
         document.getElementById("payButton").addEventListener("click", async () => {
@@ -80,8 +94,14 @@
                 alert("Please enter a valid amount.");
                 return;
             }
+
             if (!isWalletConnected) {
                 alert("You need to connect your wallet first.");
+                return;
+            }
+
+            if (amountInput > userBalance) {
+                alert("Insufficient balance.");
                 return;
             }
 
@@ -96,6 +116,10 @@
 
                 await tonConnectUI.sendTransaction(transaction);
                 alert("Support sent successfully! Thank you.");
+                
+                // Update user balance after transaction
+                userBalance -= amountInput;
+                document.getElementById("walletBalance").innerHTML = `Balance: <span>${userBalance} TON</span>`;
             } catch (error) {
                 alert("An error occurred during payment. Please try again.");
                 console.error("Payment error:", error);
