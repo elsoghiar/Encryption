@@ -1,10 +1,35 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", initializeEventListeners);
+
+function initializeEventListeners() {
+    document.getElementById("encrypt-image").addEventListener("click", showImageEncrypt);
+    document.getElementById("decrypt-image").addEventListener("click", showImageDecrypt);
+}
+
+function showImageEncrypt() {
+    document.getElementById("en-image").classList.remove("hidden");
+    document.getElementById("dc-image").classList.add("hidden");
+
+    document.getElementById("encrypt-image").classList.add("active");
+    document.getElementById("decrypt-image").classList.remove("active");
+}
+
+function showImageDecrypt() {
+    document.getElementById("dc-image").classList.remove("hidden");
+    document.getElementById("en-image").classList.add("hidden");
+
+    document.getElementById("decrypt-image").classList.add("active");
+    document.getElementById("encrypt-image").classList.remove("active");
+}
+
+document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
 
     const uploadImage = document.getElementById('uploadImage');
     const inputText = document.getElementById('inputTe');
     const encryptionPassword = document.getElementById('encryptionPassword');
     const encryptButton = document.getElementById('cryptButton');
+    const downloadEncryptedImage = document.getElementById('downloadEncryptedImage');
+
     const decodeImage = document.getElementById('decodeImage');
     const decryptionPassword = document.getElementById('decryptionPassword');
     const decryptButton = document.getElementById('dcryptButton');
@@ -12,28 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const canvas = document.getElementById('hiddenCanvas');
     const ctx = canvas.getContext('2d');
-
-    function isTelegramWebApp() {
-        return window.Telegram?.WebApp !== undefined;
-    }
-
-    function handleImageDownload(blob) {
-        const url = URL.createObjectURL(blob);
-
-        if (isTelegramWebApp()) {
-            // فتح رابط التنزيل مباشرة داخل Telegram Web App
-            window.open(url, "_blank");
-        } else {
-            // التنزيل العادي في المتصفح
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "encrypted-image.png";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-    }
 
     encryptButton.addEventListener('click', () => {
         const file = uploadImage.files[0];
@@ -78,14 +81,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 ctx.putImageData(imageData, 0, 0);
-                canvas.toBlob((blob) => {
-                    if (blob) {
-                        handleImageDownload(blob);
-                    } else {
-                        alert("⚠️ حدث خطأ أثناء إنشاء الصورة المشفرة.");
-                    }
-                }, "image/png");
+                const encryptedImage = canvas.toDataURL("image/png");
 
+                // إعداد زر التنزيل
+                downloadEncryptedImage.onclick = (e) => {
+                    e.preventDefault();
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        const downloadPage = `download.html?image=${encodeURIComponent(encryptedImage)}`;
+                        window.open(downloadPage, '_blank');
+                    } else {
+                        downloadEncryptedImage.href = encryptedImage;
+                        downloadEncryptedImage.download = 'encrypted_image.png';
+                    }
+                };
+
+                downloadEncryptedImage.style.display = 'block';
+
+                // إعادة تعيين الحقول
                 uploadImage.value = '';
                 inputText.value = '';
                 encryptionPassword.value = '';
@@ -141,8 +153,4 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         reader.readAsDataURL(file);
     });
-
-    if (isTelegramWebApp()) {
-        Telegram.WebApp.expand();
-    }
 });
