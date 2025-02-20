@@ -613,7 +613,7 @@ footer {
     color: #4a4a4a;
 }   
 
-#dcryptButton {
+.wallet-address button, #dcryptButton, #connectButton, payButton {
     display: flex;
     align-items: center;
     justify-content: center;
