@@ -14,8 +14,8 @@ button, input, select, textarea {
 * {
     margin: 0;
     padding: 0;
-    overflow-y: auto;
-    position: relative;
+    /*overflow-y: auto;
+    position: relative;*/
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
     font-family: 'Rubik',sans-serif ;
