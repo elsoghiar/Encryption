@@ -77,6 +77,10 @@ button, input, select, textarea {
     transition: fill 0.3s ease;
 } 
 
+.nav-item.active svg {
+    stroke: #ffffff;
+} 
+
 .container {
     width: 100%;
     max-width: 320px;
