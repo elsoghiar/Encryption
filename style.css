@@ -222,6 +222,7 @@ button svg {
 }
 
 .page-title span {
+    margin-left: 5px;
     background: linear-gradient(90deg, #2D83EC, #9B59B6); 
     -webkit-background-clip: text; 
     -webkit-text-fill-color: transparent; 
@@ -230,7 +231,7 @@ button svg {
 } 
 
 .page-title svg {
-    margin-left: 120px;
+    margin-left: 115px;
 } 
  
 .titley {
