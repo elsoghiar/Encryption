@@ -12,36 +12,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-const telegramApp = window.Telegram.WebApp;
-telegramApp.ready();
-const homePage = "index.html";
-function updateActiveButton() {
+document.addEventListener("DOMContentLoaded", function () {
+    const homePage = "index.html";
     const currentPage = window.location.pathname.split('/').pop() || homePage;
+
+    // تحديد جميع عناصر القائمة السفلية
+    document.querySelectorAll(".nav-item").forEach((item) => {
+        const itemHref = item.getAttribute("href");
+
+        // إزالة الصنف النشط من جميع العناصر أولاً
+        item.classList.remove("active");
+
+        // تعيين الصنف النشط للعنصر المطابق للصفحة الحالية
+        if (itemHref === currentPage) {
+            item.classList.add("active");
+        }
+    });
+
+    // تكامل مع Telegram WebApp API
+    const telegramApp = window.Telegram.WebApp;
+    telegramApp.ready();
+
     if (currentPage === homePage) {
-        telegramApp.BackButton.hide();
+        telegramApp.BackButton.hide(); 
     } else {
         telegramApp.BackButton.show();
         telegramApp.BackButton.onClick(() => {
-            window.location.href = homePage;
+            window.location.href = homePage; 
         });
     }
-    document.querySelectorAll(".nav-item").forEach(item => {
-        const target = item.getAttribute("href");
-        const icon = item.querySelector("svg");
-
-        if (target === currentPage) {
-            item.classList.add("active");
-            if (icon) {
-                icon.style.fill = "#2D83EC"; 
-            }
-        } else {
-            item.classList.remove("active");
-            if (icon) {
-                icon.style.fill = "#4a4a4a"; 
-            }
-        }
-    });
-}
-
-document.addEventListener("DOMContentLoaded", updateActiveButton);
-window.addEventListener("popstate", updateActiveButton);
+});
