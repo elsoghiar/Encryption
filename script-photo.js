@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     encryptButton.addEventListener('click', () => {
         const file = uploadImage.files[0];
-        const text = inputText.value.trim();
+        const text = inputText.value;
         const key = encryptionPassword.value || DEFAULT_KEY;
 
         if (!file || !text) {
@@ -59,14 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 ctx.putImageData(imageData, 0, 0);
                 const encryptedImage = canvas.toDataURL("image/png");
-
-                if (window.Telegram && window.Telegram.WebApp) {
-                    window.open(encryptedImage, "_blank");
-                } else {
-                    downloadEncryptedImage.href = encryptedImage;
-                    downloadEncryptedImage.download = "encrypted.png";
-                    downloadEncryptedImage.style.display = 'block';
-                }
+                downloadEncryptedImage.href = encryptedImage;
+                downloadEncryptedImage.style.display = 'block';
 
                 uploadImage.value = '';
                 inputText.value = '';
@@ -124,5 +118,4 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 });
-
 
