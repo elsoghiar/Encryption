@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -11,27 +12,28 @@
 </head>
 <body>
 
-    <h2>🔐 تشفير النص داخل صورة وفك تشفيره</h2>
+<h2>🔐 تشفير النص داخل صورة وفك تشفيره</h2>
 
-    <div class="container">
-        <h3>إخفاء النص داخل صورة</h3>
-        <input type="file" id="imageInput" accept="image/*"><br>
-        <textarea id="textToHide" placeholder="📝 أدخل النص هنا"></textarea><br>
-        <input type="password" id="encryptionKey" placeholder="🔑 أدخل مفتاح التشفير (اختياري)"><br>
-        <button onclick="hideTextInImage()">🔐 تشفير النص</button>
-        <a id="downloadLink" style="display:none;" download="encrypted.png">⬇️ تحميل الصورة المشفرة</a>
-    </div>
+<div class="encrypt-section">
+    <h3>إخفاء النص داخل صورة</h3>
+    <input type="file" id="uploadImage" accept="image/*"><br>
+    <textarea id="inputText" placeholder="📝 أدخل النص هنا"></textarea><br>
+    <input type="password" id="encryptionPassword" placeholder="🔑 أدخل مفتاح التشفير (اختياري)"><br>
+    <button id="encryptButton">🔐 تشفير النص</button>
+    <a id="downloadEncryptedImage" style="display:none;" download="encrypted.png">⬇️ تحميل الصورة المشفرة</a>
+</div>
 
-    <br>
+<br>
 
-    <div class="container">
-        <h3>🔍 استخراج النص من صورة</h3>
-        <input type="file" id="imageDecodeInput" accept="image/*"><br>
-        <input type="password" id="decryptionKey" placeholder="🔑 أدخل مفتاح فك التشفير (إن وجد)"><br>
-        <button onclick="extractTextFromImage()">🔎 فك التشفير</button>
-        <p id="extractedText"></p>
-    </div>
-    <div class="bottom-nav">
+<div class="decrypt-section">
+    <h3>🔍 استخراج النص من صورة</h3>
+    <input type="file" id="decodeImage" accept="image/*"><br>
+    <input type="password" id="decryptionPassword" placeholder="🔑 أدخل مفتاح فك التشفير (إن وجد)"><br>
+    <button id="decryptButton">🔎 فك التشفير</button>
+    <p id="outputText"></p>
+</div>
+
+<div class="bottom-nav">
                 <a href="index.html" class="nav-item">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-align-left">
                         <path d="M15 12H3" />
@@ -54,129 +56,11 @@
                         <path d="m15 18-2-2" />
                     </svg>
                 </a>
-            </div>
-</div>
+    </div>
 
-    <canvas id="canvas"></canvas>
+<canvas id="hiddenCanvas" style="display:none;"></canvas>
 
-    <script>
-        const DEFAULT_KEY = "SuperSecureKey123!@#"; // مفتاح افتراضي
-
-        function hideTextInImage() {
-            const fileInput = document.getElementById('imageInput');
-            const textInput = document.getElementById('textToHide').value;
-            let encryptionKey = document.getElementById('encryptionKey').value || DEFAULT_KEY;
-
-            if (!fileInput.files[0] || !textInput) {
-                alert("⚠️ يرجى اختيار صورة وإدخال نص.");
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.src = event.target.result;
-
-                img.onload = function() {
-                    const canvas = document.getElementById('canvas');
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const pixels = imageData.data;
-
-                    // 🔐 تشفير النص باستخدام CryptoJS
-                    const encryptedText = CryptoJS.AES.encrypt(textInput, encryptionKey).toString();
-
-                    let binaryText = '';
-                    for (let i = 0; i < encryptedText.length; i++) {
-                        binaryText += encryptedText.charCodeAt(i).toString(2).padStart(8, '0');
-                    }
-
-                    if (binaryText.length > pixels.length / 4) {
-                        alert("⚠️ النص طويل جدًا بالنسبة لهذه الصورة.");
-                        return;
-                    }
-
-                    // توزيع البيانات المشفرة على القنوات اللونية
-                    let index = 0;
-                    for (let i = 0; i < pixels.length && index < binaryText.length; i += 4) {
-                        pixels[i] = (pixels[i] & 0xFE) | parseInt(binaryText[index]); // قناة R
-                        pixels[i + 1] = (pixels[i + 1] & 0xFE) | parseInt(binaryText[index + 1] || '0'); // قناة G
-                        pixels[i + 2] = (pixels[i + 2] & 0xFE) | parseInt(binaryText[index + 2] || '0'); // قناة B
-                        index += 3;
-                    }
-
-                    ctx.putImageData(imageData, 0, 0);
-
-                    const encryptedImage = canvas.toDataURL("image/png");
-                    const downloadLink = document.getElementById('downloadLink');
-                    downloadLink.href = encryptedImage;
-                    downloadLink.style.display = 'block';
-
-                    // 🧹 مسح البيانات بعد التشفير
-                    document.getElementById('imageInput').value = '';
-                    document.getElementById('textToHide').value = '';
-                    document.getElementById('encryptionKey').value = '';
-                };
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-
-        function extractTextFromImage() {
-            const fileInput = document.getElementById('imageDecodeInput');
-            let decryptionKey = document.getElementById('decryptionKey').value || DEFAULT_KEY;
-
-            if (!fileInput.files[0]) {
-                alert("⚠️ يرجى اختيار صورة لفك التشفير.");
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.src = event.target.result;
-
-                img.onload = function() {
-                    const canvas = document.getElementById('canvas');
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const pixels = imageData.data;
-
-                    let binaryText = '';
-                    for (let i = 0; i < pixels.length; i += 4) {
-                        binaryText += (pixels[i] & 1).toString();
-                        binaryText += (pixels[i + 1] & 1).toString();
-                        binaryText += (pixels[i + 2] & 1).toString();
-                    }
-
-                    let extractedText = '';
-                    for (let i = 0; i < binaryText.length; i += 8) {
-                        const byte = binaryText.substr(i, 8);
-                        const charCode = parseInt(byte, 2);
-                        if (charCode === 0) break;
-                        extractedText += String.fromCharCode(charCode);
-                    }
-
-                    try {
-                        extractedText = CryptoJS.AES.decrypt(extractedText, decryptionKey).toString(CryptoJS.enc.Utf8);
-                        document.getElementById('extractedText').innerText = "🔓 النص المستخرج: " + extractedText;
-                    } catch (error) {
-                        alert("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
-                    }
-                };
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    </script>
+<script src="script-photo.js"></script>
 
 </body>
 </html>
