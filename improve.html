@@ -19,7 +19,7 @@
             <div class="content">
                 <h2>Wallet Qexx</h2>
                 <div class="wallet-address">
-                    <span id="walletAddress">UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ</span>
+                    <span id="walletAddress">UQBPlXtbw-tBxfzovzo3c4HYcdyyQkaw1KnP3L45s2syeTUS</span>
                     <button onclick="copyAddress()">📋 Copy</button>
                 </div>
                 <p>Support the development and continuous updates of the application financially through TON.</p>
@@ -29,7 +29,7 @@
                 <h2>Instant Support Using TON</h2>
                 <input type="number" id="amountInput" placeholder="Enter the amount in TON">
                 <button id="connectWallet">Connect Wallet</button>
-                <button id="payButton" disabled style="display: none;">Make Payment</button>
+                <button id="payButton" disabled>Make Payment</button>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
     <script>
         let isWalletConnected = false;
 
-        // إعداد TonConnectUI
+        // Initialize TonConnectUI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
             buttonRootId: 'connectWallet',
@@ -46,72 +46,71 @@
             },
         });
 
-        // التحقق مما إذا كانت المحفظة مرتبطة بالفعل
-        async function checkWalletConnection() {
-            try {
-                const wallets = await tonConnectUI.getWallets();
-                isWalletConnected = wallets.length > 0;
-                if (isWalletConnected) {
-                    document.getElementById("payButton").style.display = "inline-block";
-                    document.getElementById("payButton").disabled = false;
-                }
-            } catch (error) {
-                console.error("خطأ في التحقق من المحفظة:", error);
-            }
-        }
-
-        // وظيفة لنسخ عنوان المحفظة
+        // Function to copy wallet address
         function copyAddress() {
             const address = document.getElementById("walletAddress").innerText;
             navigator.clipboard.writeText(address).then(() => {
-                alert("تم نسخ العنوان بنجاح!");
+                alert("Wallet address copied successfully!");
             });
         }
 
-        // زر ربط المحفظة
+        // Check if wallet is already connected
+        async function checkWalletConnection() {
+            const wallets = await tonConnectUI.getWallets();
+            if (wallets.length > 0) {
+                isWalletConnected = true;
+                document.getElementById("payButton").disabled = false;
+            }
+        }
+        checkWalletConnection(); // Run on load
+
+        // Connect wallet button
         document.getElementById("connectWallet").addEventListener("click", async () => {
             if (isWalletConnected) {
-                alert("المحفظة متصلة بالفعل!");
+                alert("Wallet is already connected.");
                 return;
             }
 
             try {
                 await tonConnectUI.connectWallet();
                 isWalletConnected = true;
-                alert("تم ربط المحفظة بنجاح!");
-                document.getElementById("payButton").style.display = "inline-block";
+                alert("Wallet connected successfully!");
                 document.getElementById("payButton").disabled = false;
             } catch (error) {
-                alert("فشل في ربط المحفظة، حاول مرة أخرى.");
+                alert("Failed to connect wallet. Please try again.");
+                console.error("Wallet connection error:", error);
             }
         });
 
-        // زر الدفع
+        // Payment button
         document.getElementById("payButton").addEventListener("click", async () => {
-            const amount = parseFloat(document.getElementById("amountInput").value);
-            if (!amount || amount <= 0) {
-                alert("يرجى إدخال مبلغ صالح.");
+            const amountInput = parseFloat(document.getElementById("amountInput").value);
+            
+            if (!amountInput || amountInput <= 0) {
+                alert("Please enter a valid amount.");
                 return;
             }
             if (!isWalletConnected) {
-                alert("يجب ربط المحفظة أولاً.");
+                alert("You need to connect your wallet first.");
                 return;
             }
 
             try {
-                await tonConnectUI.sendTransaction({
-                    to: "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ",
-                    amount: amount * 1e9 // تحويل إلى nanotons
-                });
-                alert("تم إرسال الدعم بنجاح! شكرًا لك.");
+                const amount = (amountInput * 1e9).toString(); // Convert to nanotons
+                const recipientAddress = "UQBPlXtbw-tBxfzovzo3c4HYcdyyQkaw1KnP3L45s2syeTUS";
+                
+                const transaction = {
+                    validUntil: Math.floor(Date.now() / 1000) + 600, // Valid for 10 minutes
+                    messages: [{ address: recipientAddress, amount }],
+                };
+
+                await tonConnectUI.sendTransaction(transaction);
+                alert("Support sent successfully! Thank you.");
             } catch (error) {
-                alert("حدث خطأ أثناء الدفع، حاول مرة أخرى.");
-                console.error("خطأ أثناء الدفع:", error);
+                alert("An error occurred during payment. Please try again.");
+                console.error("Payment error:", error);
             }
         });
-
-        // التحقق من المحفظة عند تحميل الصفحة
-        checkWalletConnection();
     </script>
 </body>
 </html>
