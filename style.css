@@ -684,3 +684,12 @@ footer {
     color: #4a4a4a;
 } 
 
+.wallet-address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #101010;
+    padding: 10px;
+    border-radius: 10px;
+}
+
