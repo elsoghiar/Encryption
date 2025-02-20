@@ -29,14 +29,12 @@
                 <input type="number" id="amountInput" placeholder="Enter the amount in TON">
                 <button id="connectWalletButton">Connect Wallet</button>
                 <button id="payButton" disabled>Make Payment</button>
-                <p id="walletBalance">Balance: <span>0 TON</span></p>
             </div>
         </div>
     </div>
 
     <script>
         let isWalletConnected = false;
-        let userBalance = 0;
 
         // Initialize TonConnectUI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -50,9 +48,7 @@
         // Function to copy wallet address
         function copyAddress() {
             const address = document.getElementById("walletAddress").innerText;
-            navigator.clipboard.writeText(address).then(() => {
-                alert("Wallet address copied successfully!");
-            });
+            navigator.clipboard.writeText(address);
         }
 
         // Connect Wallet Function
@@ -60,31 +56,11 @@
             try {
                 await tonConnectUI.connect();
                 isWalletConnected = true;
-                alert("Wallet connected successfully!");
-
-                // Fetch wallet balance
-                await updateBalance();
-
                 document.getElementById("payButton").disabled = false;
             } catch (error) {
-                alert("Failed to connect wallet. Please try again.");
                 console.error("Wallet connection error:", error);
             }
         });
-
-        // Function to update user balance
-        async function updateBalance() {
-            try {
-                const wallet = await tonConnectUI.getWallets();
-                if (wallet.length > 0) {
-                    // Simulated balance fetch (Replace with actual API call)
-                    userBalance = 10.5; // Assume 10.5 TON for testing
-                    document.getElementById("walletBalance").innerHTML = `Balance: <span>${userBalance} TON</span>`;
-                }
-            } catch (error) {
-                console.error("Error fetching balance:", error);
-            }
-        }
 
         // Payment button
         document.getElementById("payButton").addEventListener("click", async () => {
@@ -100,11 +76,6 @@
                 return;
             }
 
-            if (amountInput > userBalance) {
-                alert("Insufficient balance.");
-                return;
-            }
-
             try {
                 const amount = (amountInput * 1e9).toString(); // Convert to nanotons
                 const recipientAddress = "UQBPlXtbw-tBxfzovzo3c4HYcdyyQkaw1KnP3L45s2syeTUS";
@@ -115,12 +86,10 @@
                 };
 
                 await tonConnectUI.sendTransaction(transaction);
-                alert("Support sent successfully! Thank you.");
-                
-                // Update user balance after transaction
-                userBalance -= amountInput;
-                document.getElementById("walletBalance").innerHTML = `Balance: <span>${userBalance} TON</span>`;
             } catch (error) {
+                if (error.message.includes("User rejected the transaction")) {
+                    return; // لا تعرض أي إشعار إذا رفض المستخدم العملية بنفسه
+                }
                 alert("An error occurred during payment. Please try again.");
                 console.error("Payment error:", error);
             }
