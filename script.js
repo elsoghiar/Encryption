@@ -1,3 +1,9 @@
+document.addEventListener("DOMContentLoaded", () => {
+    initializeEventListeners();
+    showEncrypt();
+});
+
+
 function initializeEventListeners() {
     document.getElementById("encryptTab").addEventListener("click", showEncrypt);
     document.getElementById("decryptTab").addEventListener("click", showDecrypt);
