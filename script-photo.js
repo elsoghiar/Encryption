@@ -1,3 +1,26 @@
+document.addEventListener("DOMContentLoaded", initializeEventListeners);
+
+function initializeEventListeners() {
+    document.getElementById("encrypt-image").addEventListener("click", showImageEncrypt);
+    document.getElementById("decrypt-image").addEventListener("click", showImageDecrypt);
+}
+
+function showImageEncrypt() {
+    document.getElementById("en-image").classList.remove("hidden");
+    document.getElementById("dc-image").classList.add("hidden");
+
+    document.getElementById("encrypt-image").classList.add("active");
+    document.getElementById("decrypt-image").classList.remove("active");
+}
+
+function showImageDecrypt() {
+    document.getElementById("dc-image").classList.remove("hidden");
+    document.getElementById("en-image").classList.add("hidden");
+
+    document.getElementById("decrypt-image").classList.add("active");
+    document.getElementById("encrypt-image").classList.remove("active");
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
 
