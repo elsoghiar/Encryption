@@ -657,6 +657,12 @@ footer {
     display: none;
 }
 
+.custom-file-upload span {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+ 
 .image-preview-container {
     display: flex;
     align-items: center;
