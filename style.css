@@ -46,10 +46,10 @@ button, input, select, textarea {
 
 .bottom-nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; 
     align-items: center;
     height: 55px;
-    gap: 10px;
+    gap: 10px; 
     position: fixed;
     bottom: 30px;
     border-bottom: 2px solid #181818;
@@ -63,13 +63,17 @@ button, input, select, textarea {
 
 .menu-item-container {
     display: flex;
-    width: 20%;
-    margin: 5px auto;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    flex: 1;
-    
+    margin: 0 5px;
 }
+
+.nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ 
  
  
 .container {
