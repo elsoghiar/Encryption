@@ -586,3 +586,30 @@ footer {
 .tabs-bo button.active svg {
     stroke: #2D83EC;
 } 
+
+h2, h3 {
+    color: #007bff;
+}
+
+#downloadEncryptedImage {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+#downloadEncryptedImage:hover {
+    background-color: #218838;
+}
+
+#outputText {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    word-wrap: break-word;
+}
