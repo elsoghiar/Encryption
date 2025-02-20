@@ -48,17 +48,17 @@ button, input, select, textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 60px;
     position: fixed;
-    bottom: 40px;
+    bottom: 35px;
     padding-bottom: 4px;
-    border-top: 1px solid #1c1c1c;
+    border: 2px dashed #181818;
     border-radius: 20px;
-    width: 60%;
+    width: 80%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
-    background: rgba(0, 0, 0, 0.1); 
+    background: rgba(0, 0, 0, 0.7); 
 }
 
 .menu-list {
