@@ -213,7 +213,7 @@ button svg {
 .page-title {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
     text-align: left;
     font-size: 22px;
     white-space: nowrap;
@@ -222,7 +222,6 @@ button svg {
 }
 
 .page-title span {
-    margin-left: 5px;
     background: linear-gradient(90deg, #2D83EC, #9B59B6); 
     -webkit-background-clip: text; 
     -webkit-text-fill-color: transparent; 
@@ -231,7 +230,7 @@ button svg {
 } 
 
 .page-title svg {
-    margin-left: 115px;
+    margin-left: 110px;
 } 
  
 .titley {
