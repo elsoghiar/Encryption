@@ -52,7 +52,7 @@ button, input, select, textarea {
     position: fixed;
     bottom: 30px;
     padding-bottom: 4px;
-    border: 1px solid #181818;
+    border-bottom: 2px solid #181818;
     border-radius: 20px;
     width: 80%;
     left: 50%;
@@ -83,8 +83,8 @@ button, input, select, textarea {
 }
 
 .menu-item-container svg {
-    height: 26px;
-    width: 26px;
+    height: 27px;
+    width: 27px;
 } 
 
 .menu-item {
