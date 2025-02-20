@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const encryptedImage = canvas.toDataURL("image/png");
 
                 if (window.Telegram && window.Telegram.WebApp) {
-                    Telegram.WebApp.openDocument({ url: encryptedImage, filename: "encrypted.png" });
+                    window.open(encryptedImage, "_blank");
                 } else {
                     downloadEncryptedImage.href = encryptedImage;
                     downloadEncryptedImage.download = "encrypted.png";
@@ -124,6 +124,5 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 });
-
 
 
