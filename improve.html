@@ -1,129 +1,77 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تعزيز المشروع</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            direction: rtl;
-            background: #f5f5f5;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            margin: 20px auto;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
-        .wallet-address {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #eee;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        input {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: center;
-        }
-        button {
-            background: #007bff;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-            width: 100%;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-    </style>
 </head>
 <body>
-
-    <h1>دعم وتعزيز المشروع</h1>
-
-    <!-- حاوية المحفظة -->
-    <div class="container">
-        <h2>محفظة TON</h2>
-        <div class="wallet-address">
-            <span id="walletAddress">UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ</span>
-            <button onclick="copyAddress()">📋</button>
+    <div class="containers">
+        <div class="container">
+            <div class="page-title">CRYPTOR <span>QEXX.</span>
+            </div>
+            <div class="titley">Encrypt - Decrypt your text with a password.</div>
+            <div class="container">
+                <h2>محفظة TON</h2>
+                <div class="wallet-address">
+                    <span id="walletAddress">UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ</span>
+                    <button onclick="copyAddress()">📋</button>
+                </div>
+                <p>ساعد في تعزيز المشروع من خلال تقديم الدعم عبر TON</p>
+            </div>
+            <div class="container">
+                <h2>الدعم الفوري باستخدام TON</h2>
+                <input type="number" id="amountInput" placeholder="أدخل المبلغ بـ TON">
+                <button id="connectButton">ربط المحفظة</button>
+                <button id="payButton" disabled>إجراء الدفع</button>
+             </div>
+          </div>
         </div>
-        <p>ساعد في تعزيز المشروع من خلال تقديم الدعم عبر TON</p>
-    </div>
-
-    <!-- حاوية الدعم الفوري -->
-    <div class="container">
-        <h2>الدعم الفوري باستخدام TON</h2>
-        <input type="number" id="amountInput" placeholder="أدخل المبلغ بـ TON">
-        <button id="connectButton">ربط المحفظة</button>
-        <button id="payButton" disabled>إجراء الدفع</button>
-    </div>
-
-    <script>
-        const tonConnect = new TONConnectSDK.TonConnect();
-        let isWalletConnected = false;
-
-        // وظيفة لنسخ عنوان المحفظة
-        function copyAddress() {
-            const address = document.getElementById("walletAddress").innerText;
-            navigator.clipboard.writeText(address).then(() => {
-                alert("تم نسخ العنوان!");
-            });
-        }
-
-        // زر ربط المحفظة
-        document.getElementById("connectButton").addEventListener("click", async () => {
-            try {
-                await tonConnect.connectWallet();
-                isWalletConnected = true;
-                alert("تم ربط المحفظة بنجاح!");
-                document.getElementById("payButton").disabled = false;
-            } catch (error) {
-                alert("فشل في ربط المحفظة، حاول مرة أخرى.");
-            }
-        });
-
-        // زر الدفع
-        document.getElementById("payButton").addEventListener("click", async () => {
-            const amount = document.getElementById("amountInput").value;
-            if (!amount || amount <= 0) {
-                alert("يرجى إدخال مبلغ صالح.");
-                return;
-            }
-
-            if (!isWalletConnected) {
-                alert("يجب ربط المحفظة أولاً.");
-                return;
-            }
-
-            // إعداد معاملة TON
-            try {
-                await tonConnect.sendTransaction({
-                    to: "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ",
-                    amount: amount * 1e9 // تحويل إلى nanotons
+            <script>
+                const tonConnect = new TONConnectSDK.TonConnect();
+                let isWalletConnected = false;
+                // وظيفة لنسخ عنوان المحفظة
+                function copyAddress() {
+                    const address = document.getElementById("walletAddress").innerText;
+                    navigator.clipboard.writeText(address).then(() => {
+                        alert("تم نسخ العنوان!");
+                    });
+                }
+                // زر ربط المحفظة
+                document.getElementById("connectButton").addEventListener("click", async () => {
+                    try {
+                        await tonConnect.connectWallet();
+                        isWalletConnected = true;
+                        alert("تم ربط المحفظة بنجاح!");
+                        document.getElementById("payButton").disabled = false;
+                    } catch (error) {
+                        alert("فشل في ربط المحفظة، حاول مرة أخرى.");
+                    }
                 });
-                alert("تم إرسال الدعم بنجاح! شكرًا لك.");
-            } catch (error) {
-                alert("حدث خطأ أثناء الدفع، حاول مرة أخرى.");
-            }
-        });
-    </script>
-
+                // زر الدفع
+                document.getElementById("payButton").addEventListener("click", async () => {
+                    const amount = document.getElementById("amountInput").value;
+                    if (!amount || amount <= 0) {
+                        alert("يرجى إدخال مبلغ صالح.");
+                        return;
+                    }
+                    if (!isWalletConnected) {
+                        alert("يجب ربط المحفظة أولاً.");
+                        return;
+                    }
+                    // إعداد معاملة TON
+                    try {
+                        await tonConnect.sendTransaction({
+                            to: "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ",
+                            amount: amount * 1e9 // تحويل إلى nanotons
+                        });
+                        alert("تم إرسال الدعم بنجاح! شكرًا لك.");
+                    } catch (error) {
+                        alert("حدث خطأ أثناء الدفع، حاول مرة أخرى.");
+                    }
+                });
+            </script>
 </body>
 </html>
