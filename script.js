@@ -1,47 +1,25 @@
+// تهيئة Telegram WebApp
 const telegramApp = window.Telegram.WebApp;
-telegramApp.ready(); // تأكيد جاهزية التطبيق
+telegramApp.ready();
 
-// تحديد الصفحة الرئيسية
-const homePage = "index.html";
+const homePage = "index.html"; // اسم الصفحة الرئيسية
 
-// تحديث زر التحكم بناءً على الصفحة
-function updateTelegramButtons() {
-    const currentPage = window.location.pathname.split('/').pop();
+// وظيفة لتحديث زر Telegram
+function updateTelegramButton() {
+    const currentPage = window.location.pathname.split('/').pop() || homePage;
 
-    if (currentPage === homePage || currentPage === "") {
-        telegramApp.BackButton.hide(); // إخفاء زر الرجوع في الصفحة الرئيسية
-        telegramApp.MainButton.show(); // إظهار زر الإغلاق
-        telegramApp.MainButton.setText("إغلاق");
-        telegramApp.MainButton.onClick(() => telegramApp.close());
+    if (currentPage === homePage) {
+        telegramApp.BackButton.hide();  // إخفاء زر الرجوع في الصفحة الرئيسية
     } else {
-        telegramApp.MainButton.hide(); // إخفاء زر الإغلاق في الصفحات الأخرى
-        telegramApp.BackButton.show();
+        telegramApp.BackButton.show();  // إظهار زر الرجوع في الصفحات الفرعية
         telegramApp.BackButton.onClick(() => {
-            window.location.href = homePage; // العودة إلى الصفحة الرئيسية
+            window.location.href = homePage;  // الرجوع دائماً إلى الصفحة الرئيسية
         });
     }
-
-    // تغيير لون الأيقونة النشطة
-    updateActiveIcon(currentPage);
 }
 
-// تغيير لون الأيقونة النشطة
-function updateActiveIcon(currentPage) {
-    document.querySelectorAll('.nav-item').forEach(item => {
-        const link = item.getAttribute('href');
-        if (link === currentPage) {
-            item.style.color = '#fff'; // لون نشط
-        } else {
-            item.style.color = 'rgba(255, 255, 255, 0.5)'; // لون غير نشط
-        }
-    });
-}
-
-// استدعاء التحديث عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', updateTelegramButtons);
-window.addEventListener('popstate', updateTelegramButtons);
-
-
+// تنفيذ عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", updateTelegramButton);
 
 
 
