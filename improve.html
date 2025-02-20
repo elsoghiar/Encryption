@@ -29,12 +29,14 @@
                 <h2>Instant Support Using TON</h2>
                 <input type="number" id="amountInput" placeholder="Enter the amount in TON">
                 <button id="connectWallet">Connect Wallet</button>
-                <button id="payButton" disabled>Make Payment</button>
+                <button id="payButton" disabled style="display: none;">Make Payment</button>
             </div>
         </div>
     </div>
 
     <script>
+        let isWalletConnected = false;
+
         // إعداد TonConnectUI
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
@@ -44,7 +46,19 @@
             },
         });
 
-        let isWalletConnected = false;
+        // التحقق مما إذا كانت المحفظة مرتبطة بالفعل
+        async function checkWalletConnection() {
+            try {
+                const wallets = await tonConnectUI.getWallets();
+                isWalletConnected = wallets.length > 0;
+                if (isWalletConnected) {
+                    document.getElementById("payButton").style.display = "inline-block";
+                    document.getElementById("payButton").disabled = false;
+                }
+            } catch (error) {
+                console.error("خطأ في التحقق من المحفظة:", error);
+            }
+        }
 
         // وظيفة لنسخ عنوان المحفظة
         function copyAddress() {
@@ -56,10 +70,16 @@
 
         // زر ربط المحفظة
         document.getElementById("connectWallet").addEventListener("click", async () => {
+            if (isWalletConnected) {
+                alert("المحفظة متصلة بالفعل!");
+                return;
+            }
+
             try {
                 await tonConnectUI.connectWallet();
                 isWalletConnected = true;
                 alert("تم ربط المحفظة بنجاح!");
+                document.getElementById("payButton").style.display = "inline-block";
                 document.getElementById("payButton").disabled = false;
             } catch (error) {
                 alert("فشل في ربط المحفظة، حاول مرة أخرى.");
@@ -68,7 +88,7 @@
 
         // زر الدفع
         document.getElementById("payButton").addEventListener("click", async () => {
-            const amount = document.getElementById("amountInput").value;
+            const amount = parseFloat(document.getElementById("amountInput").value);
             if (!amount || amount <= 0) {
                 alert("يرجى إدخال مبلغ صالح.");
                 return;
@@ -86,8 +106,12 @@
                 alert("تم إرسال الدعم بنجاح! شكرًا لك.");
             } catch (error) {
                 alert("حدث خطأ أثناء الدفع، حاول مرة أخرى.");
+                console.error("خطأ أثناء الدفع:", error);
             }
         });
+
+        // التحقق من المحفظة عند تحميل الصفحة
+        checkWalletConnection();
     </script>
 </body>
 </html>
