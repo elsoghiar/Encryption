@@ -37,7 +37,17 @@
             </div>
             <div id="en-image" class="content">
                 <div  class="tit-image">Encrypt and hide text inside an image </div>
-                <input type="file" id="uploadImage" accept="image/*">
+                
+                <div class="custom-file-upload">
+    <label for="uploadImage">
+        <span>Upload image</span>
+    </label>
+    <input type="file" id="uploadImage" accept="image/*">
+    <div class="image-preview-container">
+        <img id="imagePreview" src="" alt="image">
+        <span id="fileName"></span>
+    </div>
+                </div>  
                 <div class="container-here">
                     <textarea id="inputTe" placeholder="Enter text here..."></textarea>
                     <button id="cryptButton">
