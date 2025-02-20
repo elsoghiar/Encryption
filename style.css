@@ -702,3 +702,13 @@ footer {
     font-weight: 500;
 } 
 
+.contentsu {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(90deg, #101010, #0C0C0C, #101010); 
+    border: 1px solid #4a4a4a;
+    width: 100%;
+    padding: 10px;
+    gap: 10px;
+}
+ 
