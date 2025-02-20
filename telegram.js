@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    initializeEventListeners();
-    showEncrypt();
-
     try {
         if (window.Telegram?.WebApp) {
             Telegram.WebApp.requestFullscreen();
