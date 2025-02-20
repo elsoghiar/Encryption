@@ -12,27 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    const homePage = "index.html";
+const telegramApp = window.Telegram.WebApp;
+telegramApp.ready();
+const homePage = "index.html";
+function updateActiveButton() {
     const currentPage = window.location.pathname.split('/').pop() || homePage;
-
-    // تحديد جميع عناصر التنقل
-    const navItems = document.querySelectorAll(".nav-item");
-
-    navItems.forEach(item => {
-        const link = item.getAttribute("href");
-        if (link === currentPage) {
-            item.classList.add("active");
-        } else {
-            item.classList.remove("active");
-        }
-    });
-
-    // Telegram WebApp Back Button
-    const telegramApp = window.Telegram.WebApp;
-    telegramApp.ready();
-
     if (currentPage === homePage) {
         telegramApp.BackButton.hide();
     } else {
@@ -41,4 +25,23 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = homePage;
         });
     }
-});
+    document.querySelectorAll(".nav-item").forEach(item => {
+        const target = item.getAttribute("href");
+        const icon = item.querySelector("svg");
+
+        if (target === currentPage) {
+            item.classList.add("active");
+            if (icon) {
+                icon.style.fill = "#2D83EC"; 
+            }
+        } else {
+            item.classList.remove("active");
+            if (icon) {
+                icon.style.fill = "#4a4a4a"; 
+            }
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", updateActiveButton);
+window.addEventListener("popstate", updateActiveButton);
