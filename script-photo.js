@@ -22,11 +22,10 @@ function showImageDecrypt() {
 }
 
 function showNotification(message, type = "success") {
-    let notification = document.getElementById("notification");
+    const notification = document.getElementById("notification");
     
     notification.style.opacity = "1";
     notification.style.display = "block";
-    
     notification.textContent = message;
     notification.className = `notification-${type}`;
 
@@ -35,27 +34,6 @@ function showNotification(message, type = "success") {
         setTimeout(() => notification.style.display = "none", 500);
     }, 2500);
 }
-
-document.getElementById('uploadImage').addEventListener('change', function () {
-    const file = this.files[0];
-    const imagePreview = document.getElementById('imagePreview');
-    const fileNameDisplay = document.getElementById('fileName');
-
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            imagePreview.src = e.target.result;
-            imagePreview.style.display = 'block';
-        };
-
-        reader.readAsDataURL(file);
-        fileNameDisplay.textContent = `Selected file: ${file.name}`;
-    } else {
-        imagePreview.style.display = 'none';
-        fileNameDisplay.textContent = '';
-    }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
@@ -76,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     encryptButton.addEventListener('click', () => {
         const file = uploadImage.files[0];
-        const text = inputText.value;
+        const text = inputText.value.trim();
         const key = encryptionPassword.value || DEFAULT_KEY;
 
         if (!file || !text) {
@@ -97,33 +75,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const pixels = imageData.data;
 
-                const encryptedText = CryptoJS.AES.encrypt(text, key).toString();
-                let binaryText = '';
-                for (let i = 0; i < encryptedText.length; i++) {
-                    binaryText += encryptedText.charCodeAt(i).toString(2).padStart(8, '0');
+                try {
+                    const encryptedText = CryptoJS.AES.encrypt(text, key).toString();
+                    let binaryText = '';
+                    for (let i = 0; i < encryptedText.length; i++) {
+                        binaryText += encryptedText.charCodeAt(i).toString(2).padStart(8, '0');
+                    }
+
+                    if (binaryText.length > pixels.length / 4) {
+                        showNotification("⚠️ The text is too long considering this picture.");
+                        return;
+                    }
+
+                    let index = 0;
+                    for (let i = 0; i < pixels.length && index < binaryText.length; i += 4) {
+                        pixels[i] = (pixels[i] & 0xFE) | parseInt(binaryText[index] || '0');
+                        pixels[i + 1] = (pixels[i + 1] & 0xFE) | parseInt(binaryText[index + 1] || '0');
+                        pixels[i + 2] = (pixels[i + 2] & 0xFE) | parseInt(binaryText[index + 2] || '0');
+                        index += 3;
+                    }
+
+                    ctx.putImageData(imageData, 0, 0);
+                    const encryptedImage = canvas.toDataURL("image/png");
+                    downloadEncryptedImage.href = encryptedImage;
+                    downloadEncryptedImage.style.display = 'block';
+
+                    // Reset fields after successful encryption
+                    uploadImage.value = '';
+                    inputText.value = '';
+                    encryptionPassword.value = '';
+
+                    showNotification("✅ Encryption successful!");
+                } catch (error) {
+                    showNotification("❌ Error during encryption: " + error.message);
                 }
-
-                if (binaryText.length > pixels.length / 4) {
-                    showNotification("⚠️ The text is too long considering this picture.");
-                    return;
-                }
-
-                let index = 0;
-                for (let i = 0; i < pixels.length && index < binaryText.length; i += 4) {
-                    pixels[i] = (pixels[i] & 0xFE) | parseInt(binaryText[index] || '0');
-                    pixels[i + 1] = (pixels[i + 1] & 0xFE) | parseInt(binaryText[index + 1] || '0');
-                    pixels[i + 2] = (pixels[i + 2] & 0xFE) | parseInt(binaryText[index + 2] || '0');
-                    index += 3;
-                }
-
-                ctx.putImageData(imageData, 0, 0);
-                const encryptedImage = canvas.toDataURL("image/png");
-                downloadEncryptedImage.href = encryptedImage;
-                downloadEncryptedImage.style.display = 'block';
-
-                uploadImage.value = '';
-                inputText.value = '';
-                encryptionPassword.value = '';
             };
         };
         reader.readAsDataURL(file);
@@ -168,12 +153,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 try {
                     const decryptedText = CryptoJS.AES.decrypt(extractedText, key).toString(CryptoJS.enc.Utf8);
-                    outputText.innerText = decryptedText ? `${decryptedText}` : "No. Text extracted from image or password incorrect";
+                    if (decryptedText) {
+                        outputText.innerText = `🔑 Decrypted Message: ${decryptedText}`;
+                        showNotification("✅ Decryption successful!");
+                    } else {
+                        showNotification("❌ No valid text found or incorrect key.");
+                    }
                 } catch (error) {
-                    showNotification("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
+                    showNotification("⚠️ Error during decryption: " + error.message);
                 }
             };
         };
         reader.readAsDataURL(file);
     });
+});
+
+
+document.getElementById('uploadImage').addEventListener('change', function () {
+    const file = this.files[0];
+    const imagePreview = document.getElementById('imagePreview');
+    const fileName = document.getElementById('fileName');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+
+        fileName.textContent = `File Name: ${file.name}`;
+    } else {
+        imagePreview.style.display = 'none';
+        fileName.textContent = '';
+    }
+});
+
+document.getElementById('decodeImage').addEventListener('change', function () {
+    const file = this.files[0];
+    const imagePreviewDe = document.getElementById('imagePreview-de');
+    const fileNameDe = document.getElementById('fileName-de');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            imagePreviewDe.src = e.target.result;
+            imagePreviewDe.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+
+        fileNameDe.textContent = `File Name: ${file.name}`;
+    } else {
+        imagePreviewDe.style.display = 'none';
+        fileNameDe.textContent = '';
+    }
 });
