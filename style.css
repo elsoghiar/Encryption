@@ -634,7 +634,7 @@ footer {
     align-items: center;
     gap: 10px;
     border: 1px dashed #181818;
-    padding: 10px;
+    padding: 5px;
     border-radius: 5px;
     text-align: center;
     width: 100%;
@@ -646,6 +646,7 @@ footer {
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     padding: 10px;
+    border-radius: 15px;
     cursor: pointer;
     font-weight: bold;
     display: inline-block;
