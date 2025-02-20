@@ -62,15 +62,7 @@
                 document.getElementById("payButton").disabled = false;
             }
         }
-        checkWalletConnection(); // Run on load
-
-        // Connect wallet button
-        document.getElementById("connectWallet").addEventListener("click", async () => {
-            if (isWalletConnected) {
-                alert("Wallet is already connected.");
-                return;
-            }
-
+        checkWalletConnection();
             try {
                 await tonConnectUI.connectWallet();
                 isWalletConnected = true;
