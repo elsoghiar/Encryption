@@ -1,27 +1,4 @@
-document.addEventListener("DOMContentLoaded", initializeEventListeners);
-
-function initializeEventListeners() {
-    document.getElementById("encrypt-image").addEventListener("click", showImageEncrypt);
-    document.getElementById("decrypt-image").addEventListener("click", showImageDecrypt);
-}
-
-function showImageEncrypt() {
-    document.getElementById("en-image").classList.remove("hidden");
-    document.getElementById("dc-image").classList.add("hidden");
-
-    document.getElementById("encrypt-image").classList.add("active");
-    document.getElementById("decrypt-image").classList.remove("active");
-}
-
-function showImageDecrypt() {
-    document.getElementById("dc-image").classList.remove("hidden");
-    document.getElementById("en-image").classList.add("hidden");
-
-    document.getElementById("decrypt-image").classList.add("active");
-    document.getElementById("encrypt-image").classList.remove("active");
-}
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
 
     const uploadImage = document.getElementById('uploadImage');
@@ -38,32 +15,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('hiddenCanvas');
     const ctx = canvas.getContext('2d');
 
-    // التحقق من بيئة Telegram WebApp
+    // التحقق مما إذا كان التطبيق يعمل داخل Telegram WebApp
     function isTelegramWebApp() {
         return window.Telegram?.WebApp !== undefined;
     }
 
-    // إنشاء ملف Blob وإدارة التنزيل
+    // معالجة عملية تنزيل الصورة داخل أو خارج Telegram
     function handleImageDownload(blob) {
-        if (isTelegramWebApp()) {
-            // استخدام fileDownloadRequested داخل التليجرام
-            const file = new File([blob], "encrypted-image.png", { type: "image/png" });
-            Telegram.WebApp.fileDownloadRequested(file);
+        const url = URL.createObjectURL(blob);
 
-            Telegram.WebApp.onEvent('fileDownloadRequested', (event) => {
-                if (event.status === 'downloading') {
-                    console.log("📥 التنزيل قيد التقدم...");
-                } else if (event.status === 'cancelled') {
-                    alert("⚠️ تم إلغاء التنزيل من قبل المستخدم.");
-                }
+        if (isTelegramWebApp()) {
+            // استخدام showPopup داخل Telegram WebApp
+            Telegram.WebApp.showPopup({
+                title: "تحميل الملف",
+                message: "اضغط على الزر أدناه لتنزيل الصورة المشفرة.",
+                buttons: [{ text: "تحميل", url: url }]
             });
         } else {
-            // تنزيل طبيعي خارج التليجرام
-            const url = URL.createObjectURL(blob);
-            downloadEncryptedImage.href = url;
-            downloadEncryptedImage.download = 'encrypted-image.png';
-            downloadEncryptedImage.style.display = 'block';
+            // التنزيل الطبيعي في المتصفح
+            handleNormalDownload(blob);
         }
+    }
+
+    function handleNormalDownload(blob) {
+        const url = URL.createObjectURL(blob);
+        downloadEncryptedImage.href = url;
+        downloadEncryptedImage.download = 'encrypted-image.png';
+        downloadEncryptedImage.style.display = 'block';
     }
 
     // تشفير الصورة
@@ -175,4 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         reader.readAsDataURL(file);
     });
+
+    // تهيئة Telegram WebApp إذا كان مفتوحًا في بيئة التليجرام
+    if (isTelegramWebApp()) {
+        Telegram.WebApp.expand();
+    }
 });
