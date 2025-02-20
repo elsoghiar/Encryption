@@ -587,4 +587,12 @@ footer {
     stroke: #2D83EC;
 } 
 
+.tit-image {
+    font-weight: 600;
+    margin: 10px auto;
+    text-align: left;
+    font-size: 15px;
+    color: #4a4a4a;
+}   
+
 
