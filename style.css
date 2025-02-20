@@ -73,22 +73,9 @@ button, input, select, textarea {
 }
  
  .nav-item svg {
-    stroke: #fff;
+    stroke: #4a4a4a;
 } 
 
-.nav-item {
-    transition: color 0.3s ease;
-}
-
-.nav-item.active {
-    color: white;
-}
-
-.nav-item:not(.active) {
-    color: rgba(255, 255, 255, 0.5);
-}
- 
- 
 .container {
     width: 100%;
     max-width: 320px;
