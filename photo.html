@@ -21,10 +21,18 @@
             <div class="content">
                 <h3>إخفاء النص داخل صورة</h3>
                 <input type="file" id="uploadImage" accept="image/*">
-                <br>
-                <textarea id="inputTe" placeholder="📝 أدخل النص هنا"></textarea>
-                <br>
-
+                
+                <div class="container-here">
+                    <textarea id="inputTe" placeholder="Enter text here..."></textarea>
+                    <button id="cryptButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="16" r="1" />
+                            <rect x="3" y="10" width="18" height="12" rx="2" />
+                            <path d="M7 10V7a5 5 0 0 1 10 0v3" />
+                        </svg>
+                        Encrypt
+                    </button>
+                </div>
                 <div class="key-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
@@ -32,15 +40,20 @@
                     </svg>
                     <input type="password" id="encryptionPassword" placeholder="Enter your secret key…">
                 </div>
-                <button id="cryptButton">🔐 تشفير النص</button>
                 <a id="downloadEncryptedImage" style="display:none;" download="encrypted.png">⬇️ تحميل الصورة المشفرة</a>
             </div>
             <br>
             <div class="content">
                 <h3>🔍 استخراج النص من صورة</h3>
                 <input type="file" id="decodeImage" accept="image/*">
-                <br>
-
+                <button id="dcryptButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="16" r="1" />
+                            <rect x="3" y="10" width="18" height="12" rx="2" />
+                            <path d="M7 10V7a5 5 0 0 1 10 0v3" />
+                        </svg>
+                        Decrypt 
+                </button>
                 <div class="key-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
@@ -48,7 +61,6 @@
                     </svg>
                     <input type="password" id="decryptionPassword" placeholder="Enter your secret key…">
                 </div>
-                <button id="cryptButton">🔎 فك التشفير</button>
                 <p id="outputText"></p>
             </div>
             <div class="bottom-nav">
