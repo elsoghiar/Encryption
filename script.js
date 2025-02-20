@@ -1,3 +1,50 @@
+const telegramApp = window.Telegram.WebApp;
+telegramApp.ready(); // تأكيد جاهزية التطبيق
+
+// تحديد الصفحة الرئيسية
+const homePage = "index.html";
+
+// تحديث زر التحكم بناءً على الصفحة
+function updateTelegramButtons() {
+    const currentPage = window.location.pathname.split('/').pop();
+
+    if (currentPage === homePage || currentPage === "") {
+        telegramApp.BackButton.hide(); // إخفاء زر الرجوع في الصفحة الرئيسية
+        telegramApp.MainButton.show(); // إظهار زر الإغلاق
+        telegramApp.MainButton.setText("إغلاق");
+        telegramApp.MainButton.onClick(() => telegramApp.close());
+    } else {
+        telegramApp.MainButton.hide(); // إخفاء زر الإغلاق في الصفحات الأخرى
+        telegramApp.BackButton.show();
+        telegramApp.BackButton.onClick(() => {
+            window.location.href = homePage; // العودة إلى الصفحة الرئيسية
+        });
+    }
+
+    // تغيير لون الأيقونة النشطة
+    updateActiveIcon(currentPage);
+}
+
+// تغيير لون الأيقونة النشطة
+function updateActiveIcon(currentPage) {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        const link = item.getAttribute('href');
+        if (link === currentPage) {
+            item.style.color = '#fff'; // لون نشط
+        } else {
+            item.style.color = 'rgba(255, 255, 255, 0.5)'; // لون غير نشط
+        }
+    });
+}
+
+// استدعاء التحديث عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', updateTelegramButtons);
+window.addEventListener('popstate', updateTelegramButtons);
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     initializeEventListeners();
     showEncrypt();
