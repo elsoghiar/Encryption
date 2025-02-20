@@ -535,7 +535,7 @@ footer {
     line-height: 1.6;
 }
 
-.privacy-policy h3 {
+.privacy-policy h3, .p {
     font-size: 14px;
     font-weight: 600;
     color: #4a4a4a;
