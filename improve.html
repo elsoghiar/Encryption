@@ -33,11 +33,31 @@
     </div>
 
     <script>
-        let isWalletConnected = false;
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
             uiOptions: { twaReturnUrl: 'https://t.me/SparkOne_Bot' },
         });
+
+        function getWalletAddress() {
+  return tonConnectUI.wallet ? tonConnectUI.wallet.account.address : null;
+}
+
+
+        async function connectToWallet() {
+            try {
+                await tonConnectUI.connect();
+                return getWalletAddress();
+            } catch {
+                return null;
+            }
+        }
+
+        async function ensureWalletConnected() {
+            let walletAddress = getWalletAddress();
+            if (walletAddress) return walletAddress;
+
+            return await connectToWallet();
+        }
 
         async function handlePayment() {
             const amountInput = parseFloat(document.getElementById("amountInput").value);
@@ -46,12 +66,10 @@
                 return;
             }
 
-            try {
-                const connectedWallet = await tonConnectUI.getWallet();
-                if (!connectedWallet) {
-                    await tonConnectUI.connect();
-                }
+            const walletAddress = await ensureWalletConnected();
+            if (!walletAddress) return; // المستخدم ألغى الربط
 
+            try {
                 const amount = (amountInput * 1e9).toString(); // تحويل إلى النانو تون
                 const recipientAddress = "UQBPlXtbw-tBxfzovzo3c4HYcdyyQkaw1KnP3L45s2syeTUS";
 
@@ -69,10 +87,8 @@
             }
         }
 
-        // زر الدفع
         document.getElementById("payButton").addEventListener("click", handlePayment);
 
-        // نسخ عنوان المحفظة
         function copyAddress() {
             navigator.clipboard.writeText(document.getElementById("walletAddress").innerText);
         }
