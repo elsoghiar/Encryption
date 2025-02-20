@@ -1,28 +1,3 @@
-// تهيئة Telegram WebApp
-const telegramApp = window.Telegram.WebApp;
-telegramApp.ready();
-
-const homePage = "index.html"; // اسم الصفحة الرئيسية
-
-// وظيفة لتحديث زر Telegram
-function updateTelegramButton() {
-    const currentPage = window.location.pathname.split('/').pop() || homePage;
-
-    if (currentPage === homePage) {
-        telegramApp.BackButton.hide();  // إخفاء زر الرجوع في الصفحة الرئيسية
-    } else {
-        telegramApp.BackButton.show();  // إظهار زر الرجوع في الصفحات الفرعية
-        telegramApp.BackButton.onClick(() => {
-            window.location.href = homePage;  // الرجوع دائماً إلى الصفحة الرئيسية
-        });
-    }
-}
-
-// تنفيذ عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", updateTelegramButton);
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
     initializeEventListeners();
     showEncrypt();
