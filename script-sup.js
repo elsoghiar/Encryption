@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-    if (typeof TonConnectUI === "undefined") {
-        console.error("TonConnectUI is not defined. Ensure the script is loaded.");
+    if (typeof window.TonConnectUI === "undefined") {
+        console.error("TonConnectUI is not loaded. Ensure the script is included.");
         return;
     }
 
-    const tonConnectUI = new TonConnectUI({
+    const tonConnectUI = new window.TonConnectUI({
         manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
-        buttonRootId: 'ton-connect', 
+        buttonRootId: 'ton-connect',
         uiOptions: { twaReturnUrl: 'https://t.me/SparkOne_Bot' },
     });
 
