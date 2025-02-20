@@ -213,7 +213,7 @@ button svg {
 .page-title {
     display: flex;
     align-items: center;
-    
+    gap: 5px;
     text-align: left;
     font-size: 22px;
     white-space: nowrap;
