@@ -548,3 +548,17 @@ footer {
     transition: 0.5s;
     font-weight: bold;
 } 
+
+.tabs-bo button.active {
+    background: linear-gradient(90deg, #2D83EC, #9B59B6); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    color: transparent;
+    border-bottom: 1px solid;
+    border-image: linear-gradient(90deg, #2D83EC, #9B59B6) 1;
+    -webkit-text-fill-color: transparent;
+} 
+
+.tabs-bo button.active svg {
+    stroke: #2D83EC;
+} 
