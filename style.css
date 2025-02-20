@@ -545,7 +545,8 @@ footer {
     z-index: 1; 
 }
 
-#encryptKey, #decryptKey{
+#encryptKey, #decryptKey, 
+#decryptionPassword, #encryptionPassword {
     padding-left: 35px;
 } 
 
