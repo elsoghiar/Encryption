@@ -81,9 +81,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 ctx.putImageData(imageData, 0, 0);
-                const encryptedImage = canvas.toDataURL("image/png");
-                downloadEncryptedImage.href = encryptedImage;
-                downloadEncryptedImage.style.display = 'block';
+                canvas.toBlob((blob) => {
+    if (blob) {
+        const url = URL.createObjectURL(blob);
+        downloadEncryptedImage.href = url;
+        downloadEncryptedImage.download = 'encrypted-image.png';
+        downloadEncryptedImage.style.display = 'block';
+    } else {
+        alert("⚠️ حدث خطأ أثناء إنشاء الصورة المشفرة.");
+    }
+}, "image/png");
 
                 uploadImage.value = '';
                 inputText.value = '';
