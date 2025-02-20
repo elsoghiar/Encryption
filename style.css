@@ -634,7 +634,6 @@ footer {
     align-items: center;
     gap: 10px;
     border: 1px dashed #181818;
-    padding: 5px;
     border-radius: 5px;
     text-align: center;
     width: 100%;
@@ -643,10 +642,11 @@ footer {
 }
 
 .custom-file-upload label {
+    margin-top: 10px;
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
     display: inline-block;
