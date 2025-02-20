@@ -82,22 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 ctx.putImageData(imageData, 0, 0);
                 const encryptedImage = canvas.toDataURL("image/png");
-
-                // إعداد زر التنزيل
-                downloadEncryptedImage.onclick = (e) => {
-                    e.preventDefault();
-                    if (window.Telegram && window.Telegram.WebApp) {
-                        const downloadPage = `download.html?image=${encodeURIComponent(encryptedImage)}`;
-                        window.open(downloadPage, '_blank');
-                    } else {
-                        downloadEncryptedImage.href = encryptedImage;
-                        downloadEncryptedImage.download = 'encrypted_image.png';
-                    }
-                };
-
+                downloadEncryptedImage.href = encryptedImage;
                 downloadEncryptedImage.style.display = 'block';
 
-                // إعادة تعيين الحقول
                 uploadImage.value = '';
                 inputText.value = '';
                 encryptionPassword.value = '';
