@@ -21,6 +21,22 @@ function showImageDecrypt() {
     document.getElementById("encrypt-image").classList.remove("active");
 }
 
+function showNotification(message, type = "success") {
+    let notification = document.getElementById("notification");
+    
+    notification.style.opacity = "1";
+    notification.style.display = "block";
+    
+    notification.textContent = message;
+    notification.className = `notification-${type}`;
+
+    setTimeout(() => {
+        notification.style.opacity = "0";
+        setTimeout(() => notification.style.display = "none", 500);
+    }, 2500);
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
 
@@ -44,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = encryptionPassword.value || DEFAULT_KEY;
 
         if (!file || !text) {
-            alert("⚠️ يرجى اختيار صورة وإدخال نص.");
+            showNotification("⚠️ Please upload a photo and write a text to encrypt it inside the photo.");
             return;
         }
 
@@ -68,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (binaryText.length > pixels.length / 4) {
-                    alert("⚠️ النص طويل جدًا بالنسبة لهذه الصورة.");
+                    showNotification("⚠️ The text is too long considering this picture.");
                     return;
                 }
 
@@ -98,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = decryptionPassword.value || DEFAULT_KEY;
 
         if (!file) {
-            alert("⚠️ يرجى اختيار صورة لفك التشفير.");
+            showNotification("⚠️ Please select an image to decode the text from.");
             return;
         }
 
@@ -132,9 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 try {
                     const decryptedText = CryptoJS.AES.decrypt(extractedText, key).toString(CryptoJS.enc.Utf8);
-                    outputText.innerText = decryptedText ? `🔓 النص المستخرج: ${decryptedText}` : "⚠️ لا يوجد نص مستخرج أو المفتاح غير صحيح.";
+                    outputText.innerText = decryptedText ? `${decryptedText}` : "No. Text extracted from image or password incorrect";
                 } catch (error) {
-                    alert("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
+                    showNotification("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
                 }
             };
         };
