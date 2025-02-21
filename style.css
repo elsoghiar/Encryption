@@ -681,12 +681,16 @@ input[type="file"] {
     outline: none;
 }
 
+input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
 input[type="file"]::before {
     content: 'Select photo';
     display: inline-block;
     background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
-    padding: 10px 20px;
+    padding: 8px 20px;
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
