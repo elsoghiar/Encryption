@@ -36,23 +36,8 @@
                 </button>
             </div>
             <div id="en-image" class="content">
-                <div class="tit-image">Encrypt and hide text inside an image </div>
-
-                <div class="custom-file-upload">
-                    <label for="uploadImage">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="m14 19.5 3-3 3 3"/><path d="M17 22v-5.5"/><circle cx="9" cy="9" r="2"/>
-                            </svg>
-                            Upload image
-                        </span>
-                    </label>
-                    <input type="file" id="uploadImage" accept="image/*">
-                    <div class="image-preview-container">
-                        <img id="imagePreview" src="" alt="image">
-                        <span id="fileName"></span>
-                    </div>
-                </div>
+                <div  class="tit-image">Encrypt and hide text inside an image </div>
+                <input type="file" id="uploadImage" accept="image/*">
                 <div class="container-here">
                     <textarea id="inputTe" placeholder="Enter text here..."></textarea>
                     <button id="cryptButton">
@@ -74,28 +59,13 @@
                 </div>
                 <a id="downloadEncryptedImage" style="display:none;" download="encrypted.png">Download encrypted image</a>
                 <div class="pag-title" id="pagetitle">
-                    It is a completely secure tool for hiding and encrypting texts inside images. Your data is treated with complete privacy and nothing you do here is saved.
-                </div>
+                It is a completely secure tool for hiding and encrypting texts inside images. Your data is treated with complete privacy and nothing you do here is saved.
+               </div>
             </div>
             <br>
             <div id="dc-image" class="content hidden">
                 <div class="tit-image">Extract and decode text from image </div>
-
-                <div class="custom-file-upload">
-                    <label for="uploadImage">
-                        <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="m14 19.5 3-3 3 3"/><path d="M17 22v-5.5"/><circle cx="9" cy="9" r="2"/>
-                            </svg>
-                            Upload image to decrypt
-                        </span>
-                    </label>
-                    <input type="file" id="decodeImage" accept="image/*">
-                    <div class="image-preview-container">
-                        <img id="imagePreview-de" src="" alt="image">
-                        <span id="fileName-de"></span>
-                    </div>
-                </div>
+                <input type="file" id="decodeImage" accept="image/*">
                 <div class="tit-">Enter the password that encrypted the text, if any.</div>
                 <div class="key-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
