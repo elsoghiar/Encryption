@@ -681,10 +681,6 @@ input[type="file"] {
     outline: none;
 }
 
-input[type="file"]::-webkit-file-upload-button {
-    visibility: hidden;
-}
-
 input[type="file"]::before {
     content: 'Select photo';
     display: inline-block;
