@@ -616,7 +616,7 @@ footer {
     color: #4a4a4a;
 }   
 
-#uploadImage, .contentsu button, #dcryptButton, #connectButton, #ton-connect {
+.contentsu button, #dcryptButton, #connectButton, #ton-connect {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -667,23 +667,20 @@ footer {
     padding-left: 15px;
 } 
 
-
-
 input[type="file"] {
     display: block;
     width: 100%;
-    padding: 10px;
-    font-size: 16px;
+    padding: 5px;
+    font-size: 15px;
     color: #fff;
-    background: linear-gradient(45deg, #333, #777);
-    border: 2px solid #555;
-    border-radius: 8px;
+    background: linear-gradient(90deg, #101010, #0C0C0C, #101010); 
+    border: 1px dashed #181818;
+    border-radius: 10px;
     cursor: pointer;
     text-align: center;
     outline: none;
 }
 
-/* إخفاء النص الافتراضي "لم يتم اختيار ملف" */
 input[type="file"]::-webkit-file-upload-button {
     visibility: hidden;
 }
@@ -691,14 +688,11 @@ input[type="file"]::-webkit-file-upload-button {
 input[type="file"]::before {
     content: 'Select photo';
     display: inline-block;
-    background: #444;
+    background: linear-gradient(90deg, #2D83EC, #9B59B6);
     color: white;
-    padding: 8px 16px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
 }
 
-input[type="file"]:hover::before {
-    background: #666;
-}
