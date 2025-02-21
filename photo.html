@@ -37,7 +37,13 @@
             </div>
             <div id="en-image" class="content">
                 <div  class="tit-image">Encrypt and hide text inside an image </div>
-                <input type="file" id="uploadImage" accept="image/*">
+                <div class="image-upload-container">
+    <input type="file" id="uploadImage" accept="image/*">
+    <div id="imagePreviewContainer" class="hidden">
+        <p id="imageName"></p>
+        <img id="imagePreview" src="" alt="Image Preview">
+    </div>
+                </div>
                 <div class="container-here">
                     <textarea id="inputTe" placeholder="Enter text here..."></textarea>
                     <button id="cryptButton">
@@ -65,7 +71,13 @@
             <br>
             <div id="dc-image" class="content hidden">
                 <div class="tit-image">Extract and decode text from image </div>
-                <input type="file" id="decodeImage" accept="image/*">
+                <div class="image-upload-container">
+    <input type="file" id="decodeImage" accept="image/*">
+    <div id="decodePreviewContainer" class="hidden">
+        <p id="decodeImageName"></p>
+        <img id="decodePreview" src="" alt="Decoded Image Preview">
+    </div>
+                </div>
                 <div class="tit-">Enter the password that encrypted the text, if any.</div>
                 <div class="key-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
