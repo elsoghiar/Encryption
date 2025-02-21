@@ -696,7 +696,7 @@ input[type="file"]::before {
     cursor: pointer;
 }
 
-.tit-image {
+.ti-image {
     font-weight: 600;
     text-align: left;
     font-size: 14px;
