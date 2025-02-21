@@ -157,32 +157,3 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 });
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const uploadImage = document.getElementById("uploadImage");
-    const imagePreview = document.getElementById("imagePreview");
-    const imageName = document.getElementById("imageName");
-    const imagePreviewContainer = document.getElementById("imagePreviewContainer");
-
-    const decodeImage = document.getElementById("decodeImage");
-    const decodePreview = document.getElementById("decodePreview");
-    const decodeImageName = document.getElementById("decodeImageName");
-    const decodePreviewContainer = document.getElementById("decodePreviewContainer");
-
-    function previewImage(input, preview, name, container) {
-        const file = input.files[0];
-        if (file) {
-            name.textContent = file.name;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                preview.src = e.target.result;
-                container.classList.remove("hidden");
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    uploadImage.addEventListener("change", () => previewImage(uploadImage, imagePreview, imageName, imagePreviewContainer));
-    decodeImage.addEventListener("change", () => previewImage(decodeImage, decodePreview, decodeImageName, decodePreviewContainer));
-});
