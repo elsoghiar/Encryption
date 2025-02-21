@@ -632,43 +632,6 @@ footer {
     transition: 0.3s;
 }
 
-.image-upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-#imagePreviewContainer, #decodePreviewContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    border: 1px dashed #181818;
-    padding: 10px;
-    border-radius: 5px;
-    width: 100%;
-}
-
-#imagePreview, #decodePreview {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-} 
-
-.image-preview-container img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 5px;
-    border: 1px solid #4a4a4a;
-}
-
-.image-preview-container span {
-    font-size: 13px;
-    color: #4a4a4a;
-} 
-
 .wallet-address {
     display: flex;
     flex-direction: column;
@@ -703,3 +666,39 @@ footer {
 #amountInput {
     padding-left: 15px;
 } 
+
+
+
+input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background: linear-gradient(45deg, #333, #777);
+    border: 2px solid #555;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+}
+
+/* إخفاء النص الافتراضي "لم يتم اختيار ملف" */
+input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+input[type="file"]::before {
+    content: 'Select photo';
+    display: inline-block;
+    background: #444;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+input[type="file"]:hover::before {
+    background: #666;
+}
