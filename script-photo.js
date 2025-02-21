@@ -157,3 +157,31 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsDataURL(file);
     });
 });
+
+
+
+    document.getElementById("uploadImage").addEventListener("change", function () {
+        const fileInput = this;
+        const fileNameDisplay = document.getElementById("fileName");
+
+        if (fileInput.files.length > 0) {
+            const fileName = fileInput.files[0].name;
+            fileNameDisplay.textContent = `Uploaded: ${fileName}`;
+        } else {
+            fileNameDisplay.textContent = "";
+        }
+    });
+
+    document.getElementById("decodeImage").addEventListener("change", function () {
+        const fileInput = this;
+        const fileNameDisplay = document.getElementById("fileName-de");
+
+        if (fileInput.files.length > 0) {
+            const fileName = fileInput.files[0].name;
+            fileNameDisplay.textContent = `Uploaded: ${fileName}`;
+        } else {
+            fileNameDisplay.textContent = "";
+        }
+    });
+
+
