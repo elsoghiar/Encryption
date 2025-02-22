@@ -20,15 +20,21 @@ const homePage = "index.html";
 function updateActivePage() {
     const currentPage = window.location.pathname.split('/').pop() || homePage;
 
+    // إزالة كلاس active من كل الأزرار
     document.querySelectorAll('.nav-item').forEach(item => {
-        const link = item.getAttribute('href');
-        if (link === currentPage) {
-            item.classList.add('active'); // أضف كلاس نشط
-        } else {
-            item.classList.remove('active');
-        }
+        item.classList.remove('active');
     });
 
+    // تحديد الصفحة النشطة بناءً على الرابط الحالي
+    if (currentPage === "index.html") {
+        document.getElementById("homeNav").classList.add("active");
+    } else if (currentPage === "photo.html") {
+        document.getElementById("photoNav").classList.add("active");
+    } else if (currentPage === "improve.html") {
+        document.getElementById("improveNav").classList.add("active");
+    }
+
+    // منطق زر الرجوع
     if (currentPage === homePage) {
         telegramApp.BackButton.hide();
     } else {
