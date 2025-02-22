@@ -36,7 +36,6 @@ function showNotification(message, type = "success") {
     }, 2500);
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
 
@@ -168,3 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
             window.open(imageUrl, '_blank');
         }
     });
+
+    console.log("Script loaded successfully"); // للتحقق من تحميل السكريبت
+});
