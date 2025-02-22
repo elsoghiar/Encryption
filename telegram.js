@@ -21,11 +21,9 @@ const homePage = "index.html";
 function updateActivePage() {
     const currentPage = window.location.pathname.split('/').pop() || homePage;
 
-    // إزالة كلاس active من جميع الأزرار ما عدا الصفحة الحالية
+    // إزالة كلاس active من جميع الأزرار
     document.querySelectorAll('.nav-item').forEach(item => {
-        if (!item.getAttribute('href')?.includes(currentPage)) {
-            item.classList.remove('active');
-        }
+        item.classList.remove('active');
     });
 
     // تحديد الصفحة النشطة بناءً على الرابط الحالي
@@ -49,3 +47,4 @@ function updateActivePage() {
 }
 
 document.addEventListener("DOMContentLoaded", updateActivePage);
+window.addEventListener("popstate", updateActivePage);
