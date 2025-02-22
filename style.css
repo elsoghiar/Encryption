@@ -72,14 +72,15 @@ button, input, select, textarea {
     align-items: center;
 }
  
- .nav-item svg {
+/* اللون الافتراضي */
+.nav-item svg {
     stroke: #4a4a4a;
-    transition: fill 0.3s ease;
-} 
+    transition: stroke 0.3s ease;
+}
 
 .nav-item.active svg {
-    stroke: #ffffff;
-} 
+    stroke: #007bff; 
+}
 
 .container {
     width: 100%;
