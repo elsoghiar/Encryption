@@ -37,7 +37,7 @@ function showNotification(message, type = "success") {
 }
 
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
 
     const uploadImage = document.getElementById('uploadImage');
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = encryptionPassword.value || DEFAULT_KEY;
 
         if (!file || !text) {
-            showNotification("⚠️ Please upload a photo and write a text to encrypt it inside the photo.");
+            showNotification("⚠️ الرجاء تحميل صورة وإدخال النص للتشفير.");
             return;
         }
 
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (binaryText.length > pixels.length / 4) {
-                    showNotification("⚠️ The text is too long considering this picture.");
+                    showNotification("⚠️ النص طويل جدًا بالنسبة لهذه الصورة.");
                     return;
                 }
 
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = decryptionPassword.value || DEFAULT_KEY;
 
         if (!file) {
-            showNotification("⚠️ Please select an image to decode the text from.");
+            showNotification("⚠️ الرجاء اختيار صورة لاستخراج النص.");
             return;
         }
 
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 try {
                     const decryptedText = CryptoJS.AES.decrypt(extractedText, key).toString(CryptoJS.enc.Utf8);
-                    outputText.innerText = decryptedText ? `${decryptedText}` : "No. Text extracted from image or password incorrect";
+                    outputText.innerText = decryptedText ? `${decryptedText}` : "⚠️ لم يتم العثور على نص أو المفتاح غير صحيح.";
                 } catch (error) {
                     showNotification("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
                 }
@@ -156,4 +156,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         reader.readAsDataURL(file);
     });
-});
+
+    downloadEncryptedImage.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        const imageUrl = downloadEncryptedImage.href;
+
+        if (/Android/i.test(navigator.userAgent)) {
+            window.location.href = `intent:${imageUrl}#Intent;scheme=https;package=com.android.chrome;end;`;
+        } else {
+            window.open(imageUrl, '_blank');
+        }
+    });
