@@ -36,6 +36,7 @@ function showNotification(message, type = "success") {
     }, 2500);
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_KEY = "SuperSecureKey123!@#";
 
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('hiddenCanvas');
     const ctx = canvas.getContext('2d');
 
-    encryptButton.addEventListener('click', async () => {
+    encryptButton.addEventListener('click', () => {
         const file = uploadImage.files[0];
         const text = inputText.value;
         const key = encryptionPassword.value || DEFAULT_KEY;
@@ -97,24 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 ctx.putImageData(imageData, 0, 0);
                 const encryptedImage = canvas.toDataURL("image/png");
-
-                // تنزيل الملف عبر المتصفح
                 downloadEncryptedImage.href = encryptedImage;
                 downloadEncryptedImage.style.display = 'block';
-
-                // تنزيل الملف باستخدام تحديث تليجرام الجديد
-                if (window.Telegram?.WebApp?.showAlert) {
-                    const blob = dataURLtoBlob(encryptedImage);
-const blobUrl = URL.createObjectURL(blob);
-
-window.Telegram.WebApp.showAlert("هل تريد تنزيل الملف؟", () => {
-    window.Telegram.WebApp.downloadFile({
-        url: blobUrl,  // استخدم URL بدلاً من الملف المباشر
-        fileName: "encrypted-image.png"
-    });
-});
-
-                }
 
                 uploadImage.value = '';
                 inputText.value = '';
@@ -163,7 +148,7 @@ window.Telegram.WebApp.showAlert("هل تريد تنزيل الملف؟", () => 
 
                 try {
                     const decryptedText = CryptoJS.AES.decrypt(extractedText, key).toString(CryptoJS.enc.Utf8);
-                    outputText.innerText = decryptedText ? `${decryptedText}` : "No text extracted from image or incorrect password.";
+                    outputText.innerText = decryptedText ? `${decryptedText}` : "No. Text extracted from image or password incorrect";
                 } catch (error) {
                     showNotification("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
                 }
@@ -172,19 +157,3 @@ window.Telegram.WebApp.showAlert("هل تريد تنزيل الملف؟", () => 
         reader.readAsDataURL(file);
     });
 });
-
-// تحويل DataURL إلى Blob
-function dataURLtoBlob(dataURL) {
-    const byteString = atob(dataURL.split(',')[1]);
-    const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const uint8Array = new Uint8Array(arrayBuffer);
-    
-    for (let i = 0; i < byteString.length; i++) {
-        uint8Array[i] = byteString.charCodeAt(i);
-    }
-
-    return new Blob([uint8Array], { type: mimeString });
-}
-
-
