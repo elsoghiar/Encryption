@@ -6,7 +6,7 @@
     <title>Support & Empower</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@2.0.0/dist/tonconnect-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script> eruda.init(); </script>
 </head>
@@ -74,7 +74,7 @@
     </div>
 
     <script>
-        const tonConnectUI = new TONConnectUI.TonConnectUI({
+        const tonConnectUI = new TonConnectUI({
             manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/saw-ton-manifest.json',
             buttonRootId: 'ton-connect'
         });
@@ -93,12 +93,12 @@
                 return;
             }
 
-            // Example payment logic
             try {
-                await tonConnectUI.sendTransaction({
+                const transaction = await tonConnectUI.sendTransaction({
                     to: "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ",
                     amount: amount * 1e9, // Convert TON to nanotons
-                    payload: "Support payment"
+                    payload: "Support payment",
+                    validUntil: Math.floor(Date.now() / 1000) + 300 // صلاحية 5 دقائق (300 ثانية)
                 });
                 alert("Payment successful!");
             } catch (error) {
