@@ -105,14 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 // تنزيل الملف باستخدام تحديث تليجرام الجديد
                 if (window.Telegram?.WebApp?.showAlert) {
                     const blob = dataURLtoBlob(encryptedImage);
-                    const file = new File([blob], "encrypted-image.png", { type: "image/png" });
+const blobUrl = URL.createObjectURL(blob);
 
-                    window.Telegram.WebApp.showAlert("هل تريد تنزيل الملف؟", () => {
-                        window.Telegram.WebApp.downloadFile({
-                            file,
-                            fileName: "encrypted-image.png"
-                        });
-                    });
+window.Telegram.WebApp.showAlert("هل تريد تنزيل الملف؟", () => {
+    window.Telegram.WebApp.downloadFile({
+        url: blobUrl,  // استخدم URL بدلاً من الملف المباشر
+        fileName: "encrypted-image.png"
+    });
+});
+
                 }
 
                 uploadImage.value = '';
