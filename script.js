@@ -92,12 +92,28 @@ function showNotification(message, type = "success") {
 }
 
 
+async function generateFixedKey() {
+    const secretPhrase = "ThisIsASecretPassphrase2024!";
+    const encoder = new TextEncoder();
+    const data = encoder.encode(secretPhrase);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
+}
+
+let fixedKey = "";
+
+// توليد المفتاح المشفر عند تشغيل التطبيق
+generateFixedKey().then(key => {
+    fixedKey = key;
+});
+
 function encryptText() {
     let text = document.getElementById("encryptInput").value.trim();
-    let key = document.getElementById("encryptKey").value.trim();
+    let key = document.getElementById("encryptKey").value.trim() || fixedKey; // استخدم المفتاح الثابت المشفر
 
-    if (!text || !key) {
-        showNotification("⚠️ Enter text and key!", "warning");
+    if (!text) {
+        showNotification("⚠️ Please enter text to encrypt!", "warning");
         return;
     }
 
@@ -108,10 +124,10 @@ function encryptText() {
 
 function decryptText() {
     let encryptedText = document.getElementById("decryptInput").value.trim();
-    let key = document.getElementById("decryptKey").value.trim();
+    let key = document.getElementById("decryptKey").value.trim() || fixedKey; // استخدم نفس المفتاح
 
-    if (!encryptedText || !key) {
-        showNotification("⚠️ Enter encrypted text and key!", "warning");
+    if (!encryptedText) {
+        showNotification("⚠️ Please enter encrypted text!", "warning");
         return;
     }
 
