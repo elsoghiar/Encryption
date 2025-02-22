@@ -708,10 +708,10 @@ input[type="file"]::before {
     align-items: center;
     border: 1px dashed #181818;
     width: 100%;
-    padding: 5px;
+    padding: 8px;
     text-align: center;
     height: auto;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     border-radius: 10px;
 }
@@ -721,7 +721,7 @@ input[type="file"]::before {
     align-items: center;
     justify-content: center;
     gap: 3px;
-    padding: 5px;
+    padding: 8px;
     text-align: center;
     white-space: nowrap;
     border: 1px dashed #181818;
@@ -729,7 +729,7 @@ input[type="file"]::before {
     color: white;
     width: 100%;
     height: 30px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
