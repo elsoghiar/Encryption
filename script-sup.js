@@ -7,6 +7,7 @@ const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             try {
                 const amountInput = document.getElementById("amountInput").value;
                 if (!amountInput || parseFloat(amountInput) <= 0) {
+                showNotification("Enter a valid amount");
                     return;
                 }
 
