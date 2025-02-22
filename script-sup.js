@@ -1,78 +1,60 @@
-document.addEventListener("DOMContentLoaded", function () {
-    if (typeof window.TonConnectUI === "undefined") {
-        console.error("TonConnectUI is not loaded. Ensure the script is included.");
-        return;
-    }
+const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/saw-ton-manifest.json',
+            buttonRootId: 'ton-connect'
+        });
 
-    const tonConnectUI = new window.TonConnectUI({
-        manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/spark-ton-manifest.json',
-        buttonRootId: 'ton-connect',
-        uiOptions: { twaReturnUrl: 'https://t.me/SparkOne_Bot' },
-    });
+        document.getElementById("payButton").addEventListener("click", async () => {
+            try {
+                const amountInput = document.getElementById("amountInput").value;
+                if (!amountInput || parseFloat(amountInput) <= 0) {
+                    return;
+                }
 
-    function getWalletAddress() {
-        return tonConnectUI.connected ? tonConnectUI.account.address : null;
-    }
+                const requiredAmount = parseFloat(amountInput);
+                const amount = (requiredAmount * 1e9).toString();
+                const recipientAddress = "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ";
+                const currentTime = Date.now();
 
-    async function connectToWallet() {
-        try {
-            await tonConnectUI.connect();
-            return getWalletAddress();
-        } catch (error) {
-            console.error("Error connecting to wallet:", error);
-            return null;
-        }
-    }
+                if (!tonConnectUI.account) {
+                    alert("Please connect your TON wallet first.");
+                    tonConnectUI.openModal();
+                    return;
+                }
 
-    async function ensureWalletConnected() {
-        let walletAddress = getWalletAddress();
-        if (!walletAddress) {
-            walletAddress = await connectToWallet();
-        }
-        return walletAddress;
-    }
+                const transaction = {
+                    validUntil: Math.floor(currentTime / 1000) + 600,
+                    messages: [{ address: recipientAddress, amount }],
+                };
 
-    async function handlePayment() {
-        const amountInput = parseFloat(document.getElementById("amountInput").value);
-        if (!amountInput || amountInput <= 0) {
-            alert("Please enter a valid amount.");
-            return;
-        }
-
-        const walletAddress = await ensureWalletConnected();
-        if (!walletAddress) {
-            alert("Wallet connection failed.");
-            return;
-        }
-
-        try {
-            const amount = (amountInput * 1e9).toString();
-            const recipientAddress = "UQBPlXtbw-tBxfzovzo3c4HYcdyyQkaw1KnP3L45s2syeTUS";
-
-            const transaction = {
-                validUntil: Math.floor(Date.now() / 1000) + 600,
-                messages: [{ address: recipientAddress, amount }],
-            };
-
-            if (!tonConnectUI.sendTransaction) {
-                alert("TON Connect UI is not properly initialized.");
-                return;
-            }
-
-            await tonConnectUI.sendTransaction(transaction);
-        } catch (error) {
-            if (error.message.includes("User rejected the transaction")) {
-                alert("You canceled the transaction.");
-            } else {
-                alert("An error occurred during payment. Please try again.");
+                await tonConnectUI.sendTransaction(transaction);
+                showNotification("Payment successful!");
+            } catch (error) {
                 console.error("Payment error:", error);
+                showNotification("Payment failed: " + (error.message || "Unknown error"));
             }
+        });
+
+        function copyAddress() {
+            const address = document.getElementById("walletAddress").innerText;
+            navigator.clipboard.writeText(address).then(() => {
+                showNotification("Address copied to clipboard!");
+            }).catch(err => {
+                showNotification("Failed to copy address: " + err);
+            });
         }
-    }
 
-    document.getElementById("payButton").addEventListener("click", handlePayment);
 
-    function copyAddress() {
-        navigator.clipboard.writeText(document.getElementById("walletAddress").innerText);
-    }
-});
+function showNotification(message, type = "success") {
+    let notification = document.getElementById("notification");
+    
+    notification.style.opacity = "1";
+    notification.style.display = "block";
+    
+    notification.textContent = message;
+    notification.className = `notification-${type}`;
+
+    setTimeout(() => {
+        notification.style.opacity = "0";
+        setTimeout(() => notification.style.display = "none", 500);
+    }, 2500);
+}
