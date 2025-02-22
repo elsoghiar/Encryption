@@ -54,39 +54,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('hiddenCanvas');
     const ctx = canvas.getContext('2d');
 
-downloadEncryptedImage.addEventListener('click', (event) => {
-    event.preventDefault();
-    const imageUrl = downloadEncryptedImage.href;
+document.addEventListener("DOMContentLoaded", () => {
+    const downloadEncryptedImage = document.getElementById("downloadEncryptedImage");
+    const openBrowserDownload = document.getElementById("openBrowserDownload");
 
-    fetch(imageUrl)
-        .then(res => res.blob())
-        .then(blob => {
-            const blobUrl = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = blobUrl;
-            link.download = "encrypted_image.png";
+    downloadEncryptedImage.addEventListener("click", (event) => {
+        event.preventDefault();
 
-            if (navigator.userAgent.includes("Telegram")) {
-                // إذا كان داخل Telegram WebApp
+        const imageUrl = downloadEncryptedImage.getAttribute("data-image-url");
+        if (!imageUrl) {
+            alert("⚠️ لم يتم العثور على الصورة لتنزيلها.");
+            return;
+        }
+
+        fetch(imageUrl)
+            .then(res => res.blob())
+            .then(blob => {
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = blobUrl;
+                link.download = "encrypted_image.png";
+
                 if (window.Telegram && Telegram.WebApp) {
-                    Telegram.WebApp.openLink(blobUrl);
+                    // إذا كان داخل Telegram WebApp
+                    openBrowserDownload.style.display = "block";
+                    openBrowserDownload.onclick = () => {
+                        window.open(blobUrl, "_blank");
+                    };
+                    alert("⚠️ لا يمكن تنزيل الصورة مباشرة داخل Telegram. استخدم زر التنزيل في المتصفح.");
                 } else {
-                    alert("⚠️ الرجاء فتح الرابط في متصفح خارجي لتنزيل الصورة.");
+                    // إذا كان داخل متصفح عادي
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(blobUrl);
                 }
-            } else {
-                // يعمل التحميل بشكل عادي داخل المتصفح
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(blobUrl);
-            }
-        })
-        .catch(() => {
-            alert("⚠️ حدث خطأ أثناء محاولة تنزيل الصورة.");
-        });
+            })
+            .catch(() => {
+                alert("⚠️ حدث خطأ أثناء محاولة تنزيل الصورة.");
+            });
+    });
 });
 
-encryptButton.addEventListener('click', () => {
+// تعديل زر التشفير لتعيين رابط الصورة للتحميل
+encryptButton.addEventListener("click", () => {
     const file = uploadImage.files[0];
     const text = inputText.value;
     const key = encryptionPassword.value || DEFAULT_KEY;
@@ -110,9 +121,9 @@ encryptButton.addEventListener('click', () => {
             const pixels = imageData.data;
 
             const encryptedText = CryptoJS.AES.encrypt(text, key).toString();
-            let binaryText = '';
+            let binaryText = "";
             for (let i = 0; i < encryptedText.length; i++) {
-                binaryText += encryptedText.charCodeAt(i).toString(2).padStart(8, '0');
+                binaryText += encryptedText.charCodeAt(i).toString(2).padStart(8, "0");
             }
 
             if (binaryText.length > pixels.length / 4) {
@@ -122,37 +133,33 @@ encryptButton.addEventListener('click', () => {
 
             let index = 0;
             for (let i = 0; i < pixels.length && index < binaryText.length; i += 4) {
-                pixels[i] = (pixels[i] & 0xFE) | parseInt(binaryText[index] || '0');
-                pixels[i + 1] = (pixels[i + 1] & 0xFE) | parseInt(binaryText[index + 1] || '0');
-                pixels[i + 2] = (pixels[i + 2] & 0xFE) | parseInt(binaryText[index + 2] || '0');
+                pixels[i] = (pixels[i] & 0xFE) | parseInt(binaryText[index] || "0");
+                pixels[i + 1] = (pixels[i + 1] & 0xFE) | parseInt(binaryText[index + 1] || "0");
+                pixels[i + 2] = (pixels[i + 2] & 0xFE) | parseInt(binaryText[index + 2] || "0");
                 index += 3;
             }
 
             ctx.putImageData(imageData, 0, 0);
             const encryptedImage = canvas.toDataURL("image/png");
 
-            // إنشاء رابط التنزيل
-            downloadEncryptedImage.href = encryptedImage;
-            downloadEncryptedImage.style.display = 'none';
+            // حفظ رابط الصورة لاستخدامه لاحقًا
+            downloadEncryptedImage.setAttribute("data-image-url", encryptedImage);
+            downloadEncryptedImage.style.display = "none";
 
-            // عرض زر إعادة التوجيه إلى المتصفح
-            const openBrowserDownload = document.getElementById('openBrowserDownload');
-            openBrowserDownload.style.display = 'block';
-
-            // تعيين الرابط لزر المتصفح
+            // عرض زر التنزيل في المتصفح
+            openBrowserDownload.style.display = "block";
             openBrowserDownload.onclick = () => {
-                window.open(encryptedImage, '_blank');
+                window.open(encryptedImage, "_blank");
             };
 
-            uploadImage.value = '';
-            inputText.value = '';
-            encryptionPassword.value = '';
+            uploadImage.value = "";
+            inputText.value = "";
+            encryptionPassword.value = "";
         };
     };
     reader.readAsDataURL(file);
 });
-
-
+    
     decryptButton.addEventListener('click', () => {
         const file = decodeImage.files[0];
         const key = decryptionPassword.value || DEFAULT_KEY;
