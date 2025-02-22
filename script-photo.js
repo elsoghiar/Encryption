@@ -54,13 +54,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('hiddenCanvas');
     const ctx = canvas.getContext('2d');
 
-document.getElementById('openBrowserDownload').addEventListener('click', () => {
-    const downloadUrl = downloadEncryptedImage.href;
-    if (downloadUrl) {
-        window.open(downloadUrl, '_blank');
-    } else {
-        showNotification("⚠️ No encrypted image available to download.");
-    }
+downloadEncryptedImage.addEventListener('click', (event) => {
+    event.preventDefault();
+    const imageUrl = downloadEncryptedImage.href;
+
+    fetch(imageUrl)
+        .then(res => res.blob())
+        .then(blob => {
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = blobUrl;
+            link.download = "encrypted_image.png";
+
+            if (navigator.userAgent.includes("Telegram")) {
+                // إذا كان داخل Telegram WebApp
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.openLink(blobUrl);
+                } else {
+                    alert("⚠️ الرجاء فتح الرابط في متصفح خارجي لتنزيل الصورة.");
+                }
+            } else {
+                // يعمل التحميل بشكل عادي داخل المتصفح
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(blobUrl);
+            }
+        })
+        .catch(() => {
+            alert("⚠️ حدث خطأ أثناء محاولة تنزيل الصورة.");
+        });
 });
 
 encryptButton.addEventListener('click', () => {
