@@ -17,34 +17,16 @@ const telegramApp = window.Telegram.WebApp;
 telegramApp.ready();
 
 const homePage = "index.html";
-
-function updateActivePage() {
+function updateTelegramButton() {
     const currentPage = window.location.pathname.split('/').pop() || homePage;
 
-    // إزالة كلاس active من جميع الأزرار
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-    });
-
-    // تحديد الصفحة النشطة بناءً على الرابط الحالي
-    if (currentPage.includes("index.html") || currentPage === "") {
-        document.getElementById("homeNav")?.classList.add("active");
-    } else if (currentPage.includes("photo.html")) {
-        document.getElementById("photoNav")?.classList.add("active");
-    } else if (currentPage.includes("improve.html")) {
-        document.getElementById("improveNav")?.classList.add("active");
-    }
-
-    // منطق زر الرجوع
-    if (currentPage === homePage || currentPage === "") {
-        telegramApp.BackButton.hide();
+    if (currentPage === homePage) {
+        telegramApp.BackButton.hide(); 
     } else {
-        telegramApp.BackButton.show();
+        telegramApp.BackButton.show(); 
         telegramApp.BackButton.onClick(() => {
-            window.location.href = homePage;
+            window.location.href = homePage; 
         });
     }
 }
-
-document.addEventListener("DOMContentLoaded", updateActivePage);
-window.addEventListener("popstate", updateActivePage);
+document.addEventListener("DOMContentLoaded", updateTelegramButton);
