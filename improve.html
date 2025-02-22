@@ -72,7 +72,48 @@
             </div>
         </div>
     </div>
-    <script src="telegram.js"></script>
-    <script src="script-sup.js"></script>
+
+    <script>
+        const tonConnectUI = new TONConnectUI.TonConnectUI({
+            manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/saw-ton-manifest.json',
+            buttonRootId: 'ton-connect'
+        });
+
+        document.getElementById("payButton").addEventListener("click", async () => {
+            const amount = document.getElementById("amountInput").value;
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            const walletConnected = await tonConnectUI.connected;
+            if (!walletConnected) {
+                alert("Please connect your TON wallet first.");
+                tonConnectUI.openModal();
+                return;
+            }
+
+            // Example payment logic
+            try {
+                await tonConnectUI.sendTransaction({
+                    to: "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ",
+                    amount: amount * 1e9, // Convert TON to nanotons
+                    payload: "Support payment"
+                });
+                alert("Payment successful!");
+            } catch (error) {
+                alert("Payment failed: " + error.message);
+            }
+        });
+
+        function copyAddress() {
+            const address = document.getElementById("walletAddress").innerText;
+            navigator.clipboard.writeText(address).then(() => {
+                alert("Address copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy address: " + err);
+            });
+        }
+    </script>
 </body>
 </html>
