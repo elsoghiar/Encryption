@@ -92,42 +92,26 @@ function showNotification(message, type = "success") {
 }
 
 
-async function generateFixedKey() {
-    const secretPhrase = "ThisIsASecretPassphrase2024!";
-    const encoder = new TextEncoder();
-    const data = encoder.encode(secretPhrase);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
-}
-
-let fixedKey = "";
-
-// توليد المفتاح المشفر عند تشغيل التطبيق
-generateFixedKey().then(key => {
-    fixedKey = key;
-});
-
 function encryptText() {
     let text = document.getElementById("encryptInput").value.trim();
-    let key = document.getElementById("encryptKey").value.trim() || fixedKey; // استخدم المفتاح الثابت المشفر
+    let key = document.getElementById("encryptKey").value.trim() || "xx@#-$#vvf@#gs@#jsbzj54876#@$*@#";
 
     if (!text) {
-        showNotification("⚠️ Please enter text to encrypt!", "warning");
+        showNotification("⚠️ Enter text to encrypt.", "warning");
         return;
     }
 
     let encrypted = CryptoJS.AES.encrypt(text, key).toString();
     document.getElementById("encryptOutput").value = encrypted;
-    showNotification("✅ Encryption successful!", "success");
+    showNotification("✅ Encryption completed successfully", "success");
 }
 
 function decryptText() {
     let encryptedText = document.getElementById("decryptInput").value.trim();
-    let key = document.getElementById("decryptKey").value.trim() || fixedKey; // استخدم نفس المفتاح
+    let key = document.getElementById("decryptKey").value.trim() || "xx@#-$#vvf@#gs@#jsbzj54876#@$*@#";
 
     if (!encryptedText) {
-        showNotification("⚠️ Please enter encrypted text!", "warning");
+        showNotification("⚠️ Enter the encrypted text to decrypt.", "warning");
         return;
     }
 
@@ -138,13 +122,13 @@ function decryptText() {
         if (!originalText) throw new Error();
 
         document.getElementById("decryptOutput").value = originalText;
-        showNotification("✅ Decryption successful!", "success");
+        showNotification("✅ Decrypted successfully", "success");
     } catch {
         document.getElementById("decryptKey").value = "";
         document.getElementById("decryptInput").value = "";
         document.getElementById("decryptOutput").value = "";
         
-        showNotification("❌ Incorrect key or invalid text!", "error");
+        showNotification("❌ Invalid key or invalid text", "error");
     }
 }
 
