@@ -615,7 +615,7 @@ footer {
     color: #4a4a4a;
 }   
 
-.contentsu button, #dcryptButton, #connectButton, #ton-connect button {
+#checkButton, .contentsu button, #dcryptButton, #connectButton, #ton-connect button {
     display: flex;
     align-items: center;
     justify-content: center;
