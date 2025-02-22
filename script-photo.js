@@ -157,16 +157,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     downloadEncryptedImage.addEventListener('click', (event) => {
-        event.preventDefault();
+    event.preventDefault();
+    const imageUrl = downloadEncryptedImage.href;
 
-        const imageUrl = downloadEncryptedImage.href;
-
-        if (/Android/i.test(navigator.userAgent)) {
-            window.location.href = `intent:${imageUrl}#Intent;scheme=https;package=com.android.chrome;end;`;
+    if (navigator.userAgent.includes("Telegram")) {
+        // إذا كان داخل Telegram WebApp، حاول فتح الرابط في المتصفح
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.openLink(imageUrl);
         } else {
-            window.open(imageUrl, '_blank');
+            alert("⚠️ الرجاء فتح الرابط في متصفح خارجي لتنزيل الصورة.");
         }
-    });
-
-    console.log("Script loaded successfully"); // للتحقق من تحميل السكريبت
+    } else {
+        // يعمل التحميل بشكل عادي داخل المتصفح
+        const link = document.createElement("a");
+        link.href = imageUrl;
+        link.download = "encrypted_image.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 });
+    
