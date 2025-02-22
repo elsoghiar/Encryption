@@ -21,18 +21,21 @@ const homePage = "index.html";
 function updateActivePage() {
     const currentPage = window.location.pathname.split('/').pop() || homePage;
 
-    // إزالة "active" من جميع الأزرار
+    // إزالة كلاس active من جميع الأزرار ما عدا الصفحة الحالية
     document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-    });
-
-    // البحث عن الرابط الذي يتوافق مع الصفحة الحالية وإضافة "active"
-    document.querySelectorAll('.nav-item').forEach(item => {
-        const link = item.getAttribute('href');
-        if (link === currentPage) {
-            item.classList.add('active');
+        if (!item.getAttribute('href')?.includes(currentPage)) {
+            item.classList.remove('active');
         }
     });
+
+    // تحديد الصفحة النشطة بناءً على الرابط الحالي
+    if (currentPage === "index.html") {
+        document.getElementById("homeNav")?.classList.add("active");
+    } else if (currentPage === "photo.html") {
+        document.getElementById("photoNav")?.classList.add("active");
+    } else if (currentPage === "improve.html") {
+        document.getElementById("improveNav")?.classList.add("active");
+    }
 
     // منطق زر الرجوع
     if (currentPage === homePage) {
