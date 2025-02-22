@@ -97,7 +97,6 @@
                 const transaction = await tonConnectUI.sendTransaction({
                     to: "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ",
                     amount: amount * 1e9, // Convert TON to nanotons
-                    payload: "Support payment",
                     validUntil: Math.floor(Date.now() / 1000) + 300 // صلاحية 5 دقائق (300 ثانية)
                 });
                 alert("Payment successful!");
