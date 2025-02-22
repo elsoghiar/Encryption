@@ -16,7 +16,6 @@ const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
                 const currentTime = Date.now();
 
                 if (!tonConnectUI.account) {
-                    alert("Please connect your TON wallet first.");
                     tonConnectUI.openModal();
                     return;
                 }
