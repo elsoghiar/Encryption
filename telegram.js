@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
 const telegramApp = window.Telegram.WebApp;
 telegramApp.ready();
 
@@ -20,19 +21,18 @@ const homePage = "index.html";
 function updateActivePage() {
     const currentPage = window.location.pathname.split('/').pop() || homePage;
 
-    // إزالة كلاس active من كل الأزرار
+    // إزالة "active" من جميع الأزرار
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
     });
 
-    // تحديد الصفحة النشطة بناءً على الرابط الحالي
-    if (currentPage === "index.html") {
-        document.getElementById("homeNav").classList.add("active");
-    } else if (currentPage === "photo.html") {
-        document.getElementById("photoNav").classList.add("active");
-    } else if (currentPage === "improve.html") {
-        document.getElementById("improveNav").classList.add("active");
-    }
+    // البحث عن الرابط الذي يتوافق مع الصفحة الحالية وإضافة "active"
+    document.querySelectorAll('.nav-item').forEach(item => {
+        const link = item.getAttribute('href');
+        if (link === currentPage) {
+            item.classList.add('active');
+        }
+    });
 
     // منطق زر الرجوع
     if (currentPage === homePage) {
