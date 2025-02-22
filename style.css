@@ -72,15 +72,6 @@ button, input, select, textarea {
     align-items: center;
 }
 
-.nav-item svg {
-    stroke: #4a4a4a;
-    transition: stroke 0.3s ease;
-}
-
-.nav-item.active svg {
-    stroke: #007bff; 
-}
-
 .container {
     width: 100%;
     max-width: 320px;
