@@ -141,7 +141,7 @@ button, input, select, textarea {
     resize: none;
 }
 
-#checkButton, #copyDecrypt, #copyEncrypt, #decryptButton,
+#copyDecrypt, #copyEncrypt, #decryptButton,
 #encryptButton, #cryptButton {
     position: absolute;
     right: 2px;
