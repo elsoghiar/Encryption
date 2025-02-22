@@ -80,28 +80,34 @@
         });
 
         document.getElementById("payButton").addEventListener("click", async () => {
-            const amount = document.getElementById("amountInput").value;
-            if (!amount || amount <= 0) {
-                alert("Please enter a valid amount.");
-                return;
-            }
-
-            const walletConnected = await tonConnectUI.connected;
-            if (!walletConnected) {
-                alert("Please connect your TON wallet first.");
-                tonConnectUI.openModal();
-                return;
-            }
-
             try {
-                const transaction = await tonConnectUI.sendTransaction({
-                    to: "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ",
-                    amount: amount * 1e9, // Convert TON to nanotons
-                    validUntil: Math.floor(Date.now() / 1000) + 300 // صلاحية 5 دقائق (300 ثانية)
-                });
+                const amountInput = document.getElementById("amountInput").value;
+                if (!amountInput || parseFloat(amountInput) <= 0) {
+                    alert("Please enter a valid amount.");
+                    return;
+                }
+
+                const requiredAmount = parseFloat(amountInput);
+                const amount = (requiredAmount * 1e9).toString();
+                const recipientAddress = "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ";
+                const currentTime = Date.now();
+
+                if (!tonConnectUI.account) {
+                    alert("Please connect your TON wallet first.");
+                    tonConnectUI.openModal();
+                    return;
+                }
+
+                const transaction = {
+                    validUntil: Math.floor(currentTime / 1000) + 600,
+                    messages: [{ address: recipientAddress, amount }],
+                };
+
+                await tonConnectUI.sendTransaction(transaction);
                 alert("Payment successful!");
             } catch (error) {
-                alert("Payment failed: " + error.message);
+                console.error("Payment error:", error);
+                alert("Payment failed: " + (error.message || "Unknown error"));
             }
         });
 
