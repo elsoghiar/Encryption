@@ -568,7 +568,7 @@ footer {
 }
 
 #encryptKey, #decryptKey, 
-#decryptionPassword, #encryptionPassword {
+#walletAddress, #decryptionPassword, #encryptionPassword {
     padding-left: 35px;
 } 
 
