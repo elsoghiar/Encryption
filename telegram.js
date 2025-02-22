@@ -27,16 +27,16 @@ function updateActivePage() {
     });
 
     // تحديد الصفحة النشطة بناءً على الرابط الحالي
-    if (currentPage === "index.html") {
+    if (currentPage.includes("index.html") || currentPage === "") {
         document.getElementById("homeNav")?.classList.add("active");
-    } else if (currentPage === "photo.html") {
+    } else if (currentPage.includes("photo.html")) {
         document.getElementById("photoNav")?.classList.add("active");
-    } else if (currentPage === "improve.html") {
+    } else if (currentPage.includes("improve.html")) {
         document.getElementById("improveNav")?.classList.add("active");
     }
 
     // منطق زر الرجوع
-    if (currentPage === homePage) {
+    if (currentPage === homePage || currentPage === "") {
         telegramApp.BackButton.hide();
     } else {
         telegramApp.BackButton.show();
