@@ -615,7 +615,7 @@ footer {
     color: #4a4a4a;
 }   
 
-.contentsu button, #dcryptButton, #connectButton, #ton-connect {
+.contentsu button, #dcryptButton, #connectButton, #ton-connect button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -708,6 +708,7 @@ input[type="file"]::before {
     align-items: center;
     border: 1px dashed #181818;
     width: 100%;
+    padding: 5px;
     text-align: center;
     height: auto;
     font-size: 15px;
@@ -720,6 +721,7 @@ input[type="file"]::before {
     align-items: center;
     justify-content: center;
     gap: 3px;
+    padding: 5px;
     text-align: center;
     white-space: nowrap;
     border: 1px dashed #181818;
