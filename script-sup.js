@@ -1,26 +1,25 @@
-document.addEventListener("DOMContentLoaded", initializeEventListeners);
+document.addEventListener("DOMContentLoaded", initializeEventListen);
 
-function initializeEventListeners() {
-    document.getElementById("Instant-supportt").addEventListener("click", shoaddress);
-    document.getElementById("Qexx-wallet-addresss").addEventListener("click", shoStudy);
+function initializeEventListen() {
+    document.getElementById("Instant-supportt").addEventListener("click", showAddress);
+    document.getElementById("Qexx-wallet-addresss").addEventListener("click", showWallet);
 }
 
-function shoaddress() {
+function showAddress() {
     document.getElementById("Instant-support").classList.remove("hidden");
     document.getElementById("Qexx-wallet-address").classList.add("hidden");
 
-    document.getElementById("Instant-support").classList.add("active");
-    document.getElementById("Qexx-wallet-address").classList.remove("active");
+    document.getElementById("Instant-supportt").classList.add("active");
+    document.getElementById("Qexx-wallet-addresss").classList.remove("active");
 }
 
-function shoStudy() {
-    document.getElementById("Instant-support").classList.remove("hidden");
-    document.getElementById("Qexx-wallet-address").classList.add("hidden");
+function showWallet() {
+    document.getElementById("Instant-support").classList.add("hidden");
+    document.getElementById("Qexx-wallet-address").classList.remove("hidden");
 
-    document.getElementById("Instant-support").classList.add("active");
-    document.getElementById("Qexx-wallet-address").classList.remove("active");
+    document.getElementById("Instant-supportt").classList.remove("active");
+    document.getElementById("Qexx-wallet-addresss").classList.add("active");
 }
-
 
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/saw-ton-manifest.json',
