@@ -1,3 +1,27 @@
+document.addEventListener("DOMContentLoaded", initializeEventListeners);
+
+function initializeEventListeners() {
+    document.getElementById("Instant-supportt").addEventListener("click", shoaddress);
+    document.getElementById("Qexx-wallet-addresss").addEventListener("click", shoStudy);
+}
+
+function shoaddress() {
+    document.getElementById("Instant-support").classList.remove("hidden");
+    document.getElementById("Qexx-wallet-address").classList.add("hidden");
+
+    document.getElementById("Instant-support").classList.add("active");
+    document.getElementById("Qexx-wallet-address").classList.remove("active");
+}
+
+function shoStudy() {
+    document.getElementById("Instant-support").classList.remove("hidden");
+    document.getElementById("Qexx-wallet-address").classList.add("hidden");
+
+    document.getElementById("Instant-support").classList.add("active");
+    document.getElementById("Qexx-wallet-address").classList.remove("active");
+}
+
+
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/saw-ton-manifest.json',
     buttonRootId: 'ton-connect'
