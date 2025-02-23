@@ -630,14 +630,9 @@ footer {
     border: 1px dashed #181818;
     padding: 5px 10px;
     width: 100%;
+    height: auto;
     border-radius: 10px;
 }
-
-#walletAddress{
-    margin-top: 10px;
-    font-weight: 600;
-    font-size: 14px;
-} 
 
 .go {
     text-align: left;
