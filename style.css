@@ -530,7 +530,7 @@ footer {
     line-height: 1.6;
 }
 
-.privacy-policy h3, .p {
+.privacy-policy h3, .p{
     font-size: 14px;
     font-weight: 600;
     color: #4a4a4a;
@@ -635,8 +635,6 @@ footer {
 
 .go {
     text-align: left;
-    margin-top: 10px;
-    margin-bottom: 20px;
     font-size: 20px;
     color: #fff;
     font-weight: 600;
