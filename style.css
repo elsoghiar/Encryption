@@ -559,7 +559,7 @@ footer {
 }
 
 #encryptKey, #decryptKey, 
-#walletAddress, #decryptionPassword, #encryptionPassword {
+#decryptionPassword, #encryptionPassword {
     padding-left: 35px;
 } 
 
@@ -625,7 +625,7 @@ footer {
 
 .wallet-address {
     display: flex;
-    flex-direction: column;
+    justify-content: center; 
     align-items: center;
     border: 1px dashed #181818;
     padding: 5px 10px;
