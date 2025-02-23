@@ -1,24 +1,30 @@
 document.addEventListener("DOMContentLoaded", initializeEventListen);
 
 function initializeEventListen() {
-    document.getElementById("Instant-supportt").addEventListener("click", showAddress);
-    document.getElementById("Qexx-wallet-addresss").addEventListener("click", showWallet);
+    document.getElementById("Instant-supportt").addEventListener("click", function() {
+        toggleView("Instant-support");
+    });
+
+    document.getElementById("Qexx-wallet-addresss").addEventListener("click", function() {
+        toggleView("Qexx-wallet-address");
+    });
 }
 
-function showAddress() {
-    document.getElementById("Instant-support").classList.remove("hidden");
-    document.getElementById("Qexx-wallet-address").classList.add("hidden");
+function toggleView(activeId) {
+    const containers = document.querySelectorAll(".contentsu");
+    containers.forEach(container => {
+        if (container.id === activeId) {
+            container.classList.remove("hidden");
+        } else {
+            container.classList.add("hidden");
+        }
+    });
 
-    document.getElementById("Instant-supportt").classList.add("active");
-    document.getElementById("Qexx-wallet-addresss").classList.remove("active");
-}
-
-function showWallet() {
-    document.getElementById("Instant-support").classList.add("hidden");
-    document.getElementById("Qexx-wallet-address").classList.remove("hidden");
-
-    document.getElementById("Instant-supportt").classList.remove("active");
-    document.getElementById("Qexx-wallet-addresss").classList.add("active");
+    // تحديث حالة الزر النشط
+    document.querySelectorAll(".tabs button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+    document.getElementById(activeId + "s").classList.add("active");
 }
 
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
