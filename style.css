@@ -607,7 +607,7 @@ footer {
     color: #4a4a4a;
 }   
 
-#checkButton, .contentsu button, #dcryptButton, #connectButton {
+#checkButton, #payButton, #addressButton, #dcryptButton, #connectButton {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -640,17 +640,6 @@ footer {
     font-weight: 600;
 } 
 
-.contentsu {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-bottom: 1px dashed #181818;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    padding: 15px;
-    gap: 10px;
-}
- 
 #amountInput {
     padding-left: 15px;
 } 
