@@ -1,51 +1,36 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تشفير وفك تشفير الصور</title>
     <link rel="stylesheet" href="html/style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script> eruda.init(); </script>
-
 </head>
 <body>
-    <div class="container">
-        <h1 class="page-title">🔒 تشفير وفك تشفير الصور</h1>
-        <div class="tabs">
-            <button id="encrypt-tab" class="active">🔐 تشفير الصورة</button>
-            <button id="decrypt-tab">🔓 فك التشفير</button>
-        </div>
+    <h1>تشفير وفك تشفير الصور مع الوصف</h1>
 
-        <!-- تشفير الصورة -->
-        <div id="encrypt-section" class="content">
-            <h2>تشفير الصورة:</h2>
-            <input type="file" id="imageInput" accept="image/*">
-            <textarea id="description" placeholder="أدخل الوصف هنا..."></textarea>
-            <input type="password" id="password" placeholder="أدخل كلمة السر">
-            <button onclick="encryptImage()">تشفير الصورة</button>
-        </div>
+    <!-- تشفير الصورة -->
+    <h2>تشفير الصورة:</h2>
+    <input type="file" id="imageInput" accept="image/*"><br><br>
+    <textarea id="description" placeholder="أدخل الوصف هنا..."></textarea><br><br>
+    <input type="password" id="password" placeholder="أدخل كلمة السر"><br><br>
+    <button onclick="encryptImage()">تشفير الصورة</button>
 
-        <!-- فك التشفير -->
-        <div id="decrypt-section" class="content hidden">
-            <h2>فك التشفير:</h2>
-            <input type="file" id="encryptedFile" accept=".txt">
-            <input type="password" id="decryptPassword" placeholder="أدخل كلمة السر لفك التشفير">
-            <button onclick="decryptImage()">فك التشفير</button>
-        </div>
+    <!-- فك التشفير -->
+    <h2>فك التشفير:</h2>
+    <input type="file" id="encryptedFile" accept=".txt"><br><br>
+    <input type="password" id="decryptPassword" placeholder="أدخل كلمة السر لفك التشفير"><br><br>
+    <button onclick="decryptImage()">فك التشفير</button>
 
-        <!-- عرض النتيجة -->
-        <div class="result-section">
-            <h2>🔍 النتائج:</h2>
-            <img id="outputImage" class="preview">
-            <h3 id="outputDescription"></h3>
-            <button id="downloadImageButton" class="hidden" onclick="downloadImage()">تحميل الصورة المستعادة</button>
-        </div>
-    </div>
+    <!-- عرض النتيجة -->
+    <h2>النتائج:</h2>
+    <img id="outputImage" style="max-width: 500px;"><br>
+    <h3 id="outputDescription"></h3>
+    <button id="downloadImageButton" style="display:none;" onclick="downloadImage()">تحميل الصورة المستعادة</button>
 
+    <!-- المكتبات -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
     <script src="basis/text-to.js"></script>
 </body>
 </html>
