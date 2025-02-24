@@ -8,14 +8,22 @@ function imageToBase64(imageFile) {
     });
 }
 
-// تنزيل النص كملف TXT
-function downloadTextFile(content, fileName) {
-    const blob = new Blob([content], { type: "text/plain" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    link.click();
-    URL.revokeObjectURL(link.href);
+// مشاركة الملف عبر Telegram
+async function shareFile(file) {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+            await navigator.share({
+                title: "ملف مشفر",
+                text: "هذا هو الملف المشفر الخاص بك.",
+                files: [file]
+            });
+            alert("تمت مشاركة الملف بنجاح!");
+        } catch (error) {
+            console.error("فشل في مشاركة الملف:", error);
+        }
+    } else {
+        alert("المشاركة غير مدعومة على هذا الجهاز.");
+    }
 }
 
 // تشفير الصورة وتحويلها إلى ملف TXT
@@ -45,10 +53,12 @@ async function encryptImage() {
         // 4. تشفير البيانات
         const encrypted = CryptoJS.AES.encrypt(compressedData, password).toString();
 
-        // 5. إنشاء ملف TXT للتنزيل
-        downloadTextFile(encrypted, "encrypted_image.txt");
+        // 5. إنشاء ملف TXT
+        const blob = new Blob([encrypted], { type: "text/plain" });
+        const file = new File([blob], "encrypted_image.txt", { type: "text/plain" });
 
-        alert("تم التشفير بنجاح! يمكنك الآن تحميل الملف النصي.");
+        // 6. مشاركة الملف مع Telegram
+        shareFile(file);
     } catch (error) {
         console.error("خطأ في التشفير:", error);
         alert("حدث خطأ أثناء التشفير.");
