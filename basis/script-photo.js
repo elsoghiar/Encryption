@@ -1,3 +1,48 @@
+async function sendImageToUser(imageDataUrl) {
+    const TELEGRAM_BOT_TOKEN = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // ضع توكن البوت
+    const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
+
+    // محاولة جلب معرف المستخدم من Telegram Web App
+    let userId;
+    try {
+        userId = window.Telegram.WebApp.initDataUnsafe?.user?.id;
+        if (!userId) throw new Error("معرف المستخدم غير متاح.");
+    } catch (error) {
+        console.error("❌ فشل في جلب معرف المستخدم:", error);
+        return;
+    }
+
+    // تحويل Data URL إلى Blob
+    const response = await fetch(imageDataUrl);
+    const blob = await response.blob();
+
+    // إنشاء FormData لإرسال الصورة
+    let formData = new FormData();
+    formData.append("chat_id", userId);
+    formData.append("photo", blob, "encrypted_image.png");
+
+    // إرسال الطلب إلى API تليجرام
+    try {
+        let res = await fetch(TELEGRAM_API_URL, {
+            method: "POST",
+            body: formData,
+        });
+        let data = await res.json();
+        if (data.ok) {
+            console.log("✅ تم إرسال الصورة بنجاح");
+            showNotification("✅ تم إرسال الصورة إلى حسابك في تليجرام.");
+        } else {
+            console.error("❌ فشل في إرسال الصورة:", data);
+            showNotification("⚠️ فشل في إرسال الصورة إلى تليجرام.");
+        }
+    } catch (error) {
+        console.error("❌ خطأ في الإرسال:", error);
+        showNotification("⚠️ حدث خطأ أثناء الإرسال.");
+    }
+}
+
+
+
 function showLoading() {
     document.getElementById("loadingOverlay").style.display = "flex";
 }
