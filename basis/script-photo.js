@@ -1,8 +1,6 @@
 async function sendImageToUser(imageDataUrl) {
     const TELEGRAM_BOT_TOKEN = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // ضع توكن البوت
     const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
-
-    // محاولة جلب معرف المستخدم من Telegram Web App
     let userId;
     try {
         userId = window.Telegram.WebApp.initDataUnsafe?.user?.id;
@@ -11,17 +9,11 @@ async function sendImageToUser(imageDataUrl) {
         console.error("❌ فشل في جلب معرف المستخدم:", error);
         return;
     }
-
-    // تحويل Data URL إلى Blob
     const response = await fetch(imageDataUrl);
     const blob = await response.blob();
-
-    // إنشاء FormData لإرسال الصورة
     let formData = new FormData();
     formData.append("chat_id", userId);
     formData.append("photo", blob, "encrypted_image.png");
-
-    // إرسال الطلب إلى API تليجرام
     try {
         let res = await fetch(TELEGRAM_API_URL, {
             method: "POST",
@@ -41,8 +33,6 @@ async function sendImageToUser(imageDataUrl) {
     }
 }
 
-
-
 function showLoading() {
     document.getElementById("loadingOverlay").style.display = "flex";
 }
@@ -52,7 +42,6 @@ function hideLoading() {
 }
 
 document.addEventListener("DOMContentLoaded", initializeEventListeners);
-
 function initializeEventListeners() {
     document.getElementById("encrypt-image").addEventListener("click", showImageEncrypt);
     document.getElementById("decrypt-image").addEventListener("click", showImageDecrypt);
@@ -116,8 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showNotification("⚠️ الرجاء رفع صورة وكتابة نص للتشفير.");
         return;
     }
-
-    showLoading(); // عرض شاشة التحميل
+    showLoading();
 
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -159,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let downloadLink = document.createElement("a");
             downloadLink.href = encryptedImage;
             downloadLink.download = "encrypted_image.png";
-
             try {
                 downloadLink.click();
                 showNotification("✅ تم تنزيل الصورة المشفرة بنجاح.");
@@ -167,8 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn("⚠️ فشل التنزيل المباشر، يتم إرسال الصورة عبر تليجرام...");
                 sendImageToUser(encryptedImage);
             }
-
-            hideLoading(); // إخفاء شاشة التحميل
+            hideLoading();
 
             uploadImage.value = '';
             inputText.value = '';
@@ -187,7 +173,7 @@ decryptButton.addEventListener('click', () => {
         return;
     }
 
-    showLoading(); // عرض شاشة التحميل
+    showLoading();
 
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -220,7 +206,7 @@ decryptButton.addEventListener('click', () => {
                 showNotification("⚠️ فشل فك التشفير.");
             }
 
-            hideLoading(); // إخفاء شاشة التحميل
+            hideLoading(); 
         };
     };
     reader.readAsDataURL(file);
