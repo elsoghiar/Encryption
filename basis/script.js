@@ -103,6 +103,7 @@ function showNotification(message, type = "success") {
 const DEFAULT_KEY = "7x!Q@z#L$9%P^3&K*8(Y)0_+=-A|B{C}D[E]F\\G/H<I>J?K:L;MN,O.P/Q1R2S3T4U5V6W7X8Y9Z0a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6A7B8C9D0E1F2G3H4I5J6K7L8M9N0O1P2Q3R4S5T6U7V8W9X0Y1Z2";
 
 function encryptText() {
+    showLoadingIndicator();
     let text = document.getElementById("encryptInput").value.trim();
     let key = document.getElementById("encryptKey").value.trim() || DEFAULT_KEY;
 
@@ -118,10 +119,12 @@ function encryptText() {
     } catch (error) {
         console.error("Encryption error:", error);
         showNotification("❌ Failed to encrypt text.", "error");
+        hideLoadingIndicator();
     }
 }
 
 function decryptText() {
+    showLoadingIndicator();
     let encryptedText = document.getElementById("decryptInput").value.trim();
     let key = document.getElementById("decryptKey").value.trim() || DEFAULT_KEY;
 
@@ -144,6 +147,7 @@ function decryptText() {
         document.getElementById("decryptInput").value = "";
         document.getElementById("decryptOutput").value = "";
         showNotification("❌ Invalid key or encrypted text.", "error");
+        hideLoadingIndicator();
     }
 }
 
@@ -159,6 +163,7 @@ function copyText(elementId) {
 
 
 async function fetchTONData(address) {
+    showLoadingIndicator();
     const BALANCE_API = `https://tonapi.io/v2/accounts/${address}`;
     const TOKENS_API = `https://tonapi.io/v2/accounts/${address}/jettons`;
     
@@ -180,10 +185,12 @@ async function fetchTONData(address) {
     } catch (error) {
         console.error("Error fetching TON data:", error);
         showNotification("❌ Failed to fetch data: " + error.message, "error");
+        hideLoadingIndicator();
     }
 }
 
 async function fetchTodayTransactions(address) {
+    showLoadingIndicator();
     let today = new Date().toISOString().split('T')[0];
     let transactions = [];
     let lastLt = null;
@@ -236,6 +243,7 @@ async function fetchTodayTransactions(address) {
             break;
         }
     }
+    hideLoadingIndicator();
     return transactions;
 }
 
