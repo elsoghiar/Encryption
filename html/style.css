@@ -183,6 +183,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
     gap: 3px;
     font-weight: 600;
     padding: 10px;
