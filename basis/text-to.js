@@ -24,14 +24,18 @@ function showImageDecrypt() {
 // تهيئة Telegram Web App إذا كان المستخدم داخل Telegram
 const isTelegram = window.Telegram && window.Telegram.WebApp.initData !== '';
 
+// كلمة السر الافتراضية القوية
+const DEFAULT_PASSWORD = 'StrongDefaultPassword123!';
+
 // وظيفة لتشفير الصورة
-async function encryptImage(imageFile, password) {
+async function encryptImage(imageFile, password, description) {
     const reader = new FileReader();
     reader.readAsDataURL(imageFile);
     return new Promise((resolve) => {
         reader.onload = () => {
             const base64Image = reader.result.split(',')[1]; // استخراج Base64 من الصورة
-            const encrypted = CryptoJS.AES.encrypt(base64Image, password || 'defaultPassword'); // تشفير النص
+            const dataToEncrypt = JSON.stringify({ image: base64Image, description }); // تضمين الوصف مع الصورة
+            const encrypted = CryptoJS.AES.encrypt(dataToEncrypt, password || DEFAULT_PASSWORD); // تشفير النص
             const compressed = LZString.compressToUTF16(encrypted.toString()); // ضغط النص المشفر
             resolve(compressed);
         };
@@ -41,8 +45,10 @@ async function encryptImage(imageFile, password) {
 // وظيفة لفك تشفير الصورة
 async function decryptImage(encryptedText, password) {
     const decompressed = LZString.decompressFromUTF16(encryptedText); // فك ضغط النص
-    const decrypted = CryptoJS.AES.decrypt(decompressed, password || 'defaultPassword').toString(CryptoJS.enc.Utf8); // فك تشفير النص
-    return `data:image/png;base64,${decrypted}`; // إرجاع الصورة كـ Base64
+    const decrypted = CryptoJS.AES.decrypt(decompressed, password || DEFAULT_PASSWORD).toString(CryptoJS.enc.Utf8); // فك تشفير النص
+    if (!decrypted) throw new Error('فشل فك التشفير. تأكد من كلمة السر.');
+    const { image, description } = JSON.parse(decrypted); // استخراج الصورة والوصف
+    return { imageSrc: `data:image/png;base64,${image}`, description }; // إرجاع الصورة والوصف
 }
 
 // وظيفة لتنزيل الملف النصي
@@ -92,7 +98,7 @@ document.getElementById('e-im').addEventListener('click', async () => {
         return;
     }
 
-    const encryptedText = await encryptImage(imageFile, password);
+    const encryptedText = await encryptImage(imageFile, password, description);
 
     if (isTelegram) {
         // إرسال الملف عبر Telegram
@@ -114,12 +120,18 @@ document.getElementById('d-im').addEventListener('click', async () => {
         const reader = new FileReader();
         reader.readAsText(file);
         reader.onload = async () => {
-            const encryptedText = reader.result;
-            const imageSrc = await decryptImage(encryptedText, password);
-            const outputImage = document.getElementById('outputImage');
-            outputImage.src = imageSrc;
-            outputImage.style.display = 'block';
-            document.getElementById('downloadImageButton').style.display = 'block';
+            try {
+                const encryptedText = reader.result;
+                const { imageSrc, description } = await decryptImage(encryptedText, password);
+                const outputImage = document.getElementById('outputImage');
+                const outputDescription = document.getElementById('outputDescription');
+                outputImage.src = imageSrc;
+                outputImage.style.display = 'block';
+                outputDescription.textContent = description || 'لا يوجد وصف.';
+                document.getElementById('downloadImageButton').style.display = 'block';
+            } catch (error) {
+                alert(error.message);
+            }
         };
     };
     fileInput.click();
