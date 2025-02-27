@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
             const userId = userData.id;
-            const botToken = "UQBHLwAD21SgZeRavXI9aBH6RWorHLr41mHYAUcH_v7G2NFz"; // ضع توكن البوت هنا
+            const botToken = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // ضع توكن البوت هنا
 
             const blob = await dataURLToBlob(dataURL);
             const formData = new FormData();
