@@ -24,8 +24,8 @@ function showImageDecrypt() {
 }
 
 
-document.getElementById("encryptButton").addEventListener("click", generateEncryptedAudio);
-document.getElementById("decryptButton").addEventListener("click", decryptAudio);
+document.getElementById("encryptvoButton").addEventListener("click", generateEncryptedAudio);
+document.getElementById("decryptvoButton").addEventListener("click", decryptAudio);
 
 function generateEncryptedAudio() {
     const text = document.getElementById("inputText").value.trim();
