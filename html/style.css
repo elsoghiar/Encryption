@@ -752,10 +752,6 @@ input[type="file"]::before {
     z-index: 1000;
 }
 
-.hidden {
-    display: none;
-}
-
 .loading-spinner {
     width: 50px;
     height: 50px;
