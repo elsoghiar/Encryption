@@ -1,3 +1,27 @@
+document.addEventListener("DOMContentLoaded", function () {
+    initializeEventListeners();
+});
+
+function initializeEventListeners() {
+    document.getElementById("encrypt-vo").addEventListener("click", showImageEncrypt);
+    document.getElementById("decrypt-vo").addEventListener("click", showImageDecrypt);
+}
+
+function showImageEncrypt() {
+    document.getElementById("encrypt-vo").classList.remove("hidden");
+    document.getElementById("decrypt-vo").classList.add("hidden");
+    document.getElementById("section-vo-en").classList.add("active");
+    document.getElementById("section-vo-de").classList.remove("active");
+}
+
+function showImageDecrypt() {
+    document.getElementById("decrypt-vo").classList.remove("hidden");
+    document.getElementById("encrypt-vo").classList.add("hidden");
+    document.getElementById("section-vo-de").classList.add("active");
+    document.getElementById("section-vo-en").classList.remove("active");
+}
+
+
 document.getElementById("encryptButton").addEventListener("click", generateEncryptedAudio);
 document.getElementById("decryptButton").addEventListener("click", decryptAudio);
 
