@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تشفير النص داخل الصوت</title>
+    <link rel="stylesheet" href="html/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>🔊 تشفير النص داخل الصوت</h2>
+        
+        <div class="section">
+            <textarea id="inputText" placeholder="📝 أدخل النص هنا..." rows="4"></textarea>
+            <input type="password" id="encryptionPassword" placeholder="🔑 كلمة السر (اختياري)">
+            <button id="encryptButton">🔒 إنشاء ملف صوتي مشفر</button>
+            <a id="downloadAudio" style="display: none;">⬇️ تحميل الملف الصوتي</a>
+        </div>
+
+        <hr>
+
+        <h2>🔍 فك تشفير الصوت</h2>
+        
+        <div class="section">
+            <input type="file" id="audioFile">
+            <input type="password" id="decryptionPassword" placeholder="🔑 كلمة السر (إن وجدت)">
+            <button id="decryptButton">🔓 فك التشفير</button>
+            <p id="outputText"></p>
+        </div>
+    </div>
+
+    <script src="basis/script-voice.js"></script>
+</body>
+</html>
