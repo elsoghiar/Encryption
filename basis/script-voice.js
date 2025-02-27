@@ -8,17 +8,19 @@ function initializeEventListeners() {
 }
 
 function showImageEncrypt() {
-    document.getElementById("encrypt-vo").classList.remove("hidden");
-    document.getElementById("decrypt-vo").classList.add("hidden");
-    document.getElementById("section-vo-en").classList.add("active");
-    document.getElementById("section-vo-de").classList.remove("active");
+    document.getElementById("encrypt-vo").classList.add("active");
+    document.getElementById("decrypt-vo").classList.remove("active");
+    
+    document.getElementById("section-vo-en").classList.remove("hidden");
+    document.getElementById("section-vo-de").classList.add("hidden");
 }
 
 function showImageDecrypt() {
-    document.getElementById("decrypt-vo").classList.remove("hidden");
-    document.getElementById("encrypt-vo").classList.add("hidden");
-    document.getElementById("section-vo-de").classList.add("active");
-    document.getElementById("section-vo-en").classList.remove("active");
+    document.getElementById("decrypt-vo").classList.add("active");
+    document.getElementById("encrypt-vo").classList.remove("active");
+    
+    document.getElementById("section-vo-de").classList.remove("hidden");
+    document.getElementById("section-vo-en").classList.add("hidden");
 }
 
 
