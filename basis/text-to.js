@@ -1,7 +1,3 @@
-const botToken = '8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk'; 
-const chatId = window.Telegram.WebApp.initDataUnsafe.user.id;
-   
-
 document.addEventListener("DOMContentLoaded", function () {
     initializeEventListeners();
 });
@@ -25,13 +21,11 @@ function showImageDecrypt() {
     document.getElementById("encrypt-im").classList.remove("active");
 }
 
- // التحقق من بيئة Telegram WebApp
 const isTelegram = window.Telegram && window.Telegram.WebApp.initData !== '';
+const botToken = '8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk'; 
+const chatId = window.Telegram.WebApp.initDataUnsafe.user.id;
+const DEFAULT_PASSWORD = "7x!Q@z#L$9%P^3&K*8(Y)0_+=-A|B{C}D[E]F\\G/H<I>J?K:L;MN,O.P/Q1R2S3T4U5V6W7X8Y9Z0a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6A7B8C9D0E1F2G3H4I5J6K7L8M9N0O1P2Q3R4S5T6U7V8W9X0Y1Z2";
 
-// كلمة السر الافتراضية
-const DEFAULT_PASSWORD = 'StrongDefaultPassword123!';
-
-// توليد اسم عشوائي من 6 أحرف
 function generateRandomFilename(extension) {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let filename = '';
@@ -41,7 +35,6 @@ function generateRandomFilename(extension) {
     return filename + '.' + extension;
 }
 
-// تشفير الصورة
 async function encryptImage(imageFile, password, description) {
     const reader = new FileReader();
     reader.readAsDataURL(imageFile);
@@ -56,7 +49,6 @@ async function encryptImage(imageFile, password, description) {
     });
 }
 
-// فك تشفير الصورة
 async function decryptImage(encryptedText, password) {
     try {
         const decompressed = LZString.decompressFromUTF16(encryptedText);
@@ -68,7 +60,6 @@ async function decryptImage(encryptedText, password) {
     }
 }
 
-// تنزيل ملف نصي
 function downloadTextFile(text, filename) {
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -79,7 +70,6 @@ function downloadTextFile(text, filename) {
     URL.revokeObjectURL(url);
 }
 
-// إرسال الملف عبر Telegram
 async function sendFileViaTelegram(encryptedText, filename) {
     const blob = new Blob([encryptedText], { type: 'text/plain' });
     const formData = new FormData();
@@ -117,7 +107,6 @@ function showNotification(message, type = "success") {
     }, 2500);
 }
 
-// التعامل مع زر التشفير
 document.getElementById('e-im').addEventListener('click', async () => {
     const imageFile = document.getElementById('imageInput').files[0];
     const password = document.getElementById('password').value;
@@ -143,8 +132,7 @@ document.getElementById('e-im').addEventListener('click', async () => {
     }
 });
 
-// التعامل مع فك التشفير
-let lastEncryptedText = null; // الاحتفاظ بالنص المشفر الحالي
+let lastEncryptedText = null; 
 document.getElementById('d-im').addEventListener('click', async () => {
     const password = document.getElementById('decryptPassword').value;
 
@@ -170,7 +158,6 @@ document.getElementById('d-im').addEventListener('click', async () => {
     }
 });
 
-// التعامل مع رفع الملف المشفر
 document.getElementById('encryptedFile').addEventListener('change', async (e) => {
     const file = e.target.files[0];
 
@@ -187,7 +174,6 @@ document.getElementById('encryptedFile').addEventListener('change', async (e) =>
     };
 });
 
-// التعامل مع زر تنزيل الصورة المستعادة
 document.getElementById('downloadImageButton').addEventListener('click', () => {
     const outputImage = document.getElementById('outputImage');
     const filename = generateRandomFilename('png');
