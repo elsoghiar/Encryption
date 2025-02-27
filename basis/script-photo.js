@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const ctx = canvas.getContext('2d');
 
     function isTelegramWebApp() {
-        return window.Telegram && Telegram.WebApp;
+        return typeof Telegram !== 'undefined' && Telegram.WebApp && Telegram.WebApp.initDataUnsafe.user;
     }
 
     function generateImageID() {
@@ -50,13 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return id;
     }
 
-     function showLoadingIndicator() {
+    function showLoadingIndicator() {
         document.getElementById("loadingOverlay").style.display = "block";
-     }
+    }
 
-     function hideLoadingIndicator() {
+    function hideLoadingIndicator() {
         document.getElementById("loadingOverlay").style.display = "none";
-     }
+    }
 
     function showNotification(message, type = "success") {
         let notification = document.getElementById("notification");
@@ -111,9 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 let index = 0;
                 for (let i = 0; i < pixels.length && index < binaryText.length; i += 4) {
                     pixels[i] = (pixels[i] & 0xFE) | parseInt(binaryText[index] || '0');
-                    pixels[i + 1] = (pixels[i + 1] & 0xFE) | parseInt(binaryText[index + 1] || '0');
-                    pixels[i + 2] = (pixels[i + 2] & 0xFE) | parseInt(binaryText[index + 2] || '0');
-                    index += 3;
+                    index++;
                 }
 
                 ctx.putImageData(imageData, 0, 0);
@@ -121,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (isTelegramWebApp()) {
                     const imageID = generateImageID();
-                    sendToTelegramBot(encryptedImage, imageID, text);
+                    sendToTelegramBot(encryptedImage, imageID);
                 } else {
                     downloadEncryptedImage.href = encryptedImage;
                     downloadEncryptedImage.download = "encrypted_image.png";
@@ -165,8 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 let binaryText = '';
                 for (let i = 0; i < pixels.length; i += 4) {
                     binaryText += (pixels[i] & 1).toString();
-                    binaryText += (pixels[i + 1] & 1).toString();
-                    binaryText += (pixels[i + 2] & 1).toString();
                 }
 
                 let extractedText = '';
@@ -179,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 try {
                     const decryptedText = CryptoJS.AES.decrypt(extractedText, key).toString(CryptoJS.enc.Utf8);
-                    outputText.innerText = decryptedText ? `${decryptedText}` : "No text found or incorrect password";
+                    outputText.innerText = decryptedText ? decryptedText : "No text found or incorrect password";
                 } catch (error) {
                     showNotification("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
                 }
@@ -190,49 +186,38 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.readAsDataURL(file);
     });
 
-  async function sendToTelegramBot(dataURL, imageID, text) {
-    try {
-        // جلب معرف المستخدم من Telegram WebApp
-        const userData = window.Telegram?.WebApp?.initDataUnsafe?.user;
-        if (!userData || !userData.id) {
-            showNotification("⚠️ لم يتم العثور على معرف المستخدم في Telegram.", "error");
-            return;
+    async function sendToTelegramBot(dataURL, imageID) {
+        try {
+            const userData = Telegram.WebApp.initDataUnsafe.user;
+            if (!userData || !userData.id) {
+                showNotification("⚠️ لم يتم العثور على معرف المستخدم في Telegram.", "error");
+                return;
+            }
+            const userId = userData.id;
+            const botToken = "BOT_TOKEN_HERE"; // ضع توكن البوت هنا
+
+            const blob = await dataURLToBlob(dataURL);
+            const formData = new FormData();
+            formData.append("chat_id", userId);
+            formData.append("photo", blob, `${imageID}.png`);
+            formData.append("caption", `🆔 Image ID: ${imageID}`);
+
+            const url = `https://api.telegram.org/bot${botToken}/sendPhoto`;
+            const response = await fetch(url, { method: "POST", body: formData });
+            const result = await response.json();
+
+            if (result.ok) {
+                showNotification("📤 تم إرسال الصورة المشفرة بنجاح إلى Telegram!", "success");
+            } else {
+                showNotification(`⚠️ فشل إرسال الصورة: ${result.description}`, "error");
+            }
+        } catch (error) {
+            console.error("Telegram API Error:", error);
+            showNotification("⚠️ حدث خطأ أثناء إرسال الصورة عبر Telegram.", "error");
         }
-        const userId = userData.id;
-        const botToken = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // استبدل بتوكن البوت
-
-        // تحويل Data URL إلى Blob
-        const blob = await dataURLToBlob(dataURL);
-        
-        // تجهيز البيانات لإرسالها إلى Telegram
-        const formData = new FormData();
-        formData.append("chat_id", userId);
-        formData.append("photo", blob, `${imageID}.png`);
-        formData.append("caption", `🔒 **Encrypted Image**\n🆔 ID: ${imageID}\n📜 Text: ${text}`);
-
-        // إرسال الطلب
-        const url = `https://api.telegram.org/bot${botToken}/sendPhoto`;
-        const response = await fetch(url, { method: "POST", body: formData });
-        const result = await response.json();
-
-        // التحقق من نجاح الإرسال
-        if (result.ok) {
-            showNotification("📤 تم إرسال الصورة المشفرة بنجاح إلى Telegram!", "success");
-        } else {
-            showNotification(`⚠️ فشل إرسال الصورة: ${result.description}`, "error");
-        }
-    } catch (error) {
-        console.error("Telegram API Error:", error);
-        showNotification("⚠️ حدث خطأ أثناء إرسال الصورة عبر Telegram.", "error");
     }
-}
-    
-function dataURLToBlob(dataURL) {
-    return new Promise((resolve, reject) => {
-        fetch(dataURL)
-            .then(res => res.blob())
-            .then(resolve)
-            .catch(reject);
-    });
-  }
+
+    function dataURLToBlob(dataURL) {
+        return fetch(dataURL).then(res => res.blob());
+    }
 });
