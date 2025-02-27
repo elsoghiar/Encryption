@@ -27,6 +27,16 @@ const isTelegram = window.Telegram && window.Telegram.WebApp.initData !== '';
 // كلمة السر الافتراضية القوية
 const DEFAULT_PASSWORD = 'StrongDefaultPassword123!';
 
+// وظيفة لإنشاء اسم ملف عشوائي مكون من 6 أحرف
+function generateRandomFilename(extension) {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let filename = '';
+    for (let i = 0; i < 6; i++) {
+        filename += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return `${filename}.${extension}`;
+}
+
 // وظيفة لتشفير الصورة
 async function encryptImage(imageFile, password, description) {
     const reader = new FileReader();
@@ -77,14 +87,25 @@ async function sendFileViaTelegram(encryptedText, filename) {
         });
         const data = await response.json();
         if (data.ok) {
-            alert('تم إرسال الملف إلى Telegram بنجاح!');
+            showNotification('تم إرسال الملف إلى Telegram بنجاح!', 'success');
         } else {
-            alert('فشل في إرسال الملف عبر Telegram.');
+            showNotification('فشل في إرسال الملف عبر Telegram.', 'error');
         }
     } catch (error) {
         console.error('Error sending file via Telegram:', error);
-        alert('حدث خطأ أثناء إرسال الملف.');
+        showNotification('حدث خطأ أثناء إرسال الملف.', 'error');
     }
+}
+
+// وظيفة لعرض الإشعارات
+function showNotification(message, type = 'info') {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.className = `notification ${type}`;
+    notification.style.display = 'block';
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000);
 }
 
 // التعامل مع زر التشفير
@@ -94,54 +115,100 @@ document.getElementById('e-im').addEventListener('click', async () => {
     const description = document.getElementById('description-im').value;
 
     if (!imageFile) {
-        alert('الرجاء اختيار صورة.');
+        showNotification('الرجاء اختيار صورة.', 'error');
         return;
     }
 
-    const encryptedText = await encryptImage(imageFile, password, description);
+    try {
+        const encryptedText = await encryptImage(imageFile, password, description);
+        const filename = generateRandomFilename('txt');
 
-    if (isTelegram) {
-        // إرسال الملف عبر Telegram
-        await sendFileViaTelegram(encryptedText, 'encrypted_image.txt');
-    } else {
-        // تنزيل الملف في المتصفح العادي
-        downloadTextFile(encryptedText, 'encrypted_image.txt');
+        if (isTelegram) {
+            // إرسال الملف عبر Telegram
+            await sendFileViaTelegram(encryptedText, filename);
+        } else {
+            // تنزيل الملف في المتصفح العادي
+            downloadTextFile(encryptedText, filename);
+            showNotification('تم تنزيل الملف بنجاح!', 'success');
+        }
+    } catch (error) {
+        showNotification('حدث خطأ أثناء التشفير.', 'error');
     }
 });
 
-// التعامل مع زر فك التشفير
-document.getElementById('d-im').addEventListener('click', async () => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.txt';
-    fileInput.onchange = async (e) => {
-        const file = e.target.files[0];
-        const password = document.getElementById('decryptPassword').value;
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = async () => {
-            try {
-                const encryptedText = reader.result;
-                const { imageSrc, description } = await decryptImage(encryptedText, password);
-                const outputImage = document.getElementById('outputImage');
-                const outputDescription = document.getElementById('outputDescription');
-                outputImage.src = imageSrc;
-                outputImage.style.display = 'block';
-                outputDescription.textContent = description || 'لا يوجد وصف.';
-                document.getElementById('downloadImageButton').style.display = 'block';
-            } catch (error) {
-                alert(error.message);
-            }
-        };
+// التعامل مع رفع الملف لفك التشفير
+document.getElementById('encryptedFile').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    const password = document.getElementById('decryptPassword').value;
+
+    if (!file) {
+        showNotification('الرجاء اختيار ملف نصي مشفر.', 'error');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = async () => {
+        try {
+            const encryptedText = reader.result;
+            const { imageSrc, description } = await decryptImage(encryptedText, password);
+            const outputImage = document.getElementById('outputImage');
+            const outputDescription = document.getElementById('outputDescription');
+            outputImage.src = imageSrc;
+            outputImage.style.display = 'block';
+            outputDescription.textContent = description || 'لا يوجد وصف.';
+            document.getElementById('downloadImageButton').style.display = 'block';
+            showNotification('تم فك تشفير الملف بنجاح!', 'success');
+        } catch (error) {
+            showNotification(error.message, 'error');
+        }
     };
-    fileInput.click();
 });
 
 // التعامل مع زر تنزيل الصورة المستعادة
 document.getElementById('downloadImageButton').addEventListener('click', () => {
     const outputImage = document.getElementById('outputImage');
-    const link = document.createElement('a');
-    link.href = outputImage.src;
-    link.download = 'restored_image.png';
-    link.click();
+    const filename = generateRandomFilename('png');
+
+    if (isTelegram) {
+        // إرسال الصورة عبر البوت مع الوصف
+        sendImageViaTelegram(outputImage.src, filename, document.getElementById('outputDescription').textContent);
+    } else {
+        // تنزيل الصورة في المتصفح العادي
+        const link = document.createElement('a');
+        link.href = outputImage.src;
+        link.download = filename;
+        link.click();
+        showNotification('تم تنزيل الصورة المستعادة بنجاح!', 'success');
+    }
 });
+
+// وظيفة لإرسال الصورة عبر Telegram Bot API
+async function sendImageViaTelegram(imageSrc, filename, description) {
+    const botToken = '8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk'; // استبدل بمعرف البوت الخاص بك
+    const chatId = window.Telegram.WebApp.initDataUnsafe.user.id; // معرف المستخدم في Telegram
+
+    const response = await fetch(imageSrc);
+    const blob = await response.blob();
+    const formData = new FormData();
+    formData.append('photo', blob, filename);
+    formData.append('caption', description);
+
+    try {
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto?chat_id=${chatId}`, {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await res.json();
+        if (data.ok) {
+            showNotification('تم إرسال الصورة إلى Telegram بنجاح!', 'success');
+        } else {
+            showNotification('فشل في إرسال الصورة عبر Telegram.', 'error');
+        }
+    } catch (error) {
+        console.error('Error sending image via Telegram:', error);
+        showNotification('حدث خطأ أثناء إرسال الصورة.', 'error');
+    }
+}
+
+
