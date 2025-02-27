@@ -774,7 +774,7 @@ input[type="file"]::before {
     font-weight: 600;
 } 
  
-#outputImage img {
+#outputImage {
     width: 100px;
     height: auto;
 } 
