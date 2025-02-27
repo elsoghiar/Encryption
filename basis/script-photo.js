@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.readAsDataURL(file);
     });
 
-  async function sendToTelegramBot(blob, imageID, text) {
+  async function sendToTelegramBot(dataURL, imageID, text) {
     try {
         // جلب معرف المستخدم من Telegram WebApp
         const userData = window.Telegram?.WebApp?.initDataUnsafe?.user;
@@ -199,8 +199,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         const userId = userData.id;
-        const botToken = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // استبدل بتوكن البوت
+        const botToken = "YOUR_BOT_TOKEN"; // استبدل بتوكن البوت
 
+        // تحويل Data URL إلى Blob
+        const blob = await dataURLToBlob(dataURL);
+        
         // تجهيز البيانات لإرسالها إلى Telegram
         const formData = new FormData();
         formData.append("chat_id", userId);
@@ -221,6 +224,15 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
         console.error("Telegram API Error:", error);
         showNotification("⚠️ حدث خطأ أثناء إرسال الصورة عبر Telegram.", "error");
-     }
+    }
+}
+    
+function dataURLToBlob(dataURL) {
+    return new Promise((resolve, reject) => {
+        fetch(dataURL)
+            .then(res => res.blob())
+            .then(resolve)
+            .catch(reject);
+    });
   }
 });
