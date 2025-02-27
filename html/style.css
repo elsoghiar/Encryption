@@ -768,14 +768,24 @@ input[type="file"]::before {
     to { transform: rotate(360deg); }
 }
 
-.Iwill-title, #outputDescription {
+.Iwill-title {
     font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+} 
+
+#outputDescription {
+    text-align: center;
+    font-size: 16px;
+    margin: 10px;
     color: #fff;
     font-weight: 600;
 } 
  
 #outputImage {
-    width: 100px;
+    margin: 10px auto;
+    display: block;
+    width: 200px;
     height: auto;
 } 
 
