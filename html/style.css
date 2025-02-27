@@ -767,3 +767,10 @@ input[type="file"]::before {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+.Iwill-title {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+} 
+ 
