@@ -6,6 +6,7 @@
     <title>Encode text into audio clip</title>
     <link rel="stylesheet" href="html/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
 </head>
 <body>
     <div class="containers">
@@ -37,8 +38,8 @@
             <div id="section-vo-en" class="content">
                 <div class="tit-image">Encrypt and hide text inside audio frequencies in a supernatural way </div>
                 <div class="container-here">
-                    <textarea id="inputText" placeholder="📝 أدخل النص هنا..." rows="4"></textarea>
-                    <button id="encryptButton">🔒 إنشاء ملف صوتي مشفر</button>
+                    <textarea id="inputText" placeholder="Enter the text to be encrypted here..." rows="4"></textarea>
+                    <button id="encryptButton">Create encrypted audio file</button>
                 </div>
                 <div class="tit-">Enter the password to encrypt the text inside the audio file.(Optional)</div>
                 <div class="key-content">
@@ -46,9 +47,9 @@
                         <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
                         <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
                     </svg>
-                    <input type="password" id="encryptionPassword" placeholder="🔑 كلمة السر (اختياري)">
+                    <input type="password" id="encryptionPassword" placeholder="Enter the password (optional.)">
                 </div>
-                <a id="downloadAudio" style="display: none;">⬇️ تحميل الملف الصوتي</a>
+                <a id="downloadAudio" style="display: none;">Download audio file</a>
             </div>
 
             <div id="section-vo-de" class="content hidden">
@@ -60,9 +61,9 @@
                         <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
                         <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
                     </svg>
-                    <input type="password" id="decryptionPassword" placeholder="🔑 كلمة السر (إن وجدت)">
+                    <input type="password" id="decryptionPassword" placeholder="Enter the password if any.">
                 </div>
-                <button id="decryptButton">🔓 فك التشفير</button>
+                <button id="decryptButton">audio decoding</button>
                 <p id="outputText"></p>
             </div>
             <div class="pag-title" id="pagetitle">
