@@ -16,7 +16,7 @@
         <div class="container">
             <div class="page-title">CRYPTOR <span>QEXX.</span>
             </div>
-            <div class="titley">Encrypt - Decrypt your text with a password.</div>
+            <div class="titley">Convert and encrypt images and make them unreadable texts with high encryption</div>
             <div class="tabs">
                 <button id="encrypt-im" class="active">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-images">
@@ -46,7 +46,7 @@
                         <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
                         <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
                     </svg>
-                    <input type="password" id="password" placeholder="أدخل كلمة السر">
+                    <input type="password" id="password" placeholder="Enter the passkey to encrypt the image (optional)">
                 </div>
                 <div class="container-here">
                     <textarea id="description" placeholder="أدخل الوصف هنا..."></textarea>
@@ -68,7 +68,7 @@
                         <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
                         <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
                     </svg>
-                    <input type="password" id="decryptPassword" placeholder="أدخل كلمة السر لفك التشفير">
+                    <input type="password" id="decryptPassword" placeholder="Enter the image decryption key if any.">
                 </div>
                 <button onclick="decryptImage()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -81,7 +81,9 @@
                 <h2>Retrieved results</h2>
                 <img id="outputImage">
                 <h3 id="outputDescription"></h3>
-                <button id="downloadImageButton" style="display:none;" onclick="downloadImage()">تحميل الصورة المستعادة</button>
+                <button id="downloadImageButton" style="display:none;" onclick="downloadImage()">
+                   Download the restored image 
+                </button>
             </div>
             <div class="bottom-nav">
                 <div class="menu-item-container">
