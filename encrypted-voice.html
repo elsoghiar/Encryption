@@ -8,29 +8,45 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
+    <div class="containers">
+        <div class="container">
+            <div class="page-title">CRYPTOR <span>QEXX.</span>
+            </div>
+            <div class="titley">Encrypt - Decrypt your text with a password.</div>
+            <h2>🔊 تشفير النص داخل الصوت</h2>
 
-    <div class="container">
-        <h2>🔊 تشفير النص داخل الصوت</h2>
-        
-        <div class="section">
-            <textarea id="inputText" placeholder="📝 أدخل النص هنا..." rows="4"></textarea>
-            <input type="password" id="encryptionPassword" placeholder="🔑 كلمة السر (اختياري)">
-            <button id="encryptButton">🔒 إنشاء ملف صوتي مشفر</button>
-            <a id="downloadAudio" style="display: none;">⬇️ تحميل الملف الصوتي</a>
+            <div class="section-Encryption">
+                <div class="container-here">
+                    <textarea id="inputText" placeholder="📝 أدخل النص هنا..." rows="4"></textarea>
+                    <button id="encryptButton">🔒 إنشاء ملف صوتي مشفر</button>
+                </div>
+                <div class="key-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+                        <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+                    </svg>
+                    <input type="password" id="encryptionPassword" placeholder="🔑 كلمة السر (اختياري)">
+                </div>
+                <a id="downloadAudio" style="display: none;">⬇️ تحميل الملف الصوتي</a>
+            </div>
+            <h2>🔍 فك تشفير الصوت</h2>
+
+            <div class="section">
+                <input type="file" id="audioFile">
+                <div class="key-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
+                        <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
+                    </svg>
+                    <input type="password" id="decryptionPassword" placeholder="🔑 كلمة السر (إن وجدت)">
+                </div>
+                <button id="decryptButton">🔓 فك التشفير</button>
+                <p id="outputText"></p>
+            </div>
+
+            
         </div>
-
-        <hr>
-
-        <h2>🔍 فك تشفير الصوت</h2>
-        
-        <div class="section">
-            <input type="file" id="audioFile">
-            <input type="password" id="decryptionPassword" placeholder="🔑 كلمة السر (إن وجدت)">
-            <button id="decryptButton">🔓 فك التشفير</button>
-            <p id="outputText"></p>
-        </div>
-    </div>
-
-    <script src="basis/script-voice.js"></script>
+     </div>
+        <script src="basis/script-voice.js"></script>
 </body>
 </html>
