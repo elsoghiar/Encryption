@@ -28,18 +28,15 @@
                 </button>
             </div>
          <div id="en-im" class="content">
-            <h2>تشفير الصورة:</h2>
+            <div class="tit-image">Encrypt image and make it unreadable text with high encryption </div>
             <input type="file" id="imageInput" accept="image/*">
-            <br>
-            <br>
+          <div class="container-here">
             <textarea id="description" placeholder="أدخل الوصف هنا..."></textarea>
-            <br>
-            <br>
-            <input type="password" id="password" placeholder="أدخل كلمة السر">
-            <br>
-            <br>
             <button onclick="encryptImage()">تشفير الصورة</button>
           </div>
+             <input type="password" id="password" placeholder="أدخل كلمة السر">
+         </div>
+            
           <div id="de-im" class="content">
             <h2>فك التشفير:</h2>
             <input type="file" id="encryptedFile" accept=".txt">
