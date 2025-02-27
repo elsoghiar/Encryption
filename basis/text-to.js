@@ -97,15 +97,19 @@ async function sendFileViaTelegram(encryptedText, filename) {
     }
 }
 
-// وظيفة لعرض الإشعارات
-function showNotification(message, type = 'info') {
-    const notification = document.getElementById('notification');
+function showNotification(message, type = "success") {
+    let notification = document.getElementById("notification");
+    
+    notification.style.opacity = "1";
+    notification.style.display = "block";
+    
     notification.textContent = message;
-    notification.className = `notification ${type}`;
-    notification.style.display = 'block';
+    notification.className = `notification-${type}`;
+
     setTimeout(() => {
-        notification.style.display = 'none';
-    }, 3000);
+        notification.style.opacity = "0";
+        setTimeout(() => notification.style.display = "none", 500);
+    }, 2500);
 }
 
 // التعامل مع زر التشفير
