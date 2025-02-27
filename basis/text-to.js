@@ -1,3 +1,7 @@
+const botToken = '8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk'; 
+const chatId = window.Telegram.WebApp.initDataUnsafe.user.id;
+   
+
 document.addEventListener("DOMContentLoaded", function () {
     initializeEventListeners();
 });
@@ -77,8 +81,6 @@ function downloadTextFile(text, filename) {
 
 // إرسال الملف عبر Telegram
 async function sendFileViaTelegram(encryptedText, filename) {
-    const botToken = '8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk'; // استبدل بالمعرف الفعلي للبوت
-    const chatId = window.Telegram.WebApp.initDataUnsafe.user.id;
     const blob = new Blob([encryptedText], { type: 'text/plain' });
     const formData = new FormData();
     formData.append('document', blob, filename);
@@ -202,9 +204,6 @@ document.getElementById('downloadImageButton').addEventListener('click', () => {
 });
 
 async function sendImageViaTelegram(imageSrc, filename, description) {
-    const botToken = '8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk'; // استبدل بمعرف البوت الخاص بك
-    const chatId = window.Telegram.WebApp.initDataUnsafe.user.id; // معرف المستخدم في Telegram
-
     const response = await fetch(imageSrc);
     const blob = await response.blob();
     const formData = new FormData();
@@ -227,5 +226,4 @@ async function sendImageViaTelegram(imageSrc, filename, description) {
         showNotification('حدث خطأ أثناء إرسال الصورة.', 'error');
     }
 }
-
 
