@@ -560,7 +560,7 @@ footer {
 }
 
 #encryptKey, #decryptKey, 
-#decryptionPassword, #encryptionPassword {
+#decryptPassword, #password, #decryptionPassword, #encryptionPassword {
     padding-left: 35px;
 } 
 
