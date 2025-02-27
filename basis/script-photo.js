@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         const userId = userData.id;
-        const botToken = "YOUR_BOT_TOKEN"; // استبدل بتوكن البوت
+        const botToken = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // استبدل بتوكن البوت
 
         // تحويل Data URL إلى Blob
         const blob = await dataURLToBlob(dataURL);
