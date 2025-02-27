@@ -1,11 +1,12 @@
 function showLoadingIndicator() {
-   document.getElementById("loadingOverlay").style.display = "block";
+    document.getElementById("loadingOverlay").style.visibility = "visible";
+    document.getElementById("loadingOverlay").style.opacity = "1";
 }
 
- function hideLoadingIndicator() {
-   document.getElementById("loadingOverlay").style.display = "none";
+function hideLoadingIndicator() {
+    document.getElementById("loadingOverlay").style.visibility = "hidden";
+    document.getElementById("loadingOverlay").style.opacity = "0";
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
     initializeEventListeners();
