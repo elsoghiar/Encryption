@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     initializeEventListeners();
-    setupEncryptionDecryption();
 });
 
 function initializeEventListeners() {
