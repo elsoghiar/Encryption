@@ -50,13 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return id;
     }
 
-    function showLoadingIndicator() {
-        document.getElementById("loadingOverlay").classList.remove("hidden");
-    }
+     function showLoadingIndicator() {
+        document.getElementById("loadingOverlay").style.display = "block";
+     }
 
-    function hideLoadingIndicator() {
-        document.getElementById("loadingOverlay").classList.add("hidden");
-    }
+     function hideLoadingIndicator() {
+        document.getElementById("loadingOverlay").style.display = "none";
+     }
 
     function showNotification(message, type = "success") {
         let notification = document.getElementById("notification");
