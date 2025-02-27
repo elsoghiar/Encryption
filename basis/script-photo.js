@@ -50,12 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showLoadingIndicator() {
-        document.getElementById("loadingOverlay").style.display = "block";
-    }
+    document.getElementById("loadingOverlay").style.visibility = "visible";
+    document.getElementById("loadingOverlay").style.opacity = "1";
+}
 
-    function hideLoadingIndicator() {
-        document.getElementById("loadingOverlay").style.display = "none";
-    }
+function hideLoadingIndicator() {
+    document.getElementById("loadingOverlay").style.visibility = "hidden";
+    document.getElementById("loadingOverlay").style.opacity = "0";
+}
 
     function showNotification(message, type = "success") {
         let notification = document.getElementById("notification");
