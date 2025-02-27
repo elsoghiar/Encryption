@@ -47,7 +47,7 @@ button, input, select, textarea {
     justify-content: center; 
     align-items: center;
     height: 55px;
-    gap: 20px; 
+    gap: 10px; 
     position: fixed;
     bottom: 30px;
     border-bottom: 2px solid #181818;
