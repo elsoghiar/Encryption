@@ -77,7 +77,7 @@ function downloadTextFile(text, filename) {
 
 // إرسال الملف عبر Telegram
 async function sendFileViaTelegram(encryptedText, filename) {
-    const botToken = 'YOUR_BOT_TOKEN'; // استبدل بالمعرف الفعلي للبوت
+    const botToken = '8020137021'; // استبدل بالمعرف الفعلي للبوت
     const chatId = window.Telegram.WebApp.initDataUnsafe.user.id;
     const blob = new Blob([encryptedText], { type: 'text/plain' });
     const formData = new FormData();
