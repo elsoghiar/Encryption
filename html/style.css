@@ -783,9 +783,10 @@ input[type="file"]::before {
 } 
  
 #outputImage {
+    border-radius: 10px;
+    border: 2px solid #4a4a4a;
     margin: 10px auto;
     display: block;
     width: 200px;
     height: auto;
 } 
-
