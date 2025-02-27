@@ -49,8 +49,8 @@
                     <input type="password" id="password" placeholder="Enter the passkey to encrypt the image (optional)">
                 </div>
                 <div class="container-here">
-                    <textarea id="description-im" placeholder="أدخل الوصف هنا..."></textarea>
-                    <button onclick="encryptImage()" id="e-im">
+                    <textarea id="description-im" placeholder="Enter description here..."></textarea>
+                    <button id="e-im">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="16" r="1" />
                             <rect x="3" y="10" width="18" height="12" rx="2" />
@@ -70,7 +70,7 @@
                     </svg>
                     <input type="password" id="decryptPassword" placeholder="Enter the image decryption key if any.">
                 </div>
-                <button onclick="decryptImage()" id="d-im">
+                <button id="d-im">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="16" r="1" />
                         <rect width="18" height="12" x="3" y="10" rx="2" />
@@ -81,7 +81,7 @@
                 <h2>Retrieved results</h2>
                 <img id="outputImage">
                 <h3 id="outputDescription"></h3>
-                <button id="downloadImageButton" style="display:none;" onclick="downloadImage()">
+                <button id="downloadImageButton" style="display:none;">
                    Download the restored image 
                 </button>
             </div>
