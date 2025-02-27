@@ -13,9 +13,28 @@
             <div class="page-title">CRYPTOR <span>QEXX.</span>
             </div>
             <div class="titley">Encrypt - Decrypt your text with a password.</div>
-            <h2>🔊 تشفير النص داخل الصوت</h2>
-
-            <div class="section-Encryption">
+            <div class="tabs">
+                <button id="encrypt-vo" class="active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-images">
+                        <path d="M18 22H4a2 2 0 0 1-2-2V6" />
+                        <path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18" />
+                        <circle cx="12" cy="8" r="2" />
+                        <rect width="16" height="16" x="6" y="2" rx="2" />
+                    </svg>
+                    ENCRYPT IMAGE
+                </button>
+                <button id="decrypt-vo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-fullscreen">
+                        <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                        <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                        <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                        <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                        <rect width="10" height="8" x="7" y="8" rx="1" />
+                    </svg>
+                    DECRYPT IMAGE
+                </button>
+            </div>
+            <div class="section-vo-en" class="content">
                 <div class="container-here">
                     <textarea id="inputText" placeholder="📝 أدخل النص هنا..." rows="4"></textarea>
                     <button id="encryptButton">🔒 إنشاء ملف صوتي مشفر</button>
@@ -31,7 +50,7 @@
             </div>
             <h2>🔍 فك تشفير الصوت</h2>
 
-            <div class="section">
+            <div class="section-vo-de" class="content hidden">
                 <input type="file" id="audioFile">
                 <div class="key-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
