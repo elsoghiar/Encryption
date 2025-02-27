@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تشفير النص داخل الصوت</title>
+    <title>Encode text into audio clip</title>
     <link rel="stylesheet" href="html/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
@@ -12,7 +12,7 @@
         <div class="container">
             <div class="page-title">CRYPTOR <span>QEXX.</span>
             </div>
-            <div class="titley">Encrypt - Decrypt your text with a password.</div>
+            <div class="titley">Convert text to audio with super encryption</div>
             <div class="tabs">
                 <button id="encrypt-vo" class="active">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-images">
@@ -21,7 +21,7 @@
                         <circle cx="12" cy="8" r="2" />
                         <rect width="16" height="16" x="6" y="2" rx="2" />
                     </svg>
-                    ENCRYPT IMAGE
+                    ENCRYPT VOICE 
                 </button>
                 <button id="decrypt-vo">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-fullscreen">
@@ -31,7 +31,7 @@
                         <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
                         <rect width="10" height="8" x="7" y="8" rx="1" />
                     </svg>
-                    DECRYPT IMAGE
+                    DECRYPT VOICE
                 </button>
             </div>
             <div id="section-vo-en" class="content">
@@ -48,8 +48,7 @@
                 </div>
                 <a id="downloadAudio" style="display: none;">⬇️ تحميل الملف الصوتي</a>
             </div>
-            <h2>🔍 فك تشفير الصوت</h2>
-
+            
             <div id="section-vo-de" class="content hidden">
                 <input type="file" id="audioFile">
                 <div class="key-content">
