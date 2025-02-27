@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تشفير وفك تشفير الصور</title>
+    <title>Convert and encrypt images to texts</title>
     <link rel="stylesheet" href="html/style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
@@ -19,40 +19,46 @@
             <div class="titley">Encrypt - Decrypt your text with a password.</div>
             <div class="tabs">
                 <button id="encrypt-im" class="active">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-images"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-images">
+                        <path d="M18 22H4a2 2 0 0 1-2-2V6" />
+                        <path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18" />
+                        <circle cx="12" cy="8" r="2" />
+                        <rect width="16" height="16" x="6" y="2" rx="2" />
+                    </svg>
                     ENCRYPT IMAGE
                 </button>
                 <button id="decrypt-im">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-fullscreen"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><rect width="10" height="8" x="7" y="8" rx="1"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-fullscreen">
+                        <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                        <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                        <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                        <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                        <rect width="10" height="8" x="7" y="8" rx="1" />
+                    </svg>
                     DECRYPT IMAGE
                 </button>
             </div>
-         <div id="en-im" class="content">
-            <div class="tit-image">Encrypt image and make it unreadable text with high encryption </div>
-            <input type="file" id="imageInput" accept="image/*">
-          <div class="container-here">
-            <textarea id="description" placeholder="أدخل الوصف هنا..."></textarea>
-            <button onclick="encryptImage()">تشفير الصورة</button>
-          </div>
-             <input type="password" id="password" placeholder="أدخل كلمة السر">
-         </div>
-            
-          <div id="de-im" class="content">
-            <h2>فك التشفير:</h2>
-            <input type="file" id="encryptedFile" accept=".txt">
-            <br>
-            <br>
-            <input type="password" id="decryptPassword" placeholder="أدخل كلمة السر لفك التشفير">
-            <br>
-            <br>
-            <button onclick="decryptImage()">فك التشفير</button>
-           
-            <h2>النتائج:</h2>
-            <img id="outputImage">
-            <br>
-            <h3 id="outputDescription"></h3>
-            <button id="downloadImageButton" style="display:none;" onclick="downloadImage()">تحميل الصورة المستعادة</button>
-         </div> 
+            <div id="en-im" class="content">
+                <div class="tit-image">Encrypt image and make it unreadable text with high encryption </div>
+                <input type="file" id="imageInput" accept="image/*">
+                <input type="password" id="password" placeholder="أدخل كلمة السر">
+                <div class="container-here">
+                    <textarea id="description" placeholder="أدخل الوصف هنا..."></textarea>
+                    <button onclick="encryptImage()">Image encryption</button>
+                </div>
+            </div>
+
+            <div id="de-im" class="content">
+                <div class="tit-image">Recover and restore the encrypted image to another image</div>
+                <input type="file" id="encryptedFile" accept=".txt">
+                <input type="password" id="decryptPassword" placeholder="أدخل كلمة السر لفك التشفير">
+
+                <button onclick="decryptImage()">Decrypt image</button>
+                <h2>Retrieved results</h2>
+                <img id="outputImage">
+                <h3 id="outputDescription"></h3>
+                <button id="downloadImageButton" style="display:none;" onclick="downloadImage()">تحميل الصورة المستعادة</button>
+            </div>
             <div class="bottom-nav">
                 <div class="menu-item-container">
                     <a href="index.html" class="nav-item" id="homeNav">
