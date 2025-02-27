@@ -1,3 +1,27 @@
+document.addEventListener("DOMContentLoaded", function () {
+    initializeEventListeners();
+});
+
+function initializeEventListeners() {
+    document.getElementById("encrypt-im").addEventListener("click", showImageEncrypt);
+    document.getElementById("decrypt-im").addEventListener("click", showImageDecrypt);
+}
+
+function showImageEncrypt() {
+    document.getElementById("en-im").classList.remove("hidden");
+    document.getElementById("de-im").classList.add("hidden");
+    document.getElementById("encrypt-im").classList.add("active");
+    document.getElementById("decrypt-im").classList.remove("active");
+}
+
+function showImageDecrypt() {
+    document.getElementById("de-im").classList.remove("hidden");
+    document.getElementById("en-im").classList.add("hidden");
+    document.getElementById("decrypt-im").classList.add("active");
+    document.getElementById("encrypt-im").classList.remove("active");
+}
+
+
 // تحويل الصورة إلى Base64
 function imageToBase64(imageFile) {
     return new Promise((resolve, reject) => {
