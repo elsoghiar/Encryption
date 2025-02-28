@@ -49,14 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return id;
     }
 
-    function showLoadingIndicator() {
-        document.getElementById("loadingOverlay").style.display = "block";
-    }
-
-    function hideLoadingIndicator() {
-        document.getElementById("loadingOverlay").style.display = "none";
-    }
-
     function showNotification(message, type = "success") {
         let notification = document.getElementById("notification");
         notification.style.opacity = "1";
@@ -80,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        showLoadingIndicator();
+    
 
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -129,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 inputText.value = '';
                 encryptionPassword.value = '';
 
-                hideLoadingIndicator();
             };
         };
         reader.readAsDataURL(file);
@@ -143,8 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
             showNotification("⚠️ Please select an image to decode the text from.");
             return;
         }
-
-        showLoadingIndicator();
 
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -179,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     showNotification("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
                 }
 
-                hideLoadingIndicator();
             };
         };
         reader.readAsDataURL(file);
