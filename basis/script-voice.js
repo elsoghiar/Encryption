@@ -47,7 +47,6 @@ async function encryptTextToAudio() {
 }
 
 async function generateOGGAudio(text) {
-async function generateOGGAudio(text) {
     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let sampleRate = 44100;
     let duration = Math.max(1, text.length / 1000); // مدة الصوت حسب طول النص
