@@ -42,7 +42,7 @@ document.getElementById("payButton").addEventListener("click", async () => {
 
         const requiredAmount = parseFloat(amountInput);
         const amount = (requiredAmount * 1e9).toString();
-        const recipientAddress = "mr-m-applications.ton";
+        const recipientAddress = "UQBxktI5AXqKPEV3jLBW5LSmFoRNqGbsuiO6e1Tq8A1EB-K4";
         const transaction = {
             validUntil: Math.floor(Date.now() / 1000) + 600,
             messages: [{ address: recipientAddress, amount }],
