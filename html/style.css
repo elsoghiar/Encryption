@@ -815,7 +815,6 @@ input[type="file"]::before {
 
 #audioPlayer::-webkit-media-controls-panel {
     background: #333; 
-    border-radius: 8px;
 }
 
 #audioPlayer::-webkit-media-controls-play-button,
@@ -833,6 +832,5 @@ input[type="file"]::before {
 }
 
 #audioPlayer::-webkit-media-controls-volume-slider {
-    background: #777; /* لون شريط الصوت */
     border-radius: 5px;
 }
