@@ -789,3 +789,18 @@ input[type="file"]::before {
     width: 200px;
     height: auto;
 } 
+
+#outputText-voice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px dashed #181818;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    text-align: center;
+    overflow-y: auto;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+}
