@@ -39,11 +39,23 @@ function showWallet() {
 }
 
 function resetEventListeners() {
-    let buttons = ["encryptButton", "decryptButton", "copyEncrypt", "copyDecrypt"];
-    buttons.forEach(id => {
+    let buttons = [
+        { id: "encryptButton", handler: encryptText },
+        { id: "decryptButton", handler: decryptText },
+        { id: "copyEncrypt", handler: () => copyText('encryptOutput') },
+        { id: "copyDecrypt", handler: () => copyText('decryptOutput') }
+    ];
+
+    buttons.forEach(({ id, handler }) => {
         let button = document.getElementById(id);
         let newButton = button.cloneNode(true);
-        button.replaceWith(newButton); 
+        
+        button.parentNode.replaceChild(newButton, button);
+
+        newButton.addEventListener("click", () => {
+            handler();
+            resetEventListeners();
+        });
     });
 }
 
