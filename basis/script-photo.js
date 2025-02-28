@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 if (binaryText.length > pixels.length / 4) {
-                    showNotification("⚠️ The text is too long considering this picture.");
+                    showNotification("⚠️ The text is too long considering this picture." , "error");
                     hideLoadingIndicator();
                     return;
                 }
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const decryptedText = CryptoJS.AES.decrypt(extractedText, key).toString(CryptoJS.enc.Utf8);
                     outputText.innerText = decryptedText ? decryptedText : "No text found or incorrect password";
                 } catch (error) {
-                    showNotification("⚠️ No valid text found.");
+                    showNotification("⚠️ No valid text found.", "error");
                 }
 
             };
