@@ -33,13 +33,10 @@ async function encryptTextToAudio() {
     let encryptedText = CryptoJS.AES.encrypt(text, password).toString();
     let encodedText = btoa(unescape(encodeURIComponent(encryptedText)));
 
-    let binaryData = new TextEncoder().encode(encodedText);
-    let audioBuffer = await generateAudio(binaryData);
-    
-    let mp3Blob = await convertAudioToMP3(audioBuffer);
+    let audioBlob = await generateOGGAudio(encodedText);
     let randomFileName = generateRandomFileName();
-    
-    let url = URL.createObjectURL(mp3Blob);
+
+    let url = URL.createObjectURL(audioBlob);
     document.getElementById("audioPlayer").src = url;
     
     let downloadAudio = document.getElementById("downloadAudio");
@@ -54,10 +51,10 @@ async function decryptAudioToText() {
     let password = document.getElementById("decryptionPassword").value.trim() || DEFAULT_PASSWORD;
     if (!file) return alert("يرجى اختيار ملف صوتي لفك التشفير!");
 
-    let binaryData = await decodeFromAudio(file);
+    let extractedText = await extractTextFromOGGAudio(file);
 
     try {
-        let decodedBase64 = decodeURIComponent(escape(atob(new TextDecoder().decode(binaryData))));
+        let decodedBase64 = decodeURIComponent(escape(atob(extractedText)));
         let decryptedText = CryptoJS.AES.decrypt(decodedBase64, password).toString(CryptoJS.enc.Utf8);
 
         if (!decryptedText) {
@@ -71,55 +68,51 @@ async function decryptAudioToText() {
     }
 }
 
-async function generateAudio(data) {
+async function generateOGGAudio(text) {
     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let sampleRate = 44100;
-    let duration = Math.max(1, data.length / 5000); // الحد الأدنى 1 ثانية
+    let duration = Math.max(1, text.length / 5000); // الحد الأدنى 1 ثانية
     let frameCount = sampleRate * duration;
     
     let buffer = audioContext.createBuffer(1, frameCount, sampleRate);
     let channelData = buffer.getChannelData(0);
 
     for (let i = 0; i < frameCount; i++) {
-        let index = i % data.length;
-        let value = (data[index] / 255) * 2 - 1;
+        let index = i % text.length;
+        let value = (text.charCodeAt(index) / 255) * 2 - 1;
         channelData[i] = value * Math.sin(i / 10);
     }
 
-    return buffer;
+    let offlineContext = new OfflineAudioContext(1, frameCount, sampleRate);
+    let source = offlineContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(offlineContext.destination);
+    source.start();
+
+    let renderedBuffer = await offlineContext.startRendering();
+    let wavBlob = await convertBufferToWAV(renderedBuffer);
+    let oggBlob = await convertWAVToOGG(wavBlob);
+
+    return oggBlob;
 }
 
-async function convertAudioToMP3(audioBuffer) {
-    return new Promise((resolve) => {
-        let samples = audioBuffer.getChannelData(0);
-        let wavBlob = encodeWAV(samples);
-        let reader = new FileReader();
+async function extractTextFromOGGAudio(file) {
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let arrayBuffer = await file.arrayBuffer();
+    let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    let channelData = audioBuffer.getChannelData(0);
 
-        reader.readAsArrayBuffer(wavBlob);
-        reader.onloadend = function () {
-            let wavData = new Uint8Array(reader.result);
-            let mp3Encoder = new lamejs.Mp3Encoder(1, 44100, 128);
-            let mp3Data = [];
+    let extractedText = "";
+    for (let i = 0; i < channelData.length; i += 100) {
+        let charCode = Math.round(((channelData[i] + 1) / 2) * 255);
+        extractedText += String.fromCharCode(charCode);
+    }
 
-            for (let i = 0; i < samples.length; i += 1152) {
-                let mp3Chunk = mp3Encoder.encodeBuffer(samples.subarray(i, i + 1152));
-                if (mp3Chunk.length > 0) {
-                    mp3Data.push(mp3Chunk);
-                }
-            }
-
-            let finalChunk = mp3Encoder.flush();
-            if (finalChunk.length > 0) {
-                mp3Data.push(finalChunk);
-            }
-
-            let mp3Blob = new Blob(mp3Data, { type: "audio/mp3" });
-            resolve(mp3Blob);
-        };
-    });
+    return extractedText.trim();
 }
 
-function encodeWAV(samples) {
+async function convertBufferToWAV(audioBuffer) {
+    let samples = audioBuffer.getChannelData(0);
     let buffer = new ArrayBuffer(44 + samples.length * 2);
     let view = new DataView(buffer);
 
@@ -160,18 +153,15 @@ function encodeWAV(samples) {
     return new Blob([view], { type: "audio/wav" });
 }
 
-async function decodeFromAudio(file) {
-    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    let arrayBuffer = await file.arrayBuffer();
-    let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    let channelData = audioBuffer.getChannelData(0);
-    let binaryData = new Uint8Array(channelData.length);
-
-    for (let i = 0; i < channelData.length; i++) {
-        binaryData[i] = Math.round(((channelData[i] + 1) / 2) * 255);
-    }
-
-    return binaryData;
+async function convertWAVToOGG(wavBlob) {
+    return new Promise((resolve) => {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(wavBlob);
+        reader.onloadend = function () {
+            let oggBlob = new Blob([reader.result], { type: "audio/ogg" });
+            resolve(oggBlob);
+        };
+    });
 }
 
 function generateRandomFileName() {
@@ -180,5 +170,5 @@ function generateRandomFileName() {
     for (let i = 0; i < 5; i++) {
         randomString += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    return randomString + ".mp3";
+    return randomString + ".ogg";
 }
