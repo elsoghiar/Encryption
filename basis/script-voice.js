@@ -29,15 +29,13 @@ async function encryptTextToAudio() {
     if (!text) return alert("يرجى إدخال نص للتشفير!");
 
     let encryptedText = password ? CryptoJS.AES.encrypt(text, password).toString() : text;
-    let binaryData = new TextEncoder().encode(encryptedText);
+    
+    // **تحويل النص إلى قاعدة 64 للحفاظ على الترميز الصحيح**
+    let base64EncodedText = btoa(unescape(encodeURIComponent(encryptedText)));
 
-    // زيادة الطول لإنتاج ملف أكبر لأمان أكثر
-    let extendedData = new Uint8Array(binaryData.length * 5);
-    for (let i = 0; i < extendedData.length; i++) {
-        extendedData[i] = binaryData[i % binaryData.length];
-    }
+    let binaryData = new TextEncoder().encode(base64EncodedText);
 
-    let audioBuffer = await encodeToAudio(extendedData);
+    let audioBuffer = await encodeToAudio(binaryData);
     playAndDownloadAudio(audioBuffer);
 }
 
@@ -47,9 +45,15 @@ async function decryptAudioToText() {
     if (!file) return alert("يرجى اختيار ملف صوتي لفك التشفير!");
 
     let binaryData = await decodeFromAudio(file);
-    let decryptedText = password ? CryptoJS.AES.decrypt(new TextDecoder().decode(binaryData), password).toString(CryptoJS.enc.Utf8) : new TextDecoder().decode(binaryData);
 
-    document.getElementById("outputText-voice").textContent = decryptedText || "فشل فك التشفير. تحقق من كلمة السر.";
+    try {
+        let decodedBase64 = decodeURIComponent(escape(atob(new TextDecoder().decode(binaryData))));
+        let decryptedText = password ? CryptoJS.AES.decrypt(decodedBase64, password).toString(CryptoJS.enc.Utf8) : decodedBase64;
+
+        document.getElementById("outputText-voice").textContent = decryptedText || "فشل فك التشفير. تحقق من كلمة السر.";
+    } catch (error) {
+        alert("خطأ في فك التشفير! تأكد من صحة الملف وكلمة السر.");
+    }
 }
 
 async function encodeToAudio(data) {
@@ -99,7 +103,7 @@ async function decodeFromAudio(file) {
 function bufferToMp3(audioBuffer) {
     let numOfChannels = audioBuffer.numberOfChannels;
     let sampleRate = audioBuffer.sampleRate;
-    let mp3Encoder = new lamejs.Mp3Encoder(numOfChannels, sampleRate, 128); // 128 kbps جودة جيدة
+    let mp3Encoder = new lamejs.Mp3Encoder(numOfChannels, sampleRate, 128);
     let samples = audioBuffer.getChannelData(0);
     let mp3Data = [];
 
