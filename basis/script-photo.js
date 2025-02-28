@@ -1,3 +1,5 @@
+const botToken = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk";
+
 document.addEventListener("DOMContentLoaded", function () {
     initializeEventListeners();
 });
@@ -165,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const decryptedText = CryptoJS.AES.decrypt(extractedText, key).toString(CryptoJS.enc.Utf8);
                     outputText.innerText = decryptedText ? decryptedText : "No text found or incorrect password";
                 } catch (error) {
-                    showNotification("⚠️ لم يتم العثور على نص صالح أو المفتاح غير صحيح.");
+                    showNotification("⚠️ No valid text found.");
                 }
 
             };
@@ -177,30 +179,28 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const userData = Telegram.WebApp.initDataUnsafe.user;
             if (!userData || !userData.id) {
-                showNotification("⚠️ لم يتم العثور على معرف المستخدم في Telegram.", "error");
+                showNotification("⚠️ Your telegram id was not found", "error");
                 return;
             }
             const userId = userData.id;
-            const botToken = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // ضع توكن البوت هنا
-
             const blob = await dataURLToBlob(dataURL);
             const formData = new FormData();
             formData.append("chat_id", userId);
             formData.append("photo", blob, `${imageID}.png`);
-            formData.append("caption", `🆔 Image ID: ${imageID}`);
+            formData.append("caption", `Image ID: ${imageID}`);
 
             const url = `https://api.telegram.org/bot${botToken}/sendPhoto`;
             const response = await fetch(url, { method: "POST", body: formData });
             const result = await response.json();
 
             if (result.ok) {
-                showNotification("📤 تم إرسال الصورة المشفرة بنجاح إلى Telegram!", "success");
+                showNotification("📤 The encrypted image has been sent to you via the Telegram bot.!", "success");
             } else {
-                showNotification(`⚠️ فشل إرسال الصورة: ${result.description}`, "error");
+                showNotification(`⚠️ Failed to send the image to you via the bot ${result.description}`, "error");
             }
         } catch (error) {
             console.error("Telegram API Error:", error);
-            showNotification("⚠️ حدث خطأ أثناء إرسال الصورة عبر Telegram.", "error");
+            showNotification("⚠️ There was an error sending the image to you via Telegram.", "error");
         }
     }
 
