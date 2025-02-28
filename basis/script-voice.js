@@ -34,6 +34,13 @@ async function encryptTextToAudio() {
 
         // تشفير النص باستخدام CryptoJS
         let encryptedText = CryptoJS.AES.encrypt(inputText, password).toString();
+
+        // التحقق من أن النص المشفر هو ترميز Base64 صالح
+        if (!isValidBase64(encryptedText)) {
+            throw new Error("النص المشفر ليس ترميز Base64 صالح.");
+        }
+
+        // تحويل النص المشفر إلى بيانات ثنائية
         let binaryData = new TextEncoder().encode(encryptedText);
 
         // تحويل البيانات المشفرة إلى صوت MP3
@@ -43,7 +50,7 @@ async function encryptTextToAudio() {
         alert("✅ تم تشفير النص وتحويله إلى صوت بنجاح!");
     } catch (error) {
         console.error("❌ خطأ أثناء التشفير:", error);
-        alert("❌ حدث خطأ أثناء التشفير. يرجى المحاولة مرة أخرى.");
+        alert("❌ حدث خطأ أثناء التشفير: " + error.message);
     }
 }
 
