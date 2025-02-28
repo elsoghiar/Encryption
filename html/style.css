@@ -630,7 +630,6 @@ footer {
     justify-content: center; 
     align-items: center;
     white-space: normal; 
-    word-wrap: break-word;
     border: 1px dashed #181818;
     padding: 10px;
     font-size: 14px;
