@@ -677,6 +677,10 @@ input[type="file"]::before {
     cursor: pointer;
 }
 
+#audioFile::before {
+    content: 'Select an audio file';
+}
+
 .ti-image {
     font-weight: 600;
     text-align: left;
