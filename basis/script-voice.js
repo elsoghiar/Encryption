@@ -46,28 +46,6 @@ async function encryptTextToAudio() {
     downloadAudio.textContent = "تحميل الصوت المشفر";
 }
 
-async function decryptAudioToText() {
-    let file = document.getElementById("audioFile").files[0];
-    let password = document.getElementById("decryptionPassword").value.trim() || DEFAULT_PASSWORD;
-    if (!file) return alert("يرجى اختيار ملف صوتي لفك التشفير!");
-
-    let extractedText = await extractTextFromOGGAudio(file);
-
-    try {
-        let decodedBase64 = decodeURIComponent(escape(atob(extractedText)));
-        let decryptedText = CryptoJS.AES.decrypt(decodedBase64, password).toString(CryptoJS.enc.Utf8);
-
-        if (!decryptedText) {
-            alert("فشل فك التشفير. تحقق من كلمة السر أو صحة الملف.");
-            return;
-        }
-
-        document.getElementById("outputText-voice").textContent = decryptedText;
-    } catch (error) {
-        alert("خطأ في فك التشفير! تأكد من صحة الملف وكلمة السر.");
-    }
-}
-
 async function generateOGGAudio(text) {
     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let sampleRate = 44100;
@@ -94,21 +72,6 @@ async function generateOGGAudio(text) {
     let oggBlob = await convertWAVToOGG(wavBlob);
 
     return oggBlob;
-}
-
-async function extractTextFromOGGAudio(file) {
-    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    let arrayBuffer = await file.arrayBuffer();
-    let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    let channelData = audioBuffer.getChannelData(0);
-
-    let extractedText = "";
-    for (let i = 0; i < channelData.length; i += 100) {
-        let charCode = Math.round(((channelData[i] + 1) / 2) * 255);
-        extractedText += String.fromCharCode(charCode);
-    }
-
-    return extractedText.trim();
 }
 
 async function convertBufferToWAV(audioBuffer) {
@@ -171,4 +134,62 @@ function generateRandomFileName() {
         randomString += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return randomString + ".ogg";
+}
+
+
+async function decryptAudioToText() {
+    let file = document.getElementById("audioFile").files[0];
+    let password = document.getElementById("decryptionPassword").value.trim() || DEFAULT_PASSWORD;
+
+    if (!file) return alert("❌ يرجى اختيار ملف صوتي لفك التشفير!");
+
+    try {
+        let extractedText = await extractTextFromOGGAudio(file);
+
+        if (!extractedText) {
+            alert("⚠️ لم يتم استخراج أي بيانات من الملف الصوتي! تأكد من صحة الملف.");
+            return;
+        }
+
+        console.log("📌 النص المشفر المستخرج:", extractedText);
+
+        let decodedBase64;
+        try {
+            decodedBase64 = decodeURIComponent(escape(atob(extractedText)));
+        } catch (e) {
+            alert("❌ فشل في فك ترميز Base64. تأكد من صحة الملف الصوتي!");
+            return;
+        }
+
+        let decryptedText = CryptoJS.AES.decrypt(decodedBase64, password).toString(CryptoJS.enc.Utf8);
+
+        if (!decryptedText) {
+            alert("⚠️ فشل فك التشفير. تحقق من كلمة السر أو صحة الملف.");
+            return;
+        }
+
+        document.getElementById("outputText-voice").textContent = decryptedText;
+        alert("✅ تم فك التشفير بنجاح!");
+    } catch (error) {
+        console.error("❌ خطأ أثناء فك التشفير:", error);
+        alert("❌ حدث خطأ أثناء فك التشفير. تأكد من صحة الملف وكلمة السر.");
+    }
+}
+
+async function extractTextFromOGGAudio(file) {
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let arrayBuffer = await file.arrayBuffer();
+    let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    let channelData = audioBuffer.getChannelData(0);
+
+    let extractedText = "";
+
+    for (let i = 0; i < channelData.length; i += 100) {
+        let charCode = Math.round(((channelData[i] + 1) / 2) * 255);
+        if (charCode > 31 && charCode < 127) {
+            extractedText += String.fromCharCode(charCode);
+        }
+    }
+
+    return extractedText.trim();
 }
