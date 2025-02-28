@@ -56,13 +56,26 @@ async function decryptAudioToText() {
 
         // استخراج البيانات من الملف الصوتي
         let binaryData = await decodeFromMP3(file);
-        let decryptedText = CryptoJS.AES.decrypt(new TextDecoder().decode(binaryData), password).toString(CryptoJS.enc.Utf8);
-        
-        document.getElementById("outputText-voice").textContent = decryptedText || "فشل فك التشفير. تحقق من كلمة السر أو صحة الملف.";
+        let encryptedText = new TextDecoder().decode(binaryData);
+
+        // التحقق من أن النص المشفر هو ترميز Base64 صالح
+        if (!isValidBase64(encryptedText)) {
+            throw new Error("النص المستخرج ليس ترميز Base64 صالح.");
+        }
+
+        // فك تشفير النص باستخدام CryptoJS
+        let decryptedBytes = CryptoJS.AES.decrypt(encryptedText, password);
+        let decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+        if (!decryptedText) {
+            throw new Error("فشل فك التشفير. تحقق من كلمة السر أو صحة الملف.");
+        }
+
+        document.getElementById("outputText-voice").textContent = decryptedText;
         alert("✅ تم فك التشفير بنجاح!");
     } catch (error) {
         console.error("❌ خطأ أثناء فك التشفير:", error);
-        alert("❌ حدث خطأ أثناء فك التشفير. تأكد من صحة الملف وكلمة السر.");
+        alert("❌ حدث خطأ أثناء فك التشفير: " + error.message);
     }
 }
 
@@ -137,4 +150,13 @@ async function decodeFromMP3(file) {
     }
 
     return binaryData;
+}
+
+function isValidBase64(str) {
+    try {
+        // محاولة فك ترميز النص
+        return btoa(atob(str)) === str;
+    } catch (e) {
+        return false;
+    }
 }
