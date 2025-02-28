@@ -53,10 +53,10 @@ async function decryptImage(encryptedText, password) {
     try {
         const decompressed = LZString.decompressFromUTF16(encryptedText);
         const decrypted = CryptoJS.AES.decrypt(decompressed, password || DEFAULT_PASSWORD).toString(CryptoJS.enc.Utf8);
-        if (!decrypted) throw new Error('فشل فك التشفير. تأكد من كلمة السر.');
+        if (!decrypted) throw new Error('Decryption failed. Incorrect password or file is corrupted.');
         return JSON.parse(decrypted);
     } catch (error) {
-        throw new Error('فشل فك التشفير. تحقق من الملف وكلمة السر.');
+        throw new Error('Decryption failed. Check the file and password and try again..');
     }
 }
 
@@ -82,13 +82,13 @@ async function sendFileViaTelegram(encryptedText, filename) {
         });
         const data = await response.json();
         if (data.ok) {
-            showNotification('تم إرسال الملف إلى Telegram بنجاح!', 'success');
+            showNotification('The encrypted file has been successfully sent to you via the bot.', 'success');
         } else {
-            showNotification('فشل في إرسال الملف عبر Telegram.', 'error');
+           showNotification('The file was sent to you via the bot.', 'error');
         }
     } catch (error) {
         console.error('Error sending file via Telegram:', error);
-        showNotification('حدث خطأ أثناء إرسال الملف.', 'error');
+        showNotification('There was an error sending the file to you.', 'error');
     }
 }
 
@@ -113,7 +113,7 @@ document.getElementById('e-im').addEventListener('click', async () => {
     const description = document.getElementById('description-im').value;
 
     if (!imageFile) {
-        showNotification('الرجاء اختيار صورة.', 'error');
+        showNotification('Please select a photo first.', 'error');
         return;
     }
 
@@ -125,10 +125,10 @@ document.getElementById('e-im').addEventListener('click', async () => {
             await sendFileViaTelegram(encryptedText, filename);
         } else {
             downloadTextFile(encryptedText, filename);
-            showNotification('تم تنزيل الملف بنجاح!', 'success');
+            showNotification('The file has been downloaded successfully.', 'success');
         }
     } catch (error) {
-        showNotification('حدث خطأ أثناء التشفير.', 'error');
+        showNotification('An error occurred during encryption.', 'error');
     }
 });
 
@@ -137,7 +137,7 @@ document.getElementById('d-im').addEventListener('click', async () => {
     const password = document.getElementById('decryptPassword').value;
 
     if (!lastEncryptedText) {
-        showNotification('الرجاء رفع ملف مشفر أولاً.', 'error');
+        showNotification('Please upload an encrypted file first.', 'error');
         return;
     }
 
@@ -147,13 +147,13 @@ document.getElementById('d-im').addEventListener('click', async () => {
         const outputDescription = document.getElementById('outputDescription');
         outputImage.src = `data:image/png;base64,${image}`;
         outputImage.style.display = 'block';
-        outputDescription.textContent = description || 'لا يوجد وصف.';
+        outputDescription.textContent = description || 'No. Description';
         document.getElementById('downloadImageButton').style.display = 'block';
-        showNotification('تم فك التشفير بنجاح!', 'success');
+        showNotification('Decrypted successfully', 'success');
     } catch (error) {
         showNotification(error.message, 'error');
-        document.getElementById('decryptPassword').value = ''; // إزالة كلمة السر
-        document.getElementById('encryptedFile').value = ''; // إزالة الملف المرفوع
+        document.getElementById('decryptPassword').value = ''; 
+        document.getElementById('encryptedFile').value = ''; 
         lastEncryptedText = null;
     }
 });
@@ -162,15 +162,15 @@ document.getElementById('encryptedFile').addEventListener('change', async (e) =>
     const file = e.target.files[0];
 
     if (!file) {
-        showNotification('الرجاء اختيار ملف نصي مشفر.', 'error');
+        showNotification('Please select an encrypted text file.', 'error');
         return;
     }
 
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = () => {
-        lastEncryptedText = reader.result; // حفظ النص المشفر للمعالجة لاحقًا
-        showNotification('تم تحميل الملف المشفر، أدخل كلمة السر وانقر على فك التشفير.', 'info');
+        lastEncryptedText = reader.result; 
+        showNotification('The encrypted file has been uploaded. Please enter a password if you wish, then click on the encryption button.', 'info');
     };
 });
 
@@ -185,7 +185,7 @@ document.getElementById('downloadImageButton').addEventListener('click', () => {
         link.href = outputImage.src;
         link.download = filename;
         link.click();
-        showNotification('تم تنزيل الصورة المستعادة بنجاح!', 'success');
+        showNotification('The restored image has been downloaded successfully.', 'success');
     }
 });
 
@@ -203,13 +203,13 @@ async function sendImageViaTelegram(imageSrc, filename, description) {
         });
         const data = await res.json();
         if (data.ok) {
-            showNotification('تم إرسال الصورة إلى Telegram بنجاح!', 'success');
+            showNotification('The encrypted image has been sent to you via Telegram bot.', 'success');
         } else {
-            showNotification('فشل في إرسال الصورة عبر Telegram.', 'error');
+            showNotification('Failed to send the image to you via the bot', 'error');
         }
     } catch (error) {
         console.error('Error sending image via Telegram:', error);
-        showNotification('حدث خطأ أثناء إرسال الصورة.', 'error');
+        showNotification('There was an error sending the image to you.', 'error');
     }
 }
 
