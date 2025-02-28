@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const DEFAULT_PASSWORD = "7x!Q@z#L$9%P^3&K*8(Y)0_+=-A|B{C}D[E]F\\G/H<I>J?K:L;MN,O.P/Q1R2S3T4U5V6W7X8Y9Z0a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6A7B8C9D0E1F2G3H4I5J6K7L8M9N0O1P2Q3R4S5T6U7V8W9X0Y1Z2";
-const TELEGRAM_BOT_TOKEN = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // استبدل هذا ب Token البوت الخاص بك
+const botToken = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // استبدل هذا ب Token البوت الخاص بك
 
 function initializeEventListeners() {
     document.getElementById("encrypt-vo").addEventListener("click", showEncryptSection);
@@ -203,7 +203,7 @@ async function sendFileToTelegram(fileBlob, fileName) {
         formData.append("chat_id", userId);
         formData.append("audio", fileBlob, fileName);
 
-        let response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendAudio`, {
+        let response = await fetch(`https://api.telegram.org/bot${botToken}/sendAudio`, {
             method: "POST",
             body: formData,
         });
