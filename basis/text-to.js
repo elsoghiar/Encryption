@@ -1,12 +1,3 @@
-function showLoadingIndicator() {
-   document.getElementById("loadingOverlay").style.display = "block";
-}
-
- function hideLoadingIndicator() {
-   document.getElementById("loadingOverlay").style.display = "none";
-}
-
-
 document.addEventListener("DOMContentLoaded", function () {
     initializeEventListeners();
 });
