@@ -24,7 +24,8 @@ function showImageDecrypt() {
 }
 
 
-document.getElementById('encryptvoButton').addEventListener('click', function() {
+
+document.getElementById('encryptvoButton').addEventListener('click', async function() {
     const inputText = document.getElementById('inputText').value;
     const password = document.getElementById('encryptionPassword').value;
 
@@ -34,37 +35,27 @@ document.getElementById('encryptvoButton').addEventListener('click', function() 
         encryptedText = CryptoJS.AES.encrypt(inputText, password).toString();
     }
 
-    // تحويل النص المشفر إلى ترددات صوتية
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+    // إنشاء ترددات صوتية من النص المشفر
+    const sampleRate = 44100; // معدل العينات
+    const duration = 2; // مدة الملف الصوتي (بالثواني)
+    const numSamples = sampleRate * duration;
+    const audioData = new Float32Array(numSamples);
 
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // تردد أساسي
-    gainNode.gain.setValueAtTime(1, audioContext.currentTime);
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    // إنشاء ملف صوتي
-    const audioBuffer = audioContext.createBuffer(1, 44100, 44100); // 1 ثانية من الصوت
-    const bufferSource = audioContext.createBufferSource();
-    bufferSource.buffer = audioBuffer;
-
-    // تحويل النص المشفر إلى ترددات
-    const data = new Float32Array(audioBuffer.length);
-    for (let i = 0; i < data.length; i++) {
-        data[i] = Math.sin(2 * Math.PI * i / audioBuffer.length * (1000 + encryptedText.charCodeAt(i % encryptedText.length)));
+    for (let i = 0; i < numSamples; i++) {
+        const charCode = encryptedText.charCodeAt(i % encryptedText.length);
+        audioData[i] = Math.sin(2 * Math.PI * i / sampleRate * (440 + charCode)); // ترددات معقدة
     }
-    audioBuffer.getChannelData(0).set(data);
 
-    // تشغيل الصوت
-    bufferSource.start();
+    // إنشاء ملف WAV
+    const wavData = await WavEncoder.encode({
+        sampleRate: sampleRate,
+        channelData: [audioData]
+    });
 
     // عرض الملف الصوتي وتوفير زر التنزيل
     const audioPlayer = document.getElementById('audioPlayer');
     const downloadLink = document.getElementById('downloadAudio');
-    const blob = new Blob([data], { type: 'audio/wav' });
+    const blob = new Blob([wavData], { type: 'audio/wav' });
     const url = URL.createObjectURL(blob);
 
     audioPlayer.src = url;
@@ -72,7 +63,6 @@ document.getElementById('encryptvoButton').addEventListener('click', function() 
     downloadLink.download = 'encrypted_audio.wav';
     downloadLink.style.display = 'block';
 });
-
 
 document.getElementById('decryptvoButton').addEventListener('click', function() {
     const audioFile = document.getElementById('audioFile').files[0];
@@ -84,17 +74,18 @@ document.getElementById('decryptvoButton').addEventListener('click', function() 
     }
 
     const reader = new FileReader();
-    reader.onload = function(event) {
+    reader.onload = async function(event) {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const arrayBuffer = event.target.result;
 
-        audioContext.decodeAudioData(arrayBuffer, function(buffer) {
-            const channelData = buffer.getChannelData(0);
+        try {
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            const channelData = audioBuffer.getChannelData(0);
             let encryptedText = '';
 
             // تحويل الترددات إلى نص مشفر
             for (let i = 0; i < channelData.length; i++) {
-                const charCode = Math.round(channelData[i] * 1000);
+                const charCode = Math.round(Math.abs(channelData[i]) * 1000);
                 if (charCode > 0) {
                     encryptedText += String.fromCharCode(charCode);
                 }
@@ -108,7 +99,10 @@ document.getElementById('decryptvoButton').addEventListener('click', function() 
 
             // عرض النص الأصلي
             document.getElementById('outputText-voice').textContent = decryptedText;
-        });
+        } catch (error) {
+            console.error('Error decoding audio data:', error);
+            alert('Unable to decode audio file. Please check if the file is valid.');
+        }
     };
 
     reader.readAsArrayBuffer(audioFile);
