@@ -23,76 +23,130 @@ function showDecryptSection() {
     document.getElementById("section-vo-en").classList.add("hidden");
 }
 
-async function encryptTextToAudio() {
-    const inputText = document.getElementById('inputText').value.trim();
-    const password = document.getElementById('encryptionPassword').value.trim();
+document.addEventListener("DOMContentLoaded", function () {
+    const encryptBtn = document.getElementById("encryptvoButton");
+    const decryptBtn = document.getElementById("decryptvoButton");
+    const inputText = document.getElementById("inputText");
+    const encryptionPassword = document.getElementById("encryptionPassword");
+    const decryptionPassword = document.getElementById("decryptionPassword");
+    const audioPlayer = document.getElementById("audioPlayer");
+    const downloadAudio = document.getElementById("downloadAudio");
+    const audioFileInput = document.getElementById("audioFile");
+    const outputText = document.getElementById("outputText-voice");
 
-    if (!inputText) {
-        alert("الرجاء إدخال نص للتشفير.");
-        return;
+    // تحويل النص إلى إشارات صوتية مشفرة
+    encryptBtn.addEventListener("click", async function () {
+        let text = inputText.value.trim();
+        let password = encryptionPassword.value.trim();
+        if (!text) return alert("Please enter text to encrypt!");
+
+        let encryptedText = password ? CryptoJS.AES.encrypt(text, password).toString() : text;
+        let binaryData = new TextEncoder().encode(encryptedText);
+        let audioBuffer = await encodeToAudio(binaryData);
+        playAndDownloadAudio(audioBuffer);
+    });
+
+    // فك تشفير الصوت واستعادة النص
+    decryptBtn.addEventListener("click", async function () {
+        let file = audioFileInput.files[0];
+        let password = decryptionPassword.value.trim();
+        if (!file) return alert("Please select an audio file to decrypt!");
+
+        let binaryData = await decodeFromAudio(file);
+        let decryptedText = password ? CryptoJS.AES.decrypt(new TextDecoder().decode(binaryData), password).toString(CryptoJS.enc.Utf8) : new TextDecoder().decode(binaryData);
+
+        outputText.textContent = decryptedText || "Failed to decrypt. Check the password.";
+    });
+
+    // تحويل البيانات إلى صوت
+    async function encodeToAudio(data) {
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let buffer = audioContext.createBuffer(1, data.length, audioContext.sampleRate);
+        let channelData = buffer.getChannelData(0);
+
+        for (let i = 0; i < data.length; i++) {
+            channelData[i] = (data[i] - 128) / 128;
+        }
+
+        return buffer;
     }
 
-    let encryptedText = password 
-        ? CryptoJS.AES.encrypt(inputText, password).toString() 
-        : inputText;
+    // تشغيل وحفظ الصوت
+    function playAndDownloadAudio(buffer) {
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let source = audioContext.createBufferSource();
+        source.buffer = buffer;
+        source.connect(audioContext.destination);
+        source.start();
 
-    const sampleRate = 44100;
-    const duration = 3;
-    const numSamples = sampleRate * duration;
-    const audioData = new Float32Array(numSamples);
-
-    for (let i = 0; i < numSamples; i++) {
-        const charCode = encryptedText.charCodeAt(i % encryptedText.length);
-        audioData[i] = Math.sin(2 * Math.PI * (300 + charCode) * (i / sampleRate));
+        audioContext.decodeAudioData(buffer, function (decodedData) {
+            let wavBlob = bufferToWav(decodedData);
+            let url = URL.createObjectURL(wavBlob);
+            audioPlayer.src = url;
+            downloadAudio.href = url;
+            downloadAudio.download = "encrypted_audio.wav";
+            downloadAudio.style.display = "block";
+            downloadAudio.textContent = "Download encrypted audio";
+        });
     }
 
-    let wav = new WaveFile();
-    wav.fromScratch(1, sampleRate, '32f', audioData);
-    let wavBuffer = wav.toBuffer();
+    // استخراج البيانات من ملف الصوت
+    async function decodeFromAudio(file) {
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let arrayBuffer = await file.arrayBuffer();
+        let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        let channelData = audioBuffer.getChannelData(0);
+        let binaryData = new Uint8Array(channelData.length);
 
-    const audioBlob = new Blob([wavBuffer], { type: 'audio/wav' });
-    const audioUrl = URL.createObjectURL(audioBlob);
+        for (let i = 0; i < channelData.length; i++) {
+            binaryData[i] = Math.round(channelData[i] * 128 + 128);
+        }
 
-    document.getElementById('audioPlayer').src = audioUrl;
-    
-    const downloadLink = document.getElementById('downloadAudio');
-    downloadLink.href = audioUrl;
-    downloadLink.download = 'encrypted_audio.wav';
-    downloadLink.style.display = 'block';
-}
-
-function decryptAudioToText() {
-    const fileInput = document.getElementById('audioFile').files[0];
-    const password = document.getElementById('decryptionPassword').value.trim();
-
-    if (!fileInput) {
-        alert("الرجاء تحميل ملف صوتي لفك التشفير.");
-        return;
+        return binaryData;
     }
 
-    const reader = new FileReader();
-    reader.onload = async function (event) {
-        let wav = new WaveFile(event.target.result);
-        let audioData = wav.getSamples();
-        
-        let extractedText = "";
-        for (let i = 0; i < audioData.length; i += 100) {
-            const charCode = Math.round(Math.abs(audioData[i]) * 1000) - 300;
-            if (charCode > 0 && charCode < 65536) {
-                extractedText += String.fromCharCode(charCode);
+    // تحويل AudioBuffer إلى WAV
+    function bufferToWav(audioBuffer) {
+        let numOfChannels = audioBuffer.numberOfChannels;
+        let length = audioBuffer.length * numOfChannels * 2 + 44;
+        let buffer = new ArrayBuffer(length);
+        let view = new DataView(buffer);
+        let channels = [];
+        let sampleRate = audioBuffer.sampleRate;
+
+        let writeUTFBytes = function (offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        };
+
+        writeUTFBytes(0, "RIFF");
+        view.setUint32(4, length - 8, true);
+        writeUTFBytes(8, "WAVE");
+        writeUTFBytes(12, "fmt ");
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, numOfChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * numOfChannels * 2, true);
+        view.setUint16(32, numOfChannels * 2, true);
+        view.setUint16(34, 16, true);
+        writeUTFBytes(36, "data");
+        view.setUint32(40, length - 44, true);
+
+        for (let i = 0; i < numOfChannels; i++) {
+            channels.push(audioBuffer.getChannelData(i));
+        }
+
+        let offset = 44;
+        for (let i = 0; i < audioBuffer.length; i++) {
+            for (let j = 0; j < numOfChannels; j++) {
+                let sample = Math.max(-1, Math.min(1, channels[j][i]));
+                view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                offset += 2;
             }
         }
 
-        let decryptedText = password 
-            ? CryptoJS.AES.decrypt(extractedText, password).toString(CryptoJS.enc.Utf8) 
-            : extractedText;
-
-        if (!decryptedText) {
-            decryptedText = "كلمة المرور غير صحيحة أو الملف الصوتي تالف.";
-        }
-
-        document.getElementById('outputText-voice').textContent = decryptedText;
-    };
-
-    reader.readAsArrayBuffer(fileInput);
-}
+        return new Blob([view], { type: "audio/wav" });
+    }
+});
