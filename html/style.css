@@ -808,30 +808,28 @@ input[type="file"]::before {
 
 #audioPlayer {
     width: 100%;
-    background: #222; /* لون الخلفية */
-    border-radius: 10px; /* تدوير الحواف */
+    border: 1px dashed #181818; 
+    border-radius: 10px; 
     padding: 10px;
 }
 
-/* تخصيص الأزرار الافتراضية */
 #audioPlayer::-webkit-media-controls-panel {
-    background: #333; /* لون خلفية الأزرار */
+    background: #333; 
     border-radius: 8px;
 }
 
 #audioPlayer::-webkit-media-controls-play-button,
 #audioPlayer::-webkit-media-controls-pause-button {
-    filter: invert(1); /* تغيير لون الأيقونة */
+    filter: invert(1); 
 }
 
 #audioPlayer::-webkit-media-controls-timeline {
-    background: #555; /* لون شريط التقدم */
     border-radius: 5px;
 }
 
 #audioPlayer::-webkit-media-controls-current-time-display,
 #audioPlayer::-webkit-media-controls-time-remaining-display {
-    color: #fff; /* لون النص */
+    color: #fff; 
 }
 
 #audioPlayer::-webkit-media-controls-volume-slider {
