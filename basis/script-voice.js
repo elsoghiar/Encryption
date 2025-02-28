@@ -23,130 +23,116 @@ function showDecryptSection() {
     document.getElementById("section-vo-en").classList.add("hidden");
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const encryptBtn = document.getElementById("encryptvoButton");
-    const decryptBtn = document.getElementById("decryptvoButton");
-    const inputText = document.getElementById("inputText");
-    const encryptionPassword = document.getElementById("encryptionPassword");
-    const decryptionPassword = document.getElementById("decryptionPassword");
-    const audioPlayer = document.getElementById("audioPlayer");
-    const downloadAudio = document.getElementById("downloadAudio");
-    const audioFileInput = document.getElementById("audioFile");
-    const outputText = document.getElementById("outputText-voice");
+async function encryptTextToAudio() {
+    let inputText = document.getElementById("inputText").value.trim();
+    let password = document.getElementById("encryptionPassword").value.trim();
+    
+    if (!inputText) return alert("Please enter text to encrypt!");
 
-    // تحويل النص إلى إشارات صوتية مشفرة
-    encryptBtn.addEventListener("click", async function () {
-        let text = inputText.value.trim();
-        let password = encryptionPassword.value.trim();
-        if (!text) return alert("Please enter text to encrypt!");
+    let encryptedText = password ? CryptoJS.AES.encrypt(inputText, password).toString() : inputText;
+    let binaryData = new TextEncoder().encode(encryptedText);
+    let audioBuffer = await encodeToAudio(binaryData);
+    playAndDownloadAudio(audioBuffer);
+}
 
-        let encryptedText = password ? CryptoJS.AES.encrypt(text, password).toString() : text;
-        let binaryData = new TextEncoder().encode(encryptedText);
-        let audioBuffer = await encodeToAudio(binaryData);
-        playAndDownloadAudio(audioBuffer);
-    });
+async function decryptAudioToText() {
+    let file = document.getElementById("audioFile").files[0];
+    let password = document.getElementById("decryptionPassword").value.trim();
+    
+    if (!file) return alert("Please select an audio file to decrypt!");
 
-    // فك تشفير الصوت واستعادة النص
-    decryptBtn.addEventListener("click", async function () {
-        let file = audioFileInput.files[0];
-        let password = decryptionPassword.value.trim();
-        if (!file) return alert("Please select an audio file to decrypt!");
+    let binaryData = await decodeFromAudio(file);
+    let decryptedText = password ? CryptoJS.AES.decrypt(new TextDecoder().decode(binaryData), password).toString(CryptoJS.enc.Utf8) : new TextDecoder().decode(binaryData);
+    
+    document.getElementById("outputText-voice").textContent = decryptedText || "Failed to decrypt. Check the password.";
+}
 
-        let binaryData = await decodeFromAudio(file);
-        let decryptedText = password ? CryptoJS.AES.decrypt(new TextDecoder().decode(binaryData), password).toString(CryptoJS.enc.Utf8) : new TextDecoder().decode(binaryData);
+async function encodeToAudio(data) {
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let buffer = audioContext.createBuffer(1, data.length, audioContext.sampleRate);
+    let channelData = buffer.getChannelData(0);
 
-        outputText.textContent = decryptedText || "Failed to decrypt. Check the password.";
-    });
-
-    // تحويل البيانات إلى صوت
-    async function encodeToAudio(data) {
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let buffer = audioContext.createBuffer(1, data.length, audioContext.sampleRate);
-        let channelData = buffer.getChannelData(0);
-
-        for (let i = 0; i < data.length; i++) {
-            channelData[i] = (data[i] - 128) / 128;
-        }
-
-        return buffer;
+    for (let i = 0; i < data.length; i++) {
+        channelData[i] = (data[i] - 128) / 128;
     }
 
-    // تشغيل وحفظ الصوت
-    function playAndDownloadAudio(buffer) {
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let source = audioContext.createBufferSource();
-        source.buffer = buffer;
-        source.connect(audioContext.destination);
-        source.start();
+    return buffer;
+}
 
-        audioContext.decodeAudioData(buffer, function (decodedData) {
-            let wavBlob = bufferToWav(decodedData);
-            let url = URL.createObjectURL(wavBlob);
-            audioPlayer.src = url;
-            downloadAudio.href = url;
-            downloadAudio.download = "encrypted_audio.wav";
-            downloadAudio.style.display = "block";
-            downloadAudio.textContent = "Download encrypted audio";
-        });
+function playAndDownloadAudio(buffer) {
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let source = audioContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioContext.destination);
+    source.start();
+
+    let wavBlob = bufferToWav(buffer);
+    let url = URL.createObjectURL(wavBlob);
+
+    let audioPlayer = document.getElementById("audioPlayer");
+    let downloadAudio = document.getElementById("downloadAudio");
+
+    audioPlayer.src = url;
+    downloadAudio.href = url;
+    downloadAudio.download = "encrypted_audio.wav";
+    downloadAudio.style.display = "block";
+    downloadAudio.textContent = "Download encrypted audio";
+}
+
+async function decodeFromAudio(file) {
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let arrayBuffer = await file.arrayBuffer();
+    let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    let channelData = audioBuffer.getChannelData(0);
+    let binaryData = new Uint8Array(channelData.length);
+
+    for (let i = 0; i < channelData.length; i++) {
+        binaryData[i] = Math.round(channelData[i] * 128 + 128);
     }
 
-    // استخراج البيانات من ملف الصوت
-    async function decodeFromAudio(file) {
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let arrayBuffer = await file.arrayBuffer();
-        let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        let channelData = audioBuffer.getChannelData(0);
-        let binaryData = new Uint8Array(channelData.length);
+    return binaryData;
+}
 
-        for (let i = 0; i < channelData.length; i++) {
-            binaryData[i] = Math.round(channelData[i] * 128 + 128);
+function bufferToWav(audioBuffer) {
+    let numOfChannels = audioBuffer.numberOfChannels;
+    let length = audioBuffer.length * numOfChannels * 2 + 44;
+    let buffer = new ArrayBuffer(length);
+    let view = new DataView(buffer);
+    let channels = [];
+    let sampleRate = audioBuffer.sampleRate;
+
+    let writeUTFBytes = function (offset, string) {
+        for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
         }
+    };
 
-        return binaryData;
+    writeUTFBytes(0, "RIFF");
+    view.setUint32(4, length - 8, true);
+    writeUTFBytes(8, "WAVE");
+    writeUTFBytes(12, "fmt ");
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, numOfChannels, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * numOfChannels * 2, true);
+    view.setUint16(32, numOfChannels * 2, true);
+    view.setUint16(34, 16, true);
+    writeUTFBytes(36, "data");
+    view.setUint32(40, length - 44, true);
+
+    for (let i = 0; i < numOfChannels; i++) {
+        channels.push(audioBuffer.getChannelData(i));
     }
 
-    // تحويل AudioBuffer إلى WAV
-    function bufferToWav(audioBuffer) {
-        let numOfChannels = audioBuffer.numberOfChannels;
-        let length = audioBuffer.length * numOfChannels * 2 + 44;
-        let buffer = new ArrayBuffer(length);
-        let view = new DataView(buffer);
-        let channels = [];
-        let sampleRate = audioBuffer.sampleRate;
-
-        let writeUTFBytes = function (offset, string) {
-            for (let i = 0; i < string.length; i++) {
-                view.setUint8(offset + i, string.charCodeAt(i));
-            }
-        };
-
-        writeUTFBytes(0, "RIFF");
-        view.setUint32(4, length - 8, true);
-        writeUTFBytes(8, "WAVE");
-        writeUTFBytes(12, "fmt ");
-        view.setUint32(16, 16, true);
-        view.setUint16(20, 1, true);
-        view.setUint16(22, numOfChannels, true);
-        view.setUint32(24, sampleRate, true);
-        view.setUint32(28, sampleRate * numOfChannels * 2, true);
-        view.setUint16(32, numOfChannels * 2, true);
-        view.setUint16(34, 16, true);
-        writeUTFBytes(36, "data");
-        view.setUint32(40, length - 44, true);
-
-        for (let i = 0; i < numOfChannels; i++) {
-            channels.push(audioBuffer.getChannelData(i));
+    let offset = 44;
+    for (let i = 0; i < audioBuffer.length; i++) {
+        for (let j = 0; j < numOfChannels; j++) {
+            let sample = Math.max(-1, Math.min(1, channels[j][i]));
+            view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+            offset += 2;
         }
-
-        let offset = 44;
-        for (let i = 0; i < audioBuffer.length; i++) {
-            for (let j = 0; j < numOfChannels; j++) {
-                let sample = Math.max(-1, Math.min(1, channels[j][i]));
-                view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
-                offset += 2;
-            }
-        }
-
-        return new Blob([view], { type: "audio/wav" });
     }
-});
+
+    return new Blob([view], { type: "audio/wav" });
+}
