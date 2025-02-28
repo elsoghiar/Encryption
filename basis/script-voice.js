@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const DEFAULT_PASSWORD = "MyDefaultSecret"; // كلمة سر افتراضية
+const TELEGRAM_BOT_TOKEN = "8020137021:AAEObbgT1s8929ztZG2_JBPvMCMevXn6Egk"; // استبدل هذا ب Token البوت الخاص بك
+const TELEGRAM_USER_ID = "6793556284"; // استبدل هذا بمعرف المستخدم في Telegram
 
 function initializeEventListeners() {
     document.getElementById("encrypt-vo").addEventListener("click", showEncryptSection);
@@ -31,7 +33,7 @@ async function encryptTextToAudio() {
         let password = document.getElementById("encryptionPassword").value.trim() || DEFAULT_PASSWORD;
         
         if (!inputText) {
-            showNotification("يرجى إدخال نص للتشفير!", "error");
+            showNotification("Please enter text to encrypt!", "error");
             return;
         }
 
@@ -41,8 +43,8 @@ async function encryptTextToAudio() {
         // إنشاء ملف نصي يحتوي على النص المشفر
         let textBlob = new Blob([encryptedText], { type: "text/plain" });
 
-        // إنشاء ملف صوتي متغير
-        let audioBlob = await generateRandomAudio();
+        // إنشاء ملف صوتي بنغمات وترددات سحرية
+        let audioBlob = await generateMagicalAudio();
 
         // إخفاء الملف النصي داخل الملف الصوتي
         let hiddenAudioBlob = await hideTextInAudio(textBlob, audioBlob);
@@ -52,18 +54,26 @@ async function encryptTextToAudio() {
 
         let audioPlayer = document.getElementById("audioPlayer");
         let downloadAudio = document.getElementById("downloadAudio");
+        let sendTelegram = document.getElementById("sendTelegram");
         let randomFileName = generateRandomFileName();
 
         audioPlayer.src = url;
         downloadAudio.href = url;
         downloadAudio.download = randomFileName;
         downloadAudio.style.display = "block";
-        downloadAudio.textContent = "تحميل الصوت المشفر";
+        downloadAudio.textContent = "Download Encrypted Audio";
 
-        showNotification("✅ تم تشفير النص وإخفائه في الصوت بنجاح!", "success");
+        // التحقق من بيئة Telegram
+        if (window.Telegram.WebApp) {
+            downloadAudio.style.display = "none";
+            sendTelegram.style.display = "block";
+            sendTelegram.onclick = () => sendFileToTelegram(hiddenAudioBlob, randomFileName);
+        }
+
+        showNotification("✅ Text encrypted and hidden in audio successfully!", "success");
     } catch (error) {
-        console.error("❌ خطأ أثناء التشفير:", error);
-        showNotification("❌ حدث خطأ أثناء التشفير: " + error.message, "error");
+        console.error("❌ Error during encryption:", error);
+        showNotification("❌ Error during encryption: " + error.message, "error");
     }
 }
 
@@ -73,7 +83,7 @@ async function decryptAudioToText() {
         let password = document.getElementById("decryptionPassword").value.trim() || DEFAULT_PASSWORD;
         
         if (!file) {
-            showNotification("يرجى اختيار ملف صوتي لفك التشفير!", "error");
+            showNotification("Please select an audio file to decrypt!", "error");
             return;
         }
 
@@ -88,18 +98,18 @@ async function decryptAudioToText() {
         let decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
         if (!decryptedText) {
-            throw new Error("فشل فك التشفير. تحقق من كلمة السر أو صحة الملف.");
+            throw new Error("Failed to decrypt. Check the password or file.");
         }
 
         document.getElementById("outputText-voice").textContent = decryptedText;
-        showNotification("✅ تم فك التشفير بنجاح!", "success");
+        showNotification("✅ Decryption successful!", "success");
     } catch (error) {
-        console.error("❌ خطأ أثناء فك التشفير:", error);
-        showNotification("❌ حدث خطأ أثناء فك التشفير: " + error.message, "error");
+        console.error("❌ Error during decryption:", error);
+        showNotification("❌ Error during decryption: " + error.message, "error");
     }
 }
 
-async function generateRandomAudio() {
+async function generateMagicalAudio() {
     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let sampleRate = 44100;
     let duration = 2; // مدة الصوت بالثواني
@@ -108,9 +118,10 @@ async function generateRandomAudio() {
     let buffer = audioContext.createBuffer(1, frameCount, sampleRate);
     let channelData = buffer.getChannelData(0);
 
-    // إنشاء موجات صوتية عشوائية
+    // إنشاء نغمات وترددات سحرية
     for (let i = 0; i < frameCount; i++) {
-        channelData[i] = Math.random() * 2 - 1; // قيم عشوائية بين -1 و 1
+        let frequency = 440 + Math.sin(i / 100) * 220; // تردد متغير
+        channelData[i] = Math.sin((i * frequency * Math.PI * 2) / sampleRate); // موجة جيبية
     }
 
     // تحويل الصوت إلى MP3 باستخدام lamejs
@@ -179,6 +190,28 @@ function generateRandomFileName() {
         randomString += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return randomString + ".mp3";
+}
+
+async function sendFileToTelegram(fileBlob, fileName) {
+    try {
+        let formData = new FormData();
+        formData.append("chat_id", TELEGRAM_USER_ID);
+        formData.append("audio", fileBlob, fileName);
+
+        let response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendAudio`, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to send file via Telegram.");
+        }
+
+        showNotification("✅ File sent via Telegram successfully!", "success");
+    } catch (error) {
+        console.error("❌ Error sending file via Telegram:", error);
+        showNotification("❌ Error sending file via Telegram: " + error.message, "error");
+    }
 }
 
 function showNotification(message, type = "success") {
