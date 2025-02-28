@@ -42,7 +42,7 @@ document.getElementById("payButton").addEventListener("click", async () => {
 
         const requiredAmount = parseFloat(amountInput);
         const amount = (requiredAmount * 1e9).toString();
-        const recipientAddress = "UQCpMg6TV_zE34ao-Ii2iz5M6s5Qp8OIVWa3YbsB9KwxzwCJ";
+        const recipientAddress = "mr-m-applications.ton";
         const transaction = {
             validUntil: Math.floor(Date.now() / 1000) + 600,
             messages: [{ address: recipientAddress, amount }],
@@ -64,7 +64,7 @@ function copyAddress() {
     }
 
     navigator.clipboard.writeText(addressElement.innerText.trim())
-        .then(() => showNotification("📋 Address copied to clipboard!", "success"))
+        .then(() => showNotification("Address copied to clipboard!", "success"))
         .catch(err => showNotification("❌ Failed to copy address: " + err, "error"));
 }
 
