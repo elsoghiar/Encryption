@@ -150,21 +150,56 @@ async function decryptAudioToText() {
 }
 
 async function extractTextFromMP3Audio(file) {
-    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    let arrayBuffer = await file.arrayBuffer();
-    let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    let channelData = audioBuffer.getChannelData(0);
+    try {
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let arrayBuffer = await file.arrayBuffer();
+        let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        let channelData = audioBuffer.getChannelData(0);
 
-    let extractedBytes = [];
+        let extractedBytes = [];
+        let validCharCodes = new Set(); // مجموعة رموز الأحرف الصالحة
 
-    // استخراج النص من البيانات الصوتية
-    for (let i = 0; i < channelData.length; i++) {
-        let value = Math.round(((channelData[i] + 1) / 2) * 255);
-        if (value > 31 && value < 127) {
-            extractedBytes.push(value);
+        // إنشاء مجموعة رموز الأحرف الصالحة (Base64)
+        for (let i = 0; i < 256; i++) {
+            if (
+                (i >= 48 && i <= 57) || // أرقام (0-9)
+                (i >= 65 && i <= 90) || // أحرف كبيرة (A-Z)
+                (i >= 97 && i <= 122) || // أحرف صغيرة (a-z)
+                i === 43 || i === 47 || i === 61 // +, /, =
+            ) {
+                validCharCodes.add(i);
+            }
         }
-    }
 
-    let extractedText = String.fromCharCode(...extractedBytes).trim();
-    return extractedText;
+        // استخراج النص من البيانات الصوتية
+        for (let i = 0; i < channelData.length; i++) {
+            let value = Math.round(((channelData[i] + 1) / 2) * 255);
+            if (validCharCodes.has(value)) {
+                extractedBytes.push(value);
+            }
+        }
+
+        let extractedText = String.fromCharCode(...extractedBytes).trim();
+        console.log("📌 النص المشفر المستخرج:", extractedText);
+
+        // التحقق من صحة النص المشفر (Base64)
+        if (!isValidBase64(extractedText)) {
+            throw new Error("النص المستخرج ليس ترميز Base64 صالح.");
+        }
+
+        return extractedText;
+    } catch (error) {
+        console.error("❌ خطأ أثناء استخراج النص من الصوت:", error);
+        throw error;
+    }
+}
+
+function isValidBase64(str) {
+    try {
+        // محاولة فك ترميز النص
+        atob(str);
+        return true;
+    } catch (e) {
+        return false;
+    }
 }
