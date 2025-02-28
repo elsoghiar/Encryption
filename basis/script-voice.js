@@ -71,6 +71,7 @@ function playAndDownloadAudio(buffer) {
 
     let audioPlayer = document.getElementById("audioPlayer");
     let downloadAudio = document.getElementById("downloadAudio");
+    let randomFileName = generateRandomFileName();
 
     audioPlayer.src = url;
     downloadAudio.href = url;
