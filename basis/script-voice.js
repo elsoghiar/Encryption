@@ -35,8 +35,8 @@ async function encryptTextToAudio() {
 
     let binaryData = new TextEncoder().encode(base64EncodedText);
     let audioBuffer = await generateAudio(binaryData);
-    
-    playAndDownloadAudio(audioBuffer);
+
+    playAndDownloadMP3(audioBuffer);
 }
 
 async function decryptAudioToText() {
@@ -50,7 +50,12 @@ async function decryptAudioToText() {
         let decodedBase64 = decodeURIComponent(escape(atob(new TextDecoder().decode(binaryData))));
         let decryptedText = CryptoJS.AES.decrypt(decodedBase64, password).toString(CryptoJS.enc.Utf8);
 
-        document.getElementById("outputText-voice").textContent = decryptedText || "فشل فك التشفير. تحقق من كلمة السر أو صحة الملف.";
+        if (!decryptedText) {
+            alert("فشل فك التشفير. تحقق من كلمة السر أو صحة الملف.");
+            return;
+        }
+
+        document.getElementById("outputText-voice").textContent = decryptedText;
     } catch (error) {
         alert("خطأ في فك التشفير! تأكد من صحة الملف وكلمة السر.");
     }
@@ -74,14 +79,9 @@ async function generateAudio(data) {
     return buffer;
 }
 
-function playAndDownloadAudio(buffer) {
-    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    let source = audioContext.createBufferSource();
-    source.buffer = buffer;
-    source.connect(audioContext.destination);
-    source.start();
-
-    let mp3Blob = bufferToMp3(buffer);
+async function playAndDownloadMP3(audioBuffer) {
+    let wavBlob = bufferToWav(audioBuffer);
+    let mp3Blob = await convertWavToMp3(wavBlob);
     let randomFileName = generateRandomFileName();
     let url = URL.createObjectURL(mp3Blob);
     
@@ -91,6 +91,34 @@ function playAndDownloadAudio(buffer) {
     downloadAudio.download = randomFileName;
     downloadAudio.style.display = "block";
     downloadAudio.textContent = "تحميل الصوت المشفر";
+}
+
+async function convertWavToMp3(wavBlob) {
+    return new Promise((resolve) => {
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(wavBlob);
+        reader.onloadend = function () {
+            let wavData = new Uint8Array(reader.result);
+            let mp3Encoder = new lamejs.Mp3Encoder(1, 44100, 128);
+            let mp3Data = [];
+
+            let samples = new Int16Array(wavData.buffer);
+            for (let i = 0; i < samples.length; i += 1152) {
+                let mp3Chunk = mp3Encoder.encodeBuffer(samples.subarray(i, i + 1152));
+                if (mp3Chunk.length > 0) {
+                    mp3Data.push(mp3Chunk);
+                }
+            }
+
+            let finalChunk = mp3Encoder.flush();
+            if (finalChunk.length > 0) {
+                mp3Data.push(finalChunk);
+            }
+
+            let mp3Blob = new Blob(mp3Data, { type: "audio/mp3" });
+            resolve(mp3Blob);
+        };
+    });
 }
 
 async function decodeFromAudio(file) {
@@ -107,24 +135,49 @@ async function decodeFromAudio(file) {
     return binaryData;
 }
 
-function bufferToMp3(audioBuffer) {
+function bufferToWav(audioBuffer) {
     let numOfChannels = audioBuffer.numberOfChannels;
     let sampleRate = audioBuffer.sampleRate;
-    let mp3Encoder = new lamejs.Mp3Encoder(numOfChannels, sampleRate, 128);
-    let samples = audioBuffer.getChannelData(0);
-    let mp3Data = [];
+    let numFrames = audioBuffer.length;
+    let buffer = new ArrayBuffer(44 + numFrames * numOfChannels * 2);
+    let view = new DataView(buffer);
 
-    let sampleBlockSize = 1152;
-    for (let i = 0; i < samples.length; i += sampleBlockSize) {
-        let sampleChunk = samples.subarray(i, i + sampleBlockSize);
-        let mp3buf = mp3Encoder.encodeBuffer(sampleChunk);
-        if (mp3buf.length > 0) mp3Data.push(mp3buf);
+    function writeString(offset, string) {
+        for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
+        }
     }
 
-    let mp3End = mp3Encoder.flush();
-    if (mp3End.length > 0) mp3Data.push(mp3End);
+    function writeInt16(offset, data) {
+        view.setInt16(offset, data, true);
+    }
 
-    return new Blob(mp3Data, { type: "audio/mp3" });
+    function writeInt32(offset, data) {
+        view.setInt32(offset, data, true);
+    }
+
+    writeString(0, "RIFF");
+    writeInt32(4, 36 + numFrames * numOfChannels * 2);
+    writeString(8, "WAVE");
+    writeString(12, "fmt ");
+    writeInt32(16, 16);
+    writeInt16(20, 1);
+    writeInt16(22, numOfChannels);
+    writeInt32(24, sampleRate);
+    writeInt32(28, sampleRate * numOfChannels * 2);
+    writeInt16(32, numOfChannels * 2);
+    writeInt16(34, 16);
+    writeString(36, "data");
+    writeInt32(40, numFrames * numOfChannels * 2);
+
+    let offset = 44;
+    let samples = audioBuffer.getChannelData(0);
+    for (let i = 0; i < samples.length; i++) {
+        view.setInt16(offset, samples[i] * 32767, true);
+        offset += 2;
+    }
+
+    return new Blob([view], { type: "audio/wav" });
 }
 
 function generateRandomFileName() {
