@@ -57,7 +57,7 @@ document.getElementById("payButton").addEventListener("click", async () => {
 });
 
 function copyAddress() {
-    const addressElement = document.getElementById("walletAddress");
+    const addressElement = document.getElementById("walAddress");
     if (!addressElement || !addressElement.innerText.trim()) {
         showNotification("No address found to copy", "error");
         return;
