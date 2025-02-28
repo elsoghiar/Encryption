@@ -46,12 +46,11 @@ async function encryptTextToAudio() {
         audioData[i] = Math.sin(2 * Math.PI * (300 + charCode) * (i / sampleRate));
     }
 
-    const wavData = await WavEncoder.encode({
-        sampleRate: sampleRate,
-        channelData: [audioData]
-    });
+    let wav = new WaveFile();
+    wav.fromScratch(1, sampleRate, '32f', audioData);
+    let wavBuffer = wav.toBuffer();
 
-    const audioBlob = new Blob([wavData], { type: 'audio/wav' });
+    const audioBlob = new Blob([wavBuffer], { type: 'audio/wav' });
     const audioUrl = URL.createObjectURL(audioBlob);
 
     document.getElementById('audioPlayer').src = audioUrl;
@@ -73,32 +72,26 @@ function decryptAudioToText() {
 
     const reader = new FileReader();
     reader.onload = async function (event) {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        try {
-            const audioBuffer = await audioContext.decodeAudioData(event.target.result);
-            const channelData = audioBuffer.getChannelData(0);
-
-            let extractedText = "";
-            for (let i = 0; i < channelData.length; i += 100) {
-                const charCode = Math.round(Math.abs(channelData[i]) * 1000) - 300;
-                if (charCode > 0 && charCode < 65536) {
-                    extractedText += String.fromCharCode(charCode);
-                }
+        let wav = new WaveFile(event.target.result);
+        let audioData = wav.getSamples();
+        
+        let extractedText = "";
+        for (let i = 0; i < audioData.length; i += 100) {
+            const charCode = Math.round(Math.abs(audioData[i]) * 1000) - 300;
+            if (charCode > 0 && charCode < 65536) {
+                extractedText += String.fromCharCode(charCode);
             }
-
-            let decryptedText = password 
-                ? CryptoJS.AES.decrypt(extractedText, password).toString(CryptoJS.enc.Utf8) 
-                : extractedText;
-
-            if (!decryptedText) {
-                decryptedText = "كلمة المرور غير صحيحة أو الملف الصوتي تالف.";
-            }
-
-            document.getElementById('outputText-voice').textContent = decryptedText;
-        } catch (error) {
-            console.error("خطأ في فك تشفير الملف الصوتي:", error);
-            alert("تعذر فك تشفير الملف الصوتي. يرجى التحقق من صحة الملف.");
         }
+
+        let decryptedText = password 
+            ? CryptoJS.AES.decrypt(extractedText, password).toString(CryptoJS.enc.Utf8) 
+            : extractedText;
+
+        if (!decryptedText) {
+            decryptedText = "كلمة المرور غير صحيحة أو الملف الصوتي تالف.";
+        }
+
+        document.getElementById('outputText-voice').textContent = decryptedText;
     };
 
     reader.readAsArrayBuffer(fileInput);
