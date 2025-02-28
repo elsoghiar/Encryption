@@ -2,8 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     initializeEventListeners();
 });
 
-const DEFAULT_PASSWORD = "MyDefaultSecret"; // كلمة سر افتراضية
-
 function initializeEventListeners() {
     document.getElementById("encrypt-vo").addEventListener("click", showEncryptSection);
     document.getElementById("decrypt-vo").addEventListener("click", showDecryptSection);
@@ -26,75 +24,59 @@ function showDecryptSection() {
 }
 
 async function encryptTextToAudio() {
-    try {
-        let text = document.getElementById("inputText").value.trim();
-        let password = document.getElementById("encryptionPassword").value.trim() || DEFAULT_PASSWORD;
-        if (!text) return alert("يرجى إدخال نص للتشفير!");
+    let inputText = document.getElementById("inputText").value.trim();
+    let password = document.getElementById("encryptionPassword").value.trim();
+    
+    if (!inputText) return alert("Please enter text to encrypt!");
 
-        // تشفير النص باستخدام CryptoJS
-        let encryptedText = CryptoJS.AES.encrypt(text, password).toString();
-        let encodedText = btoa(unescape(encodeURIComponent(encryptedText)));
-
-        // تحويل النص المشفر إلى صوت
-        let audioBlob = await generateMP3Audio(encodedText);
-        let randomFileName = generateRandomFileName();
-
-        // عرض الصوت وتوفير رابط للتحميل
-        let url = URL.createObjectURL(audioBlob);
-        document.getElementById("audioPlayer").src = url;
-
-        let downloadAudio = document.getElementById("downloadAudio");
-        downloadAudio.href = url;
-        downloadAudio.download = randomFileName;
-        downloadAudio.style.display = "block";
-        downloadAudio.textContent = "تحميل الصوت المشفر";
-
-        alert("✅ تم تشفير النص وتحويله إلى صوت بنجاح!");
-    } catch (error) {
-        console.error("❌ خطأ أثناء التشفير:", error);
-        alert("❌ حدث خطأ أثناء التشفير. يرجى المحاولة مرة أخرى.");
-    }
+    let encryptedText = password ? CryptoJS.AES.encrypt(inputText, password).toString() : inputText;
+    let binaryData = new TextEncoder().encode(encryptedText);
+    let audioBuffer = await encodeToAudio(binaryData);
+    playAndDownloadAudio(audioBuffer);
 }
 
-async function generateMP3Audio(text) {
-    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    let sampleRate = 44100;
-    let duration = Math.max(1, text.length / 1000); // مدة الصوت حسب طول النص
-    let frameCount = sampleRate * duration;
+async function decryptAudioToText() {
+    let file = document.getElementById("audioFile").files[0];
+    let password = document.getElementById("decryptionPassword").value.trim();
+    
+    if (!file) return alert("Please select an audio file to decrypt!");
 
-    let buffer = audioContext.createBuffer(1, frameCount, sampleRate);
+    let binaryData = await decodeFromAudio(file);
+    let decryptedText = password ? CryptoJS.AES.decrypt(new TextDecoder().decode(binaryData), password).toString(CryptoJS.enc.Utf8) : new TextDecoder().decode(binaryData);
+    
+    document.getElementById("outputText-voice").textContent = decryptedText || "Failed to decrypt. Check the password.";
+}
+
+async function encodeToAudio(data) {
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let buffer = audioContext.createBuffer(1, data.length, audioContext.sampleRate);
     let channelData = buffer.getChannelData(0);
 
-    // تحويل النص إلى موجات صوتية
-    for (let i = 0; i < text.length; i++) {
-        let normalizedValue = (text.charCodeAt(i) / 255) * 2 - 1;
-        channelData[i] = normalizedValue;
+    for (let i = 0; i < data.length; i++) {
+        channelData[i] = (data[i] - 128) / 128;
     }
 
-    // استخدام مكتبة lamejs لتحويل الصوت إلى MP3
-    let mp3Encoder = new lamejs.Mp3Encoder(1, sampleRate, 128);
-    let samples = new Int16Array(channelData.length);
-    for (let i = 0; i < channelData.length; i++) {
-        samples[i] = channelData[i] * 32767; // تحويل إلى 16-bit
-    }
+    return buffer;
+}
 
-    let mp3Data = [];
-    let sampleBlockSize = 1152; // حجم البلوك المناسب لـ MP3
-    for (let i = 0; i < samples.length; i += sampleBlockSize) {
-        let sampleChunk = samples.subarray(i, i + sampleBlockSize);
-        let mp3Chunk = mp3Encoder.encodeBuffer(sampleChunk);
-        if (mp3Chunk.length > 0) {
-            mp3Data.push(mp3Chunk);
-        }
-    }
+function playAndDownloadAudio(buffer) {
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let source = audioContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioContext.destination);
+    source.start();
 
-    let mp3Chunk = mp3Encoder.flush(); // إنهاء التشفير
-    if (mp3Chunk.length > 0) {
-        mp3Data.push(mp3Chunk);
-    }
+    let wavBlob = bufferToWav(buffer);
+    let url = URL.createObjectURL(wavBlob);
 
-    let mp3Blob = new Blob(mp3Data, { type: "audio/mp3" });
-    return mp3Blob;
+    let audioPlayer = document.getElementById("audioPlayer");
+    let downloadAudio = document.getElementById("downloadAudio");
+
+    audioPlayer.src = url;
+    downloadAudio.href = url;
+    downloadAudio.download = randomFileName;
+    downloadAudio.style.display = "block";
+    downloadAudio.textContent = "Download encrypted audio";
 }
 
 function generateRandomFileName() {
@@ -103,103 +85,64 @@ function generateRandomFileName() {
     for (let i = 0; i < 5; i++) {
         randomString += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    return randomString + ".mp3";
+    return randomString + ".wav";
 }
 
-async function decryptAudioToText() {
-    try {
-        let file = document.getElementById("audioFile").files[0];
-        let password = document.getElementById("decryptionPassword").value.trim() || DEFAULT_PASSWORD;
+async function decodeFromAudio(file) {
+    let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let arrayBuffer = await file.arrayBuffer();
+    let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    let channelData = audioBuffer.getChannelData(0);
+    let binaryData = new Uint8Array(channelData.length);
 
-        if (!file) return alert("❌ يرجى اختيار ملف صوتي لفك التشفير!");
-
-        // استخراج النص من الملف الصوتي
-        let extractedText = await extractTextFromMP3Audio(file);
-
-        if (!extractedText) {
-            alert("⚠️ لم يتم استخراج أي بيانات من الملف الصوتي! تأكد من صحة الملف.");
-            return;
-        }
-
-        console.log("📌 النص المشفر المستخرج:", extractedText);
-
-        // فك ترميز Base64
-        let decodedBase64;
-        try {
-            decodedBase64 = atob(extractedText);
-        } catch (e) {
-            alert("❌ فشل في فك ترميز Base64. تأكد من صحة الملف الصوتي!");
-            return;
-        }
-
-        // فك تشفير النص باستخدام CryptoJS
-        let decryptedText = CryptoJS.AES.decrypt(decodedBase64, password).toString(CryptoJS.enc.Utf8);
-
-        if (!decryptedText) {
-            alert("⚠️ فشل فك التشفير. تحقق من كلمة السر أو صحة الملف.");
-            return;
-        }
-
-        // عرض النص الأصلي
-        document.getElementById("outputText-voice").textContent = decryptedText;
-        alert("✅ تم فك التشفير بنجاح!");
-    } catch (error) {
-        console.error("❌ خطأ أثناء فك التشفير:", error);
-        alert("❌ حدث خطأ أثناء فك التشفير. تأكد من صحة الملف وكلمة السر.");
+    for (let i = 0; i < channelData.length; i++) {
+        binaryData[i] = Math.round(channelData[i] * 128 + 128);
     }
+
+    return binaryData;
 }
 
-async function extractTextFromMP3Audio(file) {
-    try {
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let arrayBuffer = await file.arrayBuffer();
-        let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        let channelData = audioBuffer.getChannelData(0);
+function bufferToWav(audioBuffer) {
+    let numOfChannels = audioBuffer.numberOfChannels;
+    let length = audioBuffer.length * numOfChannels * 2 + 44;
+    let buffer = new ArrayBuffer(length);
+    let view = new DataView(buffer);
+    let channels = [];
+    let sampleRate = audioBuffer.sampleRate;
 
-        let extractedBytes = [];
-        let validCharCodes = new Set(); // مجموعة رموز الأحرف الصالحة
-
-        // إنشاء مجموعة رموز الأحرف الصالحة (Base64)
-        for (let i = 0; i < 256; i++) {
-            if (
-                (i >= 48 && i <= 57) || // أرقام (0-9)
-                (i >= 65 && i <= 90) || // أحرف كبيرة (A-Z)
-                (i >= 97 && i <= 122) || // أحرف صغيرة (a-z)
-                i === 43 || i === 47 || i === 61 // +, /, =
-            ) {
-                validCharCodes.add(i);
-            }
+    let writeUTFBytes = function (offset, string) {
+        for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
         }
+    };
 
-        // استخراج النص من البيانات الصوتية
-        for (let i = 0; i < channelData.length; i++) {
-            let value = Math.round(((channelData[i] + 1) / 2) * 255);
-            if (validCharCodes.has(value)) {
-                extractedBytes.push(value);
-            }
-        }
+    writeUTFBytes(0, "RIFF");
+    view.setUint32(4, length - 8, true);
+    writeUTFBytes(8, "WAVE");
+    writeUTFBytes(12, "fmt ");
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, numOfChannels, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * numOfChannels * 2, true);
+    view.setUint16(32, numOfChannels * 2, true);
+    view.setUint16(34, 16, true);
+    writeUTFBytes(36, "data");
+    view.setUint32(40, length - 44, true);
 
-        let extractedText = String.fromCharCode(...extractedBytes).trim();
-        console.log("📌 النص المشفر المستخرج:", extractedText);
-
-        // التحقق من صحة النص المشفر (Base64)
-        if (!isValidBase64(extractedText)) {
-            throw new Error("النص المستخرج ليس ترميز Base64 صالح.");
-        }
-
-        return extractedText;
-    } catch (error) {
-        console.error("❌ خطأ أثناء استخراج النص من الصوت:", error);
-        throw error;
+    for (let i = 0; i < numOfChannels; i++) {
+        channels.push(audioBuffer.getChannelData(i));
     }
+
+    let offset = 44;
+    for (let i = 0; i < audioBuffer.length; i++) {
+        for (let j = 0; j < numOfChannels; j++) {
+            let sample = Math.max(-1, Math.min(1, channels[j][i]));
+            view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+            offset += 2;
+        }
+    }
+
+    return new Blob([view], { type: "audio/wav" });
 }
 
-function isValidBase64(str) {
-    try {
-        // محاولة فك ترميز النص
-        atob(str);
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
