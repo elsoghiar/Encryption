@@ -47,18 +47,18 @@ async function encryptTextToAudio() {
 }
 
 async function generateOGGAudio(text) {
+async function generateOGGAudio(text) {
     let audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let sampleRate = 44100;
-    let duration = Math.max(1, text.length / 5000); // الحد الأدنى 1 ثانية
+    let duration = Math.max(1, text.length / 1000); // مدة الصوت حسب طول النص
     let frameCount = sampleRate * duration;
     
     let buffer = audioContext.createBuffer(1, frameCount, sampleRate);
     let channelData = buffer.getChannelData(0);
 
-    for (let i = 0; i < frameCount; i++) {
-        let index = i % text.length;
-        let value = (text.charCodeAt(index) / 255) * 2 - 1;
-        channelData[i] = value * Math.sin(i / 10);
+    for (let i = 0; i < text.length; i++) {
+        let normalizedValue = (text.charCodeAt(i) / 255) * 2 - 1;
+        channelData[i] = normalizedValue; 
     }
 
     let offlineContext = new OfflineAudioContext(1, frameCount, sampleRate);
@@ -155,7 +155,7 @@ async function decryptAudioToText() {
 
         let decodedBase64;
         try {
-            decodedBase64 = decodeURIComponent(escape(atob(extractedText)));
+            decodedBase64 = atob(extractedText); 
         } catch (e) {
             alert("❌ فشل في فك ترميز Base64. تأكد من صحة الملف الصوتي!");
             return;
@@ -182,14 +182,16 @@ async function extractTextFromOGGAudio(file) {
     let audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
     let channelData = audioBuffer.getChannelData(0);
 
-    let extractedText = "";
+    let extractedBytes = [];
 
-    for (let i = 0; i < channelData.length; i += 100) {
-        let charCode = Math.round(((channelData[i] + 1) / 2) * 255);
-        if (charCode > 31 && charCode < 127) {
-            extractedText += String.fromCharCode(charCode);
+    for (let i = 0; i < channelData.length; i++) {
+        let value = Math.round(((channelData[i] + 1) / 2) * 255);
+        if (value > 31 && value < 127) {
+            extractedBytes.push(value);
         }
     }
 
-    return extractedText.trim();
+    let extractedText = String.fromCharCode(...extractedBytes).trim();
+
+    return extractedText;
 }
