@@ -744,21 +744,17 @@ input[type="file"]::before {
 
 #loadingOverlay {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 1000;
-    visibility: hidden; /* إخفاء العنصر بشكل افتراضي */
-    opacity: 0; /* جعل العنصر شفافًا بشكل افتراضي */
-    transition: opacity 0.3s ease; /* إضافة انتقال سلس للتعتيم */
 }
 
 .loading-spinner {
+    margin: auto;
     width: 50px;
     height: 50px;
     border: 4px solid #fff;
