@@ -23,7 +23,7 @@ function showWallet() {
 
 
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/saw-ton-manifest.json',
+    manifestUrl: 'https://elsoghiar.github.io/se-ip-s-r/json/manifest.json',
     buttonRootId: 'ton-connect'
 });
 
