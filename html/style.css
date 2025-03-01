@@ -626,12 +626,9 @@ footer {
 }
 
 .wal-address {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
     white-space: normal; 
     border: 1px dashed #181818;
-    padding: 10px;
+    padding: 5px;
     font-size: 14px;
     width: 100%;
     height: auto;
