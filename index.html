@@ -55,18 +55,18 @@
             </div>
             <div id="ipSection" class="content hidden">
              <div class="tit-">A tool that helps you determine the geographical location of an IP address.
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M15 5H9" />
-                        <path d="M15 9v3h4l-7 7-7-7h4V9z" />
-                    </svg>
              </div>
-            <input type="text" id="ipInput" placeholder="Enter the IP address to locate it." />
-            <button onclick="getIPDetails()" >
+             <input type="text" id="ipInput" placeholder="Enter the IP address to locate it." />
+             <button onclick="getIPDetails()" id="ipbutton">
+                 
               Locate IP
-            </button> 
+             </button> 
+             <div class="tit-">IP address information
+             </div>
                <div id="ipDetails"></div>
-               <h2>Geographic location of the IP address</h2>
-               <div id="map" style="height: 200px;"></div>
+               <div class="tit-">Geographic location of the IP address
+             </div>
+                <div id="map" style="height: 100px;"></div>
                 <div class="p-title">
                     It is a tool that helps you determine the location of the entered IP, determine the location and some necessary details.
                     Please note that the location is sometimes not accurate but is an approximate location.
