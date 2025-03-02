@@ -373,8 +373,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let map = L.map('map').setView([20, 0], 2);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
+L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://stamen.com/">Stamen Design</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
 }).addTo(map);
 
 async function getUserIP() {
