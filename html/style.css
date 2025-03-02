@@ -560,7 +560,7 @@ footer {
     z-index: 1; 
 }
 
-#encryptKey, #decryptKey, 
+#ipInput, #encryptKey, #decryptKey, 
 #decryptPassword, #password, #decryptionPassword, #encryptionPassword {
     padding-left: 35px;
 } 
