@@ -41,6 +41,8 @@ function showip() {
 }
 
 function showWallet() {
+    document.getElementById("ipTab").classList.remove("active");
+    document.getElementById("ipSection").classList.add("hidden");
     document.getElementById("WalletAnalyzer").classList.remove("hidden");
     document.getElementById("encryptSection").classList.add("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
@@ -78,6 +80,9 @@ function clearFields(container) {
 }
 
 function showEncrypt() {
+    document.getElementById("ipTab").classList.remove("active");
+    document.getElementById("ipSection").classList.add("hidden");
+
     document.getElementById("encryptSection").classList.remove("hidden");
     document.getElementById("pagetitle").classList.remove("hidden");
     document.getElementById("decryptSection").classList.add("hidden");
@@ -89,6 +94,9 @@ function showEncrypt() {
 }
 
 function showDecrypt() {
+    document.getElementById("ipTab").classList.remove("active");
+    document.getElementById("ipSection").classList.add("hidden");
+
     document.getElementById("decryptSection").classList.remove("hidden");
     document.getElementById("pagetitle").classList.remove("hidden");
     document.getElementById("WalletAnalyzer").classList.add("hidden");
