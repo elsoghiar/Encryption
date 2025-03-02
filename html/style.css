@@ -609,7 +609,7 @@ footer {
     color: #4a4a4a;
 }   
 
-#decryptvoButton, #d-im, #checkButton, #payButton, #addressButton, #dcryptButton, #connectButton {
+#ipbutton, #decryptvoButton, #d-im, #checkButton, #payButton, #addressButton, #dcryptButton, #connectButton {
     display: flex;
     align-items: center;
     justify-content: center;
