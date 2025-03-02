@@ -8,7 +8,7 @@ function initializeEventListeners() {
     document.getElementById("encryptTab").addEventListener("click", showEncrypt);
     document.getElementById("decryptTab").addEventListener("click", showDecrypt);
     document.getElementById("TransactionsTab").addEventListener("click", showWallet); 
-
+    document.getElementById("ipTab").addEventListener("click", showip);
     document.getElementById("encryptButton").addEventListener("click", () => {
         encryptText();
         resetEventListeners();
@@ -25,6 +25,19 @@ function initializeEventListeners() {
         copyText('decryptOutput');
         resetEventListeners();
     });
+}
+
+function showip() {
+    document.getElementById("ipSection").classList.remove("hidden");
+    document.getElementById("WalletAnalyzer").classList.add("hidden");
+    document.getElementById("encryptSection").classList.add("hidden");
+    document.getElementById("decryptSection").classList.add("hidden");
+    document.getElementById("pagetitle").classList.add("hidden");
+
+    document.getElementById("encryptTab").classList.remove("active");
+    document.getElementById("decryptTab").classList.remove("active");
+    document.getElementById("TransactionsTab").classList.remove("active");
+    document.getElementById("ipTab").classList.add("active");
 }
 
 function showWallet() {
