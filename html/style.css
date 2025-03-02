@@ -845,7 +845,19 @@ input[type="file"]::before {
 
 #map {
   width: 100%;
-  height: 250px;
+  height: 150px;
   margin-top: 10px;
   border-radius: 10px;
+}
+
+#ipDetails {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
 }
