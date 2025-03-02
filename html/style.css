@@ -852,12 +852,36 @@ input[type="file"]::before {
 
 #ipDetails {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    height: auto;
+    max-width: 400px;
     background: rgba(0, 0, 0, 0.5);
     padding: 15px;
     border-radius: 10px;
     font-size: 14px;
+    color: white;
+}
+
+.ip-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ip-row:last-child {
+    border-bottom: none;
+}
+
+.ip-label {
+    font-weight: bold;
+    text-align: left;
+    flex: 1;
+}
+
+.ip-value {
+    text-align: right;
+    flex: 1;
 }
