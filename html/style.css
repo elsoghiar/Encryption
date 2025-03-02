@@ -855,11 +855,10 @@ input[type="file"]::before {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 400px;
     background: rgba(0, 0, 0, 0.5);
     padding: 15px;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 13px;
     color: white;
 }
 
@@ -868,7 +867,7 @@ input[type="file"]::before {
     justify-content: space-between;
     width: 100%;
     padding: 5px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px dashed #181818;
 }
 
 .ip-row:last-child {
