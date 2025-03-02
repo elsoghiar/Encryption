@@ -384,44 +384,39 @@ async function getUserIP() {
         document.getElementById("ipInput").value = data.ip;
         getIPDetails();
     } catch (error) {
-        console.error("An error occurred while fetching the IP.", error);
+        console.error("Error fetching user IP:", error);
     }
 }
 
 async function getIPDetails() {
     let ip = document.getElementById("ipInput").value;
-    if (!ip) return showNotification("Please enter your IP address.");
+    if (!ip) {
+        showNotification("Please enter an IP address.");
+        return;
+    }
 
     try {
-        const [data1, data2] = await Promise.all([
-            fetch(`https://ipwhois.app/json/${ip}`).then(res => res.json()),
-            fetch(`https://ipapi.co/${ip}/json/`).then(res => res.json())
-        ]);
-
-        const checkData = (value) => value && value !== "" ? value : "Not available";
+        const res = await fetch(`https://ipwhois.app/json/${ip}`);
+        const data = await res.json();
 
         let details = `
-            <p><strong>IP:</strong> ${checkData(data1.ip)}</p>
-            <p><strong>The continent:</strong> ${checkData(data1.continent)}</p>
-            <p><strong>The country:</strong> ${checkData(data1.country)} (${checkData(data1.country_code)})</p>
-            <p><strong>The capital:</strong> ${checkData(data1.country_capital)}</p>
-            <p><strong>The city:</strong> ${checkData(data1.city)}</p>
-            <p><strong>The area:</strong> ${checkData(data1.region)}</p>
-            <p><strong>zip code:</strong> ${checkData(data2.postal)}</p>
-            <p><strong>latitude:</strong> ${checkData(data1.latitude)}</p>
-            <p><strong>Longitude:</strong> ${checkData(data1.longitude)}</p>
-            <p><strong>Service Provider (ISP):</strong> ${checkData(data1.isp)}</p>
-            <p><strong>Telecommunications Company:</strong> ${checkData(data1.org)}</p>
-            <p><strong>The scope of IP:</strong> ${checkData(data2.network)}</p>
-            <p><strong>State time:</strong> ${checkData(data1.timezone)}</p>
-            <p><strong>The currency:</strong> ${checkData(data1.currency)} (${checkData(data1.currency_code)})</p>
-            <p><strong>Contact time:</strong> ${checkData(data2.asn_description)}</p>
-            <p><strong>Contact type:</strong> ${checkData(data1.connection_type)}</p>
-            <p><strong>International phone code:</strong> +${checkData(data1.calling_code)}</p>
+            <p><strong>IP:</strong> ${data.ip}</p>
+            <p><strong>Continent:</strong> ${data.continent}</p>
+            <p><strong>Country:</strong> ${data.country} (${data.country_code})</p>
+            <p><strong>Capital:</strong> ${data.country_capital}</p>
+            <p><strong>City:</strong> ${data.city}</p>
+            <p><strong>Region:</strong> ${data.region}</p>
+            <p><strong>Latitude:</strong> ${data.latitude}</p>
+            <p><strong>Longitude:</strong> ${data.longitude}</p>
+            <p><strong>ISP:</strong> ${data.isp}</p>
+            <p><strong>Organization:</strong> ${data.org}</p>
+            <p><strong>Timezone:</strong> ${data.timezone}</p>
+            <p><strong>Currency:</strong> ${data.currency} (${data.currency_code})</p>
+            <p><strong>Calling Code:</strong> +${data.calling_code}</p>
         `;
 
         document.getElementById("ipDetails").innerHTML = details;
-        updateMap(data1.latitude, data1.longitude, `${data1.city}, ${data1.country}`);
+        updateMap(data.latitude, data.longitude, `${data.city}, ${data.country}`);
 
     } catch (error) {
         console.error("Error fetching IP data:", error);
@@ -429,7 +424,7 @@ async function getIPDetails() {
 }
 
 function updateMap(lat, lon, label) {
-    map.setView([lat, lon], 15);
+    map.setView([lat, lon], 12);
     L.marker([lat, lon]).addTo(map)
         .bindPopup(`<b>${label}</b>`).openPopup();
 }
