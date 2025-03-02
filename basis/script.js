@@ -400,19 +400,19 @@ async function getIPDetails() {
         const data = await res.json();
 
         let details = `
-            <p><strong>IP:</strong> ${data.ip}</p>
-            <p><strong>Continent:</strong> ${data.continent}</p>
-            <p><strong>Country:</strong> ${data.country} (${data.country_code})</p>
-            <p><strong>Capital:</strong> ${data.country_capital}</p>
-            <p><strong>City:</strong> ${data.city}</p>
-            <p><strong>Region:</strong> ${data.region}</p>
-            <p><strong>Latitude:</strong> ${data.latitude}</p>
-            <p><strong>Longitude:</strong> ${data.longitude}</p>
-            <p><strong>ISP:</strong> ${data.isp}</p>
-            <p><strong>Organization:</strong> ${data.org}</p>
-            <p><strong>Timezone:</strong> ${data.timezone}</p>
-            <p><strong>Currency:</strong> ${data.currency} (${data.currency_code})</p>
-            <p><strong>Calling Code:</strong> +${data.calling_code}</p>
+            <div class="ip-row"><span class="ip-label">IP:</span> <span class="ip-value">${data.ip}</span></div>
+            <div class="ip-row"><span class="ip-label">Continent:</span> <span class="ip-value">${data.continent}</span></div>
+            <div class="ip-row"><span class="ip-label">Country:</span> <span class="ip-value">${data.country} (${data.country_code})</span></div>
+            <div class="ip-row"><span class="ip-label">Capital:</span> <span class="ip-value">${data.country_capital}</span></div>
+            <div class="ip-row"><span class="ip-label">City:</span> <span class="ip-value">${data.city}</span></div>
+            <div class="ip-row"><span class="ip-label">Region:</span> <span class="ip-value">${data.region}</span></div>
+            <div class="ip-row"><span class="ip-label">Latitude:</span> <span class="ip-value">${data.latitude}</span></div>
+            <div class="ip-row"><span class="ip-label">Longitude:</span> <span class="ip-value">${data.longitude}</span></div>
+            <div class="ip-row"><span class="ip-label">ISP:</span> <span class="ip-value">${data.isp}</span></div>
+            <div class="ip-row"><span class="ip-label">Organization:</span> <span class="ip-value">${data.org}</span></div>
+            <div class="ip-row"><span class="ip-label">Timezone:</span> <span class="ip-value">${data.timezone}</span></div>
+            <div class="ip-row"><span class="ip-label">Currency:</span> <span class="ip-value">${data.currency} (${data.currency_code})</span></div>
+            <div class="ip-row"><span class="ip-label">Calling Code:</span> <span class="ip-value">+${data.calling_code}</span></div>
         `;
 
         document.getElementById("ipDetails").innerHTML = details;
