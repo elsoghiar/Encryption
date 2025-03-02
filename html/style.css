@@ -855,7 +855,7 @@ input[type="file"]::before {
     align-items: center;
     width: 100%;
     background: rgba(0, 0, 0, 0.1);
-    padding: 15px;
+    padding: 10px;
     border-radius: 10px;
     font-size: 13px;
     color: white;
